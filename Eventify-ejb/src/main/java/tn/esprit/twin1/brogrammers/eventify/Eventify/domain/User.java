@@ -20,7 +20,7 @@ public class User implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String username;
-	private Password password;
+	private String password;
 	private Date creationDate;
 	private int loyaltyPoints;
 	private static final long serialVersionUID = 1L;
@@ -56,11 +56,11 @@ public class User implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}   
-	public Password getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 
-	public void setPassword(Password password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}   
 	public Date getCreationDate() {
