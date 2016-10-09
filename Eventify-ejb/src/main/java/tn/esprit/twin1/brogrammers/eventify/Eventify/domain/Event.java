@@ -3,6 +3,8 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 import java.io.Serializable;
 import java.lang.String;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -13,7 +15,7 @@ import javax.persistence.*;
 
 public class Event implements Serializable {
 
-	@Id
+	
 	private int id;
 	private String title;
 	private String theme;
@@ -28,17 +30,34 @@ public class Event implements Serializable {
 	private int nbViews;
 	private Date createdAt;
 	private static final long serialVersionUID = 1L;
-
+	
+	
+	private List<Media> medias;
+	
+	
 	public Event() {
 		super();
-	}   
+	}
+	
+	@Id
 	public int getId() {
 		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}   
+	} 
+	
+	
+	@OneToMany(mappedBy="event")  
+	public List<Media> getMedias() {
+		return medias;
+	}
+	public void setMedias(List<Media> medias) {
+		this.medias = medias;
+	}
+	
+	
 	public String getTitle() {
 		return this.title;
 	}

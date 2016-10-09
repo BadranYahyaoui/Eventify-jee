@@ -14,23 +14,48 @@ import javax.persistence.*;
 public class Media implements Serializable {
 
 	   
-	@Id
+	/*Media Prop*/
 	private int id;
 	private String typeMedia;
-	private int pathMedia;
+	private String pathMedia;
 	private Date mediaDate;
-	private static final long serialVersionUID = 1L;
-
+	/*End Media Prop*/
+	private static final long serialVersionUID = 1L; //Default Value Added when using Add new "JPA Entity"
+	
+	
+	/*Navigation  Prop*/
+	private Event event;
+	
+	
+	/*End Navigation  Prop*/
+	
+	/*Constructors*/
 	public Media() {
 		super();
-	}   
+	}
+	/*End Constructors*/
+	
+	/*Getter And Setter*/
+	@Id
 	public int getId() {
 		return this.id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
-	}   
+	} 
+	
+	/*Navigation Prop Getter And Setter*/
+	@ManyToOne
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+	/*End Navigation Prop Getter And Setter*/
+	
+	
 	public String getTypeMedia() {
 		return this.typeMedia;
 	}
@@ -38,11 +63,11 @@ public class Media implements Serializable {
 	public void setTypeMedia(String typeMedia) {
 		this.typeMedia = typeMedia;
 	}   
-	public int getPathMedia() {
+	public String getPathMedia() {
 		return this.pathMedia;
 	}
 
-	public void setPathMedia(int pathMedia) {
+	public void setPathMedia(String pathMedia) {
 		this.pathMedia = pathMedia;
 	}   
 	public Date getMediaDate() {
@@ -52,5 +77,8 @@ public class Media implements Serializable {
 	public void setMediaDate(Date mediaDate) {
 		this.mediaDate = mediaDate;
 	}
+	
+	
+	
    
 }
