@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 
 public class Organization implements Serializable {
-
+	//Saleeeem Hakim
 	   
 	@Id
 	private int id;

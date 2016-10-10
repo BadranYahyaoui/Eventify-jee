@@ -6,19 +6,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
-		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -34,15 +24,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="/Eventify-ejb"/>
-	<classpathentry kind="lib" path="C:/Users/HP/.m2/repository/tn/esprit/twin1/brogrammers/eventify/Eventify-ejb/0.0.1-SNAPSHOT/Eventify-ejb-0.0.1-SNAPSHOT.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-			<attribute name="maven.groupId" value="tn.esprit.twin1.brogrammers.eventify"/>
-			<attribute name="maven.artifactId" value="Eventify-ejb"/>
-			<attribute name="maven.version" value="0.0.1-SNAPSHOT"/>
-			<attribute name="maven.scope" value="provided"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
