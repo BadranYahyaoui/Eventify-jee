@@ -34,6 +34,9 @@ public class Event implements Serializable {
 	
 	private List<Media> medias;
 	
+	//For Wishlist association
+	private List<Wishlist> users;
+	
 	
 	//Event Type Conference ,Class,Seminar,Party ...
 	//Event Category Business,Food Drink Spirituality Family , Education , Health
@@ -163,7 +166,20 @@ public class Event implements Serializable {
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
+
+	
+	@OneToMany(mappedBy="event")
+	public List<Wishlist> getUsers() {
+		return users;
+	}
+
+
+	public void setUsers(List<Wishlist> users) {
+		this.users = users;
+	}
    
+	
+	
 	
 	
 }

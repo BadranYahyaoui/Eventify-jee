@@ -3,6 +3,8 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 import java.io.Serializable;
 import java.lang.String;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 import sun.security.util.Password;
 
@@ -15,7 +17,6 @@ import sun.security.util.Password;
 public class User implements Serializable {
 
 	   
-	@Id
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -25,9 +26,15 @@ public class User implements Serializable {
 	private int loyaltyPoints;
 	private static final long serialVersionUID = 1L;
 
+	
+	private List<Wishlist> event;
+	
 	public User() {
 		super();
 	}   
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -77,5 +84,16 @@ public class User implements Serializable {
 	public void setLoyaltyPoints(int loyaltyPoints) {
 		this.loyaltyPoints = loyaltyPoints;
 	}
+
+	@OneToMany(mappedBy="user")
+	public List<Wishlist> getEvent() {
+		return event;
+	}
+
+	public void setEvent(List<Wishlist> event) {
+		this.event = event;
+	}
    
+	
+	
 }
