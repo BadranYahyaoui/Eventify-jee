@@ -3,6 +3,8 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 import java.io.Serializable;
 import java.lang.String;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -14,16 +16,22 @@ import javax.persistence.*;
 public class Organization implements Serializable {
 	//Saleeeem Hakim
 	   
-	@Id
 	private int id;
 	private String organizationName;
 	private String organizationType;
 	private Date creationDate;
 	private static final long serialVersionUID = 1L;
-
+	
+	private List<Event> events;
+	
+	
+	
 	public Organization() {
 		super();
 	}   
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -52,5 +60,16 @@ public class Organization implements Serializable {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+
+	@OneToMany(mappedBy="organization")
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
    
+	
+	
 }

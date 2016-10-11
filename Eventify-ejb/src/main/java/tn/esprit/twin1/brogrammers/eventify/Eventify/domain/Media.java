@@ -24,6 +24,7 @@ public class Media implements Serializable {
 	
 	
 	/*Navigation  Prop*/
+	
 	private Event event;
 	
 	
@@ -50,6 +51,7 @@ public class Media implements Serializable {
 		return event;
 	}
 
+	
 	public void setEvent(Event event) {
 		this.event = event;
 	}

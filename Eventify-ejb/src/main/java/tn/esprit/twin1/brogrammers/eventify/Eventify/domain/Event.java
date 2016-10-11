@@ -15,7 +15,6 @@ import javax.persistence.*;
 
 public class Event implements Serializable {
 
-	
 	private int id;
 	private String title;
 	private String theme;
@@ -24,22 +23,31 @@ public class Event implements Serializable {
 	private float longitude;
 	private float latitude;
 	private int placeNumber;
-	private String eventType;
-	private String eventTopic;
+	private String eventType; 
+	private String eventCategory;
 	private int typeCreator;
 	private int nbViews;
 	private Date createdAt;
 	private static final long serialVersionUID = 1L;
 	
+	private Organization organization;
 	
 	private List<Media> medias;
+	
+	
+	//Event Type Conference ,Class,Seminar,Party ...
+	//Event Category Business,Food Drink Spirituality Family , Education , Health
+
+	
 	
 	
 	public Event() {
 		super();
 	}
 	
+	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -114,13 +122,16 @@ public class Event implements Serializable {
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
 	}   
-	public String getEventTopic() {
-		return this.eventTopic;
+	
+
+	public String getEventCategory() {
+		return eventCategory;
 	}
 
-	public void setEventTopic(String eventTopic) {
-		this.eventTopic = eventTopic;
-	}   
+	public void setEventCategory(String eventCategory) {
+		this.eventCategory = eventCategory;
+	}
+
 	public int getTypeCreator() {
 		return this.typeCreator;
 	}
@@ -142,5 +153,17 @@ public class Event implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	@ManyToOne
+	public Organization getOrganization() {
+		return organization;
+	}
+
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
    
+	
+	
 }
