@@ -1,6 +1,8 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 
 /**
@@ -13,6 +15,8 @@ public class ReferrelUser implements Serializable {
 	private ReferrelUserPK referrelUserPK;
 	private User userReferred;
 	private User userReferral;
+	private Date dateInvitation;
+	private int stateInvitation;
 	
 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +52,22 @@ public class ReferrelUser implements Serializable {
 
 	public void setUserReferral(User userReferral) {
 		this.userReferral = userReferral;
+	}
+
+	public Date getDateInvitation() {
+		return dateInvitation;
+	}
+
+	public void setDateInvitation(Date dateInvitation) {
+		this.dateInvitation = dateInvitation;
+	}
+
+	public int getStateInvitation() {
+		return stateInvitation;
+	}
+
+	public void setStateInvitation(int stateInvitation) {
+		this.stateInvitation = stateInvitation;
 	}
 	
 	
