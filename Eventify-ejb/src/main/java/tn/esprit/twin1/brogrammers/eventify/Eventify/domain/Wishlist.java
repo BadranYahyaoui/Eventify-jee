@@ -23,7 +23,13 @@ public class Wishlist implements Serializable {
 
 	public Wishlist() {
 		super();
-	}   
+	}
+	
+	public Wishlist(Event event,User user){
+		this.event =event;
+		this.user =user;
+		this.dateAdding= new Date();
+	}
   
 	@EmbeddedId
 	public WishlistPK getWishlistPK() {
