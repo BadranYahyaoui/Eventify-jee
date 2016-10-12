@@ -13,7 +13,7 @@ public interface EventBusinessRemote {
 	public void create(Event event);
 	public List<Event> getAllEvents();
 	public void updateEvent(Event event);
-	public void deleteEvent(Event event);
+	public boolean deleteEvent(int id);
 	public Event findEventById(int idEvent);
 	public List<Event> findEventByType(String type);
 	public List<Event> findEventByCategory(String category);

@@ -1,6 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -43,8 +44,18 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	}
 
 	@Override
-	public void deleteEvent(Event event) {
-		entityManager.remove(event);
+	public boolean deleteEvent(int id) {
+		
+		Iterator<Event> iterator=this.getAllEvents().iterator();
+		while(iterator.hasNext()){
+			Event e=iterator.next();
+			if(e.getId()==id){
+				entityManager.remove(this.findEventById(id));
+				return true;
+			}
+		}
+		return false;
+		
 		
 	}
 

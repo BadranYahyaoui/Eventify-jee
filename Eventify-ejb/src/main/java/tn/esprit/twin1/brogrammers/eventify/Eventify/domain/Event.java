@@ -157,7 +157,7 @@ public class Event implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Organization getOrganization() {
 		return organization;
 	}
