@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 public class Notification implements Serializable {
 
-	   
+	   //coment
 	@Id
 	private int id;
 	private String notificationTitle;
