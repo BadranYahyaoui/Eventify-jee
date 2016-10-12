@@ -34,6 +34,7 @@ public class User implements Serializable {
 	private List<Organizer> organizers;
 	private List<ReferrelUser> ReferredUsers;
 	private List<ReferrelUser> ReferralUsers;
+	private List<Answer> answers;
 	
 	
 	@OneToMany(mappedBy="userReferral")
@@ -71,9 +72,19 @@ public class User implements Serializable {
 	public void setOrganizations(List<Organization> organizations) {
 		this.organizations = organizations;
 	}
+	
+	
 
 	
-	
+	@OneToMany(mappedBy="user")
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
 	@OneToMany(mappedBy = "user")
 	public List<Notification> getNotifications() {
 		return notifications;
