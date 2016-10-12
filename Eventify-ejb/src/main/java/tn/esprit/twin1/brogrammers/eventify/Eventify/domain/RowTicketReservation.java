@@ -1,7 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 
 import java.io.Serializable;
-import java.lang.String;
 import java.util.Date;
 
 import javax.persistence.*;
