@@ -17,6 +17,7 @@ import sun.security.util.Password;
 
 public class User implements Serializable {
 
+	
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -31,6 +32,27 @@ public class User implements Serializable {
 	private List<Organization> organizations;
 	private List<Reservation> reservations;
 	private List<Organizer> organizers;
+	private List<ReferrelUser> ReferredUsers;
+	private List<ReferrelUser> ReferralUsers;
+	
+	
+	@OneToMany(mappedBy="userReferral")
+	public List<ReferrelUser> getReferralUsers() {
+		return ReferralUsers;
+	}
+
+	public void setReferralUsers(List<ReferrelUser> referralUsers) {
+		ReferralUsers = referralUsers;
+	}
+
+	@OneToMany(mappedBy="userReferred")
+	public List<ReferrelUser> getReferredUsers() {
+		return ReferredUsers;
+	}
+
+	public void setReferredUsers(List<ReferrelUser> referredUsers) {
+		ReferredUsers = referredUsers;
+	}
 
 	@OneToMany(mappedBy = "user")
 	public List<Reservation> getReservations() {
@@ -145,6 +167,7 @@ public class User implements Serializable {
 	public void setOrganizers(List<Organizer> organizers) {
 		this.organizers = organizers;
 	}
+	
 
 	public User() {
 		super();
