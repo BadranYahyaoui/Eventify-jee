@@ -18,8 +18,8 @@ public class RowTicketReservation implements Serializable {
 	private int id;
 	private int nbTicketsReserved;
 	private Date reservationDate;
-	private Reservation reservation;
-	private Ticket ticket;
+	//private Reservation reservation;
+	//private Ticket ticket;
 	private static final long serialVersionUID = 1L;
 
 	public RowTicketReservation() {
@@ -44,7 +44,7 @@ public class RowTicketReservation implements Serializable {
 	}
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
-	}
+	}/*
 	public Reservation getReservation() {
 		return reservation;
 	}
@@ -57,6 +57,6 @@ public class RowTicketReservation implements Serializable {
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 	}   
-
+*/
    
 }

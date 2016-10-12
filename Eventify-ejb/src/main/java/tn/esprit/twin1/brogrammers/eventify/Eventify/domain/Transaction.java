@@ -16,7 +16,7 @@ public class Transaction implements Serializable {
 	private int id;
 	private String token;
 	private float amount;
-	private Reservation reservation;
+	//private Reservation reservation;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -45,12 +45,12 @@ public class Transaction implements Serializable {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
+	}/*
 	public Reservation getReservation() {
 		return reservation;
 	}
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
-   
+   */
 }
