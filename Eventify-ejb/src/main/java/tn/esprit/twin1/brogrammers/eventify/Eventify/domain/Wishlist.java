@@ -10,23 +10,13 @@ import javax.persistence.*;
  *
  */
 @Entity
-@IdClass(WishlistId.class)
+
 
 public class Wishlist implements Serializable {
 
-	@Id
-	private long userId;
-	@Id
-	private long eventId;
+	private WishlistPK wishlistPK;
 	private Date dateAdding;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "userId", updatable = false, insertable = false)
 	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name = "eventId", updatable = false, insertable = false)
 	private Event event;
 	
 	private static final long serialVersionUID = 1L;
@@ -34,20 +24,37 @@ public class Wishlist implements Serializable {
 	public Wishlist() {
 		super();
 	}   
-	public long getUserId() {
-		return this.userId;
+  
+	@EmbeddedId
+	public WishlistPK getWishlistPK() {
+		return wishlistPK;
+	}
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "userId",referencedColumnName="id", updatable = false, insertable = false)
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}   
-	public long getEventId() {
-		return this.eventId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public void setEventId(long eventId) {
-		this.eventId = eventId;
-	}   
+	@ManyToOne
+	@JoinColumn(name = "eventId",referencedColumnName="id", updatable = false, insertable = false)
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public void setWishlistPK(WishlistPK wishlistPK) {
+		this.wishlistPK = wishlistPK;
+	}
+
 	public Date getDateAdding() {
 		return this.dateAdding;
 	}

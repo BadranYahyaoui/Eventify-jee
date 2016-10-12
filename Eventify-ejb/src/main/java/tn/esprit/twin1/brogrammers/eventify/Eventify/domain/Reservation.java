@@ -13,16 +13,28 @@ import javax.persistence.*;
 public class Reservation implements Serializable {
 
 	   
-	@Id
+	
 	private int id;
 	private boolean state;
 	private float amount;
 	private Date reservationDate;
 	private static final long serialVersionUID = 1L;
-
+	
+	
+	private User user;
+	
+	
+	@ManyToOne
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Reservation() {
 		super();
-	}   
+	}
+	@Id
 	public int getId() {
 		return this.id;
 	}

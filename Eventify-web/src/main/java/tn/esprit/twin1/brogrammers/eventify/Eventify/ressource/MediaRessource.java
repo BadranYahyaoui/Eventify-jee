@@ -1,4 +1,4 @@
-package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
+/*package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -9,10 +9,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
+/*
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IMediaBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Media;
-
+/*
 
 @Path("media")
 @RequestScoped
@@ -36,3 +36,4 @@ public class MediaRessource {
 		mediaBusniess.create(media);
 	}
 }
+*/

@@ -5,6 +5,7 @@ import java.lang.String;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import sun.security.util.Password;
 
@@ -16,7 +17,6 @@ import sun.security.util.Password;
 
 public class User implements Serializable {
 
-	   
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -26,57 +26,91 @@ public class User implements Serializable {
 	private int loyaltyPoints;
 	private static final long serialVersionUID = 1L;
 
+	private List<Wishlist> wishlists;
+	private List<Notification> notifications;
+	private List<Organization> organizations;
+	private List<Reservation> reservations;
+	private List<Organizer> organizers;
+
+	@OneToMany(mappedBy = "user")
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	@OneToMany(mappedBy = "user")
+	public List<Organization> getOrganizations() {
+		return organizations;
+	}
+
+	public void setOrganizations(List<Organization> organizations) {
+		this.organizations = organizations;
+	}
+
 	
-	private List<Wishlist> event;
 	
-	public User() {
-		super();
-	}   
-	
+	@OneToMany(mappedBy = "user")
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}   
+	}
+
 	public String getFirstName() {
 		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
-	}   
+	}
+
 	public String getLastName() {
 		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}   
+	}
+
 	public String getUsername() {
 		return this.username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
-	}   
+	}
+
 	public String getPassword() {
 		return this.password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}   
+	}
+
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}   
+	}
+
 	public int getLoyaltyPoints() {
 		return this.loyaltyPoints;
 	}
@@ -85,15 +119,35 @@ public class User implements Serializable {
 		this.loyaltyPoints = loyaltyPoints;
 	}
 
-	@OneToMany(mappedBy="user")
-	public List<Wishlist> getEvent() {
-		return event;
+	
+	
+	@OneToMany(mappedBy = "user")
+	public List<Wishlist> getWishlists() {
+		return wishlists;
 	}
 
-	public void setEvent(List<Wishlist> event) {
-		this.event = event;
+	public void setWishlists(List<Wishlist> wishlists) {
+		this.wishlists = wishlists;
 	}
-   
-	
-	
+
+	public void assignOrganizerToThisUser(List<Organizer> organizers) {
+		this.setOrganizers(organizers);
+		for (Organizer o : organizers) {
+			o.setUser(this);
+		}
+	}
+
+	@OneToMany(mappedBy = "user")
+	public List<Organizer> getOrganizers() {
+		return organizers;
+	}
+
+	public void setOrganizers(List<Organizer> organizers) {
+		this.organizers = organizers;
+	}
+
+	public User() {
+		super();
+	}
+
 }

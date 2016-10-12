@@ -13,17 +13,28 @@ import javax.persistence.*;
 
 public class Notification implements Serializable {
 
-	   //coment
-	@Id
+
+	
 	private int id;
 	private String notificationTitle;
 	private String notificationDescription;
 	private Date notificationDate;
 	private static final long serialVersionUID = 1L;
-
+	
+	private User user;
+	
+	@ManyToOne
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Notification() {
 		super();
 	}   
+	
+	@Id
 	public int getId() {
 		return this.id;
 	}

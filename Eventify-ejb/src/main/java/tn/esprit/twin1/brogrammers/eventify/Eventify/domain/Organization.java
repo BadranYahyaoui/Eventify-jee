@@ -5,6 +5,7 @@ import java.lang.String;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 /**
@@ -14,7 +15,8 @@ import javax.persistence.*;
 @Entity
 
 public class Organization implements Serializable {
-	//Saleeeem Hakim
+	
+	
 	   
 	private int id;
 	private String organizationName;
@@ -24,8 +26,29 @@ public class Organization implements Serializable {
 	
 	private List<Event> events;
 	
+	private User user;
+	
+	private List<Organizer> organizers;
 	
 	
+	@OneToMany(mappedBy="organization")
+	public List<Organizer> getOrganizers() {
+		return organizers;
+	}
+
+	public void setOrganizers(List<Organizer> organizers) {
+		this.organizers = organizers;
+	}
+
+	@ManyToOne
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public Organization() {
 		super();
 	}   
@@ -69,7 +92,16 @@ public class Organization implements Serializable {
 	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
-   
 	
+	public void assignOrganizerToThisOrganization(List<Organizer> organizers )
+	{
+		this.setOrganizers(organizers);
+		for(Organizer o : organizers )
+		{
+			o.setOrganization(this);
+		}
+	}
+ 
+
 	
 }
