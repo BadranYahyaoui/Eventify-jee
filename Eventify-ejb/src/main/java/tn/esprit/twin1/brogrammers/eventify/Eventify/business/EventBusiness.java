@@ -24,7 +24,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 
-
+//ajout
 	@Override
 	public void create(Event event) {
 		entityManager.persist(event);
