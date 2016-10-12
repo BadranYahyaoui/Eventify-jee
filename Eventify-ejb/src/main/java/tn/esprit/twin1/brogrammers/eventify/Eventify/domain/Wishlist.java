@@ -22,11 +22,11 @@ public class Wishlist implements Serializable {
 	
 	
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="userId", referencedColumnName="ID")
+	@JoinColumn(name = "userId", updatable = false, insertable = false)
 	private User user;
 	
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="eventId", referencedColumnName="ID")
+	@JoinColumn(name = "eventId", updatable = false, insertable = false)
 	private Event event;
 	
 	private static final long serialVersionUID = 1L;
