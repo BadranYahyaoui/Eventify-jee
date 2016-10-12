@@ -22,7 +22,7 @@ public class Ticket implements Serializable {
 	private float priceTicket;
 	private String paymentMethod;
 	private String backgroundImage;
-	private List<RowTicketReservation> rowticketreservations;
+	//private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
 
 	public Ticket() {
@@ -70,11 +70,12 @@ public class Ticket implements Serializable {
 	public void setBackgroundImage(String backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
+	/*
 	public List<RowTicketReservation> getRowticketreservations() {
 		return rowticketreservations;
 	}
 	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
 		this.rowticketreservations = rowticketreservations;
 	}
-   
+   */
 }

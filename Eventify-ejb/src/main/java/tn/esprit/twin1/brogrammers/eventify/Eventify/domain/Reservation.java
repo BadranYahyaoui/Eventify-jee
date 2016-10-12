@@ -21,8 +21,8 @@ public class Reservation implements Serializable {
 	private float amount;
 	private Date reservationDate;
 	private User user;
-	private Transaction transaction;
-	private List<RowTicketReservation> rowticketreservations;
+	//private Transaction transaction;
+	//private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -65,7 +65,7 @@ public class Reservation implements Serializable {
 
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
-	}
+	}/*
 	public Transaction getTransaction() {
 		return transaction;
 	}
@@ -78,5 +78,5 @@ public class Reservation implements Serializable {
 	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
 		this.rowticketreservations = rowticketreservations;
 	}
-   
+   */
 }
