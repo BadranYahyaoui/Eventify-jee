@@ -2,6 +2,8 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -18,12 +20,13 @@ public class Reservation implements Serializable {
 	private boolean state;
 	private float amount;
 	private Date reservationDate;
+	private User user;
+	private Transaction transaction;
+	private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
 	
 	
-	private User user;
-	
-	
+
 	@ManyToOne
 	public User getUser() {
 		return user;
@@ -62,6 +65,18 @@ public class Reservation implements Serializable {
 
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
+	}
+	public Transaction getTransaction() {
+		return transaction;
+	}
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
+	}
+	public List<RowTicketReservation> getRowticketreservations() {
+		return rowticketreservations;
+	}
+	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
+		this.rowticketreservations = rowticketreservations;
 	}
    
 }
