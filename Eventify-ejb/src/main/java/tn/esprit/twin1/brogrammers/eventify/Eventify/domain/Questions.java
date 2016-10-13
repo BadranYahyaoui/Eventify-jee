@@ -3,6 +3,8 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 import java.io.Serializable;
 import java.lang.String;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -10,11 +12,9 @@ import javax.persistence.*;
  *
  */
 @Entity
-
 public class Questions implements Serializable {
 
 	   
-	@Id
 	private int id;
 	private String questionDescription;
 	private String questionType;
@@ -22,11 +22,20 @@ public class Questions implements Serializable {
 	private boolean status;
 	private Date questionDate;
 	private int order;
+	
 	private static final long serialVersionUID = 1L;
 
+	private Event event;
+	
+	private List<Attribut> attributs;
+
+	
 	public Questions() {
 		super();
 	}   
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -76,5 +85,31 @@ public class Questions implements Serializable {
 	public void setOrder(int order) {
 		this.order = order;
 	}
+
+	/* Foreign Key Start */
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Event getEvent() {
+		return event;
+	}
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	
+	//Assocation With Attributs
+	
+	@OneToMany(mappedBy="questions")
+	public List<Attribut> getAttributs() {
+		return attributs;
+	}
+
+	public void setAttributs(List<Attribut> attributs) {
+		this.attributs = attributs;
+	}
+	
+	
+	
+	/* Foreign Key End  */
    
 }

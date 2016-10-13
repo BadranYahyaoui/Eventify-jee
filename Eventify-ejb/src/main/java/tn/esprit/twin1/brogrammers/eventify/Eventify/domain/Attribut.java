@@ -18,10 +18,11 @@ public class Attribut implements Serializable {
 	
 	private int id;
 	private String attributValue;
-	
-	private List<Answer> answers;
-	
 	private static final long serialVersionUID = 1L;
+
+	private List<Answer> answers;
+	private Questions questions;
+	
 
 	public Attribut() {
 		super();
@@ -50,6 +51,15 @@ public class Attribut implements Serializable {
 
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Questions getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Questions questions) {
+		this.questions = questions;
 	}
    
 	

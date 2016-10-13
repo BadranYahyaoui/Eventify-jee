@@ -30,16 +30,20 @@ public class Event implements Serializable {
 	private Date createdAt;
 	private static final long serialVersionUID = 1L;
 	
+	/* 	Foreign KEY Start */
 	private Organization organization;
 	
 	private List<Media> medias;
 	
-	//For Wishlist association
+
 	private List<Wishlist> wishlists;
 	
 	private List<Rate> rate;
 	
+	private List<Questions> questions;
 	
+	/* 	Foreign KEY END */
+
 	//Event Type Conference ,Class,Seminar,Party ...
 	//Event Category Business,Food Drink Spirituality Family , Education , Health
 
@@ -159,6 +163,7 @@ public class Event implements Serializable {
 		this.createdAt = createdAt;
 	}
 
+	/* FOREIGN KEY Start */
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Organization getOrganization() {
 		return organization;
@@ -188,6 +193,21 @@ public class Event implements Serializable {
 	public void setRate(List<Rate> rate) {
 		this.rate = rate;
 	}
+
+
+	@OneToMany(mappedBy="event")  
+	public List<Questions> getQuestions() {
+		return questions;
+	}
+
+
+	public void setQuestions(List<Questions> questions) {
+		this.questions = questions;
+	}
+
+	
+	
+	/* FOREIGN KEY END */
 
 	
 	
