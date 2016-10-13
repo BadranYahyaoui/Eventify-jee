@@ -14,17 +14,18 @@ import javax.persistence.*;
 public class RowTicketReservation implements Serializable {
 
 	   
-	@Id
+	
 	private int id;
 	private int nbTicketsReserved;
 	private Date reservationDate;
-	//private Reservation reservation;
-	//private Ticket ticket;
+	private Reservation reservation;
+	private Ticket ticket;
 	private static final long serialVersionUID = 1L;
 
 	public RowTicketReservation() {
 		super();
 	}   
+	@Id
 	public int getId() {
 		return this.id;
 	}
@@ -44,19 +45,21 @@ public class RowTicketReservation implements Serializable {
 	}
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
-	}/*
+	}
+	@ManyToOne
 	public Reservation getReservation() {
 		return reservation;
 	}
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
+	@ManyToOne
 	public Ticket getTicket() {
 		return ticket;
 	}
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 	}   
-*/
+
    
 }

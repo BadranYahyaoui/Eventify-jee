@@ -15,19 +15,20 @@ import javax.persistence.*;
 public class Ticket implements Serializable {
 
 	   
-	@Id
+	
 	private int id;
 	private int nbTickets;
 	private String typeTicket;
 	private float priceTicket;
 	private String paymentMethod;
 	private String backgroundImage;
-	//private List<RowTicketReservation> rowticketreservations;
+	private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
 
 	public Ticket() {
 		super();
 	}   
+	@Id
 	public int getId() {
 		return this.id;
 	}
@@ -70,12 +71,12 @@ public class Ticket implements Serializable {
 	public void setBackgroundImage(String backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
-	/*
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch = FetchType.LAZY)
 	public List<RowTicketReservation> getRowticketreservations() {
 		return rowticketreservations;
 	}
 	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
 		this.rowticketreservations = rowticketreservations;
 	}
-   */
+   
 }

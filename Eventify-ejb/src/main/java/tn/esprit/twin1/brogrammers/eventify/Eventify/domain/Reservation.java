@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+
 /**
  * Entity implementation class for Entity: Reservation
  *
@@ -21,12 +22,11 @@ public class Reservation implements Serializable {
 	private float amount;
 	private Date reservationDate;
 	private User user;
-	//private Transaction transaction;
-	//private List<RowTicketReservation> rowticketreservations;
+	private Transaction transaction;
+	private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
-	
-	
 
+	
 	@ManyToOne
 	public User getUser() {
 		return user;
@@ -65,18 +65,20 @@ public class Reservation implements Serializable {
 
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
-	}/*
+	}
+	@OneToOne(mappedBy="reservation")
 	public Transaction getTransaction() {
 		return transaction;
 	}
 	public void setTransaction(Transaction transaction) {
 		this.transaction = transaction;
 	}
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reservation", fetch = FetchType.LAZY)
 	public List<RowTicketReservation> getRowticketreservations() {
 		return rowticketreservations;
 	}
 	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
 		this.rowticketreservations = rowticketreservations;
 	}
-   */
+   
 }

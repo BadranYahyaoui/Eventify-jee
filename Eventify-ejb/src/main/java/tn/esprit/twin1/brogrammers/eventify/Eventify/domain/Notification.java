@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class Notification implements Serializable {
 
 
-	
 	private int id;
 	private String notificationTitle;
 	private String notificationDescription;
