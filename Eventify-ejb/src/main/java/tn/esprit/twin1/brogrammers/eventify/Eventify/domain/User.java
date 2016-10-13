@@ -39,6 +39,7 @@ public class User implements Serializable {
 	private List<ReferrelUser> ReferredUsers;
 	private List<ReferrelUser> ReferralUsers;
 	private List<Answer> answers;
+	private List<Rate> rate;
 
 	public User() {
 		super();
@@ -134,9 +135,21 @@ public class User implements Serializable {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	public List<Rate> getRate() {
+		return rate;
+	}
+
+	public void setRate(List<Rate> rate) {
+		this.rate = rate;
+	}
+	
 	/*********************
 	 * End of Navigation Attributes
 	 ******************************/
+
+	
 
 	/**************************************
 	 * Simple Attributes

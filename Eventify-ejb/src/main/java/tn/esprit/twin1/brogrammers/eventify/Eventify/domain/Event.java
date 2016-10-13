@@ -37,6 +37,8 @@ public class Event implements Serializable {
 	//For Wishlist association
 	private List<Wishlist> wishlists;
 	
+	private List<Rate> rate;
+	
 	
 	//Event Type Conference ,Class,Seminar,Party ...
 	//Event Category Business,Food Drink Spirituality Family , Education , Health
@@ -177,6 +179,17 @@ public class Event implements Serializable {
 		this.wishlists = wishlists;
 	}
 
+	@OneToMany(mappedBy="event")
+	public List<Rate> getRate() {
+		return rate;
+	}
+
+
+	public void setRate(List<Rate> rate) {
+		this.rate = rate;
+	}
+
+	
 	
 	
 	
