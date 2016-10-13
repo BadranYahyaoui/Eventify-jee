@@ -37,7 +37,7 @@ public class Wishlist implements Serializable {
 	}
 	
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "userId",referencedColumnName="id", updatable = false, insertable = false)
 	public User getUser() {
 		return user;
@@ -47,7 +47,7 @@ public class Wishlist implements Serializable {
 		this.user = user;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "eventId",referencedColumnName="id", updatable = false, insertable = false)
 	public Event getEvent() {
 		return event;

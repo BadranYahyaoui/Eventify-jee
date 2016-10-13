@@ -84,7 +84,8 @@ public class Organization implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	@OneToMany(mappedBy="organization", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="organization")
+	@Transient
 	public List<Event> getEvents() {
 		return events;
 	}

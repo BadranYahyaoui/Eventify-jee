@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -27,6 +28,8 @@ public class EventResource {
 	EventBusinessLocal eventBusiness;
 	
 	
+	
+	/*
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllEvents()
@@ -37,7 +40,7 @@ public class EventResource {
 
 		return Response.status(Status.FOUND).entity(eventBusiness.getAllEvents()).build();
 	}
-
+	*/
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
@@ -78,5 +81,30 @@ public class EventResource {
 	return Response.status(Response.Status.NOT_FOUND).build();
 		
 	}
+	
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response SearchForEvents(@QueryParam(value="search")String search,
+									@QueryParam(value="type")String type,
+									@QueryParam(value="category")String category,
+									@QueryParam(value="organization")int organization
+									){
+		
+		List<Event> liste=null;
+		if(search!=null && type==null && category==null && organization==0)
+		liste = eventBusiness.SearchForEvents(search);
+		else if (search==null && type!=null && category==null && organization==0)
+			liste = eventBusiness.findEventByType(type);
+		else if (search==null && type==null && category!=null && organization==0)
+			liste = eventBusiness.findEventByCategory(category);
+		/*else if (search==null && type==null && category==null && organization>0)
+			liste = eventBusiness.findEventByOrganization(organization);*/
+		else if (search==null && type==null && category==null && organization==0)
+			liste= eventBusiness.getAllEvents();
+		return Response.status(Status.OK).entity(liste).build();
+	}
+
+	
 
 }

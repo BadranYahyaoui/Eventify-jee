@@ -1,9 +1,12 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessRemote;
@@ -21,9 +24,24 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 	EntityManager entityManager;
 
 	@Override
-	public void addEventToWishlist(Event event, User user) {
-		Wishlist wishlist = new Wishlist(event, user);
+	public void addEventToWishlist(Wishlist wishlist) {
 		entityManager.merge(wishlist);
+		
+	}
+
+	@Override
+	public void RemoveEventFromWishlist(Wishlist wishlist) {
+		entityManager.remove(wishlist);
+		
+	}
+
+	@Override
+	public List<Wishlist> getWishlistByUser(int userId) {
+		System.err.println("************ ID User  *******" + userId);
+	    Query query = entityManager
+	    		.createQuery("SELECT w FROM Wishlist w WHERE w.wishlistPK.userId = :userId")
+	    		.setParameter("userId", userId);
+	    return (List<Wishlist>) query.getResultList();
 		
 	}
 

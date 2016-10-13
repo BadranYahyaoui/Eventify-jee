@@ -106,4 +106,16 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	    return (List<Event>) query.getResultList();
 	}
 
+	@Override
+	public List<Event> SearchForEvents(String search) {
+	    Query query = entityManager
+	    		.createQuery("SELECT e FROM Event e WHERE e.title LIKE :search OR e.theme LIKE :search1 ")
+	    		.setParameter("search",'%' +search +'%')
+	    		.setParameter("search1",'%' +search +'%');
+	    return (List<Event>) query.getResultList();
+
+	}
+
+	
+	
 }
