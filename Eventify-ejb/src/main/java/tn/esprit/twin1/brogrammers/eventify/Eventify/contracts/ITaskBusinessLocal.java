@@ -9,7 +9,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 public interface ITaskBusinessLocal {
 public void createTask(Task task,int idEvent);
 	
-	//update task
+	//update task 
 	   public void updateTask(Task task);
 	   
 	   //DeleteTask

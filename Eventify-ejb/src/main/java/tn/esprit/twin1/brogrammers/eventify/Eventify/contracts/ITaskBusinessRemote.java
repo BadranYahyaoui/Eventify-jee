@@ -17,7 +17,7 @@ public interface ITaskBusinessRemote {
 			//get all the Tasks Related To an event
 			public List<Task>getAllTasksByID(int idEvent);
 			
-			//get all the tasks Assigned to an oganizer -- get all
+			//get all the tasks Assigned to an oganizer 
 			public  List<Task>GetTasksByOrganizer(int idOrganizer);
 				
 			 //cancel task to an orgnizer
