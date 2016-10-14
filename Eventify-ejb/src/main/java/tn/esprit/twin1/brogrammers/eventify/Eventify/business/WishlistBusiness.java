@@ -30,8 +30,17 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 	}
 
 	@Override
-	public void RemoveEventFromWishlist(Wishlist wishlist) {
-		entityManager.remove(wishlist);
+	public boolean RemoveEventFromWishlist(int id) {
+		
+		if(getWishlistById(id)!=null)
+		{
+			entityManager.remove(getWishlistById(id));;
+			return true;
+		}
+		else
+		return false;
+			
+		
 		
 	}
 
@@ -43,6 +52,11 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 	    		.setParameter("userId", userId);
 	    return (List<Wishlist>) query.getResultList();
 		
+	}
+
+	@Override
+	public Wishlist getWishlistById(int id) {
+		return entityManager.find(Wishlist.class, id);
 	}
 
     

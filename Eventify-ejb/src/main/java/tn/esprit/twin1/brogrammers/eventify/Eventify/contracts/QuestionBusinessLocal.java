@@ -9,8 +9,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Questions;
 public interface QuestionBusinessLocal {
 	
 	public void createQuestion(Questions question);
-	public void updateQuestion(Questions question);
-	public void deleteQuestion(Questions question);
+	public boolean updateQuestion(Questions question);
+	public boolean deleteQuestion(int id);
 	public Questions getQuestionById(int id);
 		
 	

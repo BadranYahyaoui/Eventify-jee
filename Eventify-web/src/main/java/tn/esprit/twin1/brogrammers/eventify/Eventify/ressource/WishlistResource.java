@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,10 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessLocal;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 
 @Path("wishlists")
@@ -41,10 +39,13 @@ public class WishlistResource {
 	
 	
 	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response RemoveFromWishlist(Wishlist wishlist){
-		wishlistBusiness.RemoveEventFromWishlist(wishlist);
-		return Response.status(Status.OK).build();
+	@Path("{id}")
+	public Response RemoveFromWishlist(@PathParam(value="id")int id){
+		
+		if(wishlistBusiness.RemoveEventFromWishlist(id))
+			return Response.status(Status.OK).build();
+		else
+			return Response.status(Status.NOT_FOUND).build();
 	}
 	
 

@@ -35,14 +35,25 @@ public class QuestionBusiness implements QuestionBusinessRemote, QuestionBusines
 	}
 
 	@Override
-	public void updateQuestion(Questions question) {
-		entityManager.merge(question);
+	public boolean updateQuestion(Questions question) {
+		if(getQuestionById(question.getId())!=null){
+			entityManager.merge(question);
+			return true;
+		}
+		else
+			return false;
+		
 		
 	}
 
 	@Override
-	public void deleteQuestion(Questions question) {
-		entityManager.remove(question);
+	public boolean deleteQuestion(int id) {
+		if(getQuestionById(id)!=null){
+			entityManager.remove(id);
+			return true;
+		}
+		else
+			return false;
 		
 	}
 
