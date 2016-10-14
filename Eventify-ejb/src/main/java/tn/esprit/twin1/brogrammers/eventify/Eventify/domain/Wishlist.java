@@ -37,7 +37,7 @@ public class Wishlist implements Serializable {
 	}
 	
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "userId",referencedColumnName="id", updatable = false, insertable = false)
 	public User getUser() {
 		return user;

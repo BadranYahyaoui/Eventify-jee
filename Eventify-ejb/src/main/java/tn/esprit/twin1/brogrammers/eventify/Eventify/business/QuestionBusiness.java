@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Questions;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 
 
 
@@ -28,14 +28,14 @@ public class QuestionBusiness implements QuestionBusinessRemote, QuestionBusines
     }
 
 	@Override
-	public void createQuestion(Questions question) {
+	public void createQuestion(Question question) {
 
 		entityManager.merge(question);
 		
 	}
 
 	@Override
-	public boolean updateQuestion(Questions question) {
+	public boolean updateQuestion(Question question) {
 		if(getQuestionById(question.getId())!=null){
 			entityManager.merge(question);
 			return true;
@@ -58,8 +58,8 @@ public class QuestionBusiness implements QuestionBusinessRemote, QuestionBusines
 	}
 
 	@Override
-	public Questions getQuestionById(int id) {
-		return entityManager.find(Questions.class , id);
+	public Question getQuestionById(int id) {
+		return entityManager.find(Question.class , id);
 	}
 
     

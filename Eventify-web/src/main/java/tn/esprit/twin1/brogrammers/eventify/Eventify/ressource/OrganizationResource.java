@@ -29,7 +29,6 @@ public class OrganizationResource {
 	
 	
 	
-	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addOrganization(Organization organization)

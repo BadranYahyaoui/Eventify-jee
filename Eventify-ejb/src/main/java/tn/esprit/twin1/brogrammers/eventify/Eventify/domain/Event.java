@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity implementation class for Entity: Event
@@ -40,7 +41,11 @@ public class Event implements Serializable {
 	
 	private List<Rate> rate;
 	
-	private List<Questions> questions;
+	private List<Question> questions;
+	
+	private List<Task> tasks;
+	
+	private List<Ticket> tickets;
 	
 	/* 	Foreign KEY END */
 
@@ -66,7 +71,8 @@ public class Event implements Serializable {
 	} 
 	
 	
-	@OneToMany(mappedBy="event")  
+	@OneToMany(mappedBy="event", fetch=FetchType.LAZY)
+	@XmlTransient
 	public List<Media> getMedias() {
 		return medias;
 	}
@@ -165,6 +171,7 @@ public class Event implements Serializable {
 
 	/* FOREIGN KEY Start */
 	@ManyToOne(fetch=FetchType.LAZY)
+	@XmlTransient
 	public Organization getOrganization() {
 		return organization;
 	}
@@ -174,7 +181,8 @@ public class Event implements Serializable {
 		this.organization = organization;
 	}
 
-	@OneToMany(mappedBy="event")
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)
+	@XmlTransient
 	public List<Wishlist> getWishlists() {
 		return wishlists;
 	}
@@ -184,7 +192,8 @@ public class Event implements Serializable {
 		this.wishlists = wishlists;
 	}
 
-	@OneToMany(mappedBy="event")
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)
+	@XmlTransient
 	public List<Rate> getRate() {
 		return rate;
 	}
@@ -195,27 +204,45 @@ public class Event implements Serializable {
 	}
 
 
-	@OneToMany(mappedBy="event")  
-	public List<Questions> getQuestions() {
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)  
+	@XmlTransient
+	public List<Question> getQuestions() {
 		return questions;
 	}
 
 
-	public void setQuestions(List<Questions> questions) {
+	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
 
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)  
+	@XmlTransient
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)  
+	@XmlTransient
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 	
 	
-	/* FOREIGN KEY END */
+	
+	
+	
 
 	
-	
-	
-	
-   
-	
-	
-	
+	/* FOREIGN KEY END */
 	
 }

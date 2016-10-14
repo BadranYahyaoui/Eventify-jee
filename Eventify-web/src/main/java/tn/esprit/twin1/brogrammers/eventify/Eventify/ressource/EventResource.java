@@ -101,7 +101,8 @@ public class EventResource {
 		/*else if (search==null && type==null && category==null && organization>0)
 			liste = eventBusiness.findEventByOrganization(organization);*/
 		else if (search==null && type==null && category==null && organization==0)
-			liste= eventBusiness.getAllEvents();
+			{ liste= eventBusiness.getAllEvents();
+			}
 		return Response.status(Status.OK).entity(liste).build();
 	}
 

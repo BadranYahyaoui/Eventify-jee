@@ -12,7 +12,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-public class Questions implements Serializable {
+public class Question implements Serializable {
 
 	   
 	private int id;
@@ -30,7 +30,7 @@ public class Questions implements Serializable {
 	private List<Attribut> attributs;
 
 	
-	public Questions() {
+	public Question() {
 		super();
 	}   
 	
@@ -78,9 +78,12 @@ public class Questions implements Serializable {
 	public void setQuestionDate(Date questionDate) {
 		this.questionDate = questionDate;
 	}   
+	
+	@Column(name = "`order`")
 	public int getOrder() {
 		return this.order;
 	}
+
 
 	public void setOrder(int order) {
 		this.order = order;

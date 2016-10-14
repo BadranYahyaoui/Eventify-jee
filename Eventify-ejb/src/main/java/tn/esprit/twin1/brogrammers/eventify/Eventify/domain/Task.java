@@ -24,6 +24,7 @@ public class Task implements Serializable {
 	private Date createdAt;
 	private static final long serialVersionUID = 1L;
 	private List<Organizer> organizers;
+	private Event event;
 
 	public Task() {
 		super();
@@ -72,7 +73,7 @@ public class Task implements Serializable {
 	public void setOrganizers(List<Organizer> organizers) {
 		this.organizers = organizers;
 	}
-	/*
+	
 	@ManyToOne
 	public Event getEvent() {
 		return event;
@@ -80,7 +81,7 @@ public class Task implements Serializable {
 	public void setEvent(Event event) {
 		this.event = event;
 	}
-	*/
+	
 	
    
 }

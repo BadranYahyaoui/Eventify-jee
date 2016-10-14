@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Questions;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 
 @Path("questions")
 @RequestScoped
@@ -27,7 +27,7 @@ public class QuestionsResource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addQuestion(Questions questions){
+	public Response addQuestion(Question questions){
 		questionBusiness.createQuestion(questions);
 		return Response.status(Status.CREATED).build();
 		
@@ -35,7 +35,7 @@ public class QuestionsResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateQuestion(Questions questions){
+	public Response updateQuestion(Question questions){
 		if(questionBusiness.updateQuestion(questions))
 			return Response.status(Status.OK).build();
 		else

@@ -25,6 +25,8 @@ public class Ticket implements Serializable {
 	private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
 
+	private Event event;
+	
 	public Ticket() {
 		super();
 	}   
@@ -78,5 +80,15 @@ public class Ticket implements Serializable {
 	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
 		this.rowticketreservations = rowticketreservations;
 	}
+	
+	@ManyToOne
+	public Event getEvent() {
+		return event;
+	}
+	public void setEvent(Event event) {
+		this.event = event;
+	}
    
+	
+	
 }

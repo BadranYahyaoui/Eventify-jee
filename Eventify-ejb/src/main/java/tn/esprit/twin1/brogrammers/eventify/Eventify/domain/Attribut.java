@@ -21,7 +21,7 @@ public class Attribut implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<Answer> answers;
-	private Questions questions;
+	private Question questions;
 	
 
 	public Attribut() {
@@ -54,11 +54,11 @@ public class Attribut implements Serializable {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	public Questions getQuestions() {
+	public Question getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(Questions questions) {
+	public void setQuestions(Question questions) {
 		this.questions = questions;
 	}
    

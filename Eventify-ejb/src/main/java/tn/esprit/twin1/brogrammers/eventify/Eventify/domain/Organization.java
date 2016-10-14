@@ -31,7 +31,7 @@ public class Organization implements Serializable {
 	private List<Organizer> organizers;
 	
 	
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization", fetch = FetchType.EAGER)
 	public List<Organizer> getOrganizers() {
 		return organizers;
 	}
