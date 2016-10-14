@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+
+
 @Entity
 public class Organizer implements Serializable {
 
@@ -21,6 +23,7 @@ public class Organizer implements Serializable {
 private OrganizerPK  organizerPK;
 	private User user;
 	private Organization organization;
+	private Task task; //addedbybadran
 
 	@EmbeddedId
 	public OrganizerPK getOrganizerPK() {
@@ -54,8 +57,15 @@ private OrganizerPK  organizerPK;
 	public Organizer() {
 		super();
 	}
-	
-	
+	//addedbyBadran
+	@ManyToOne
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
 	
 	
 	
