@@ -7,15 +7,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AABusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AABusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ABusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.A;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AA;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 
 /**
  * Session Bean implementation class AABusiness
