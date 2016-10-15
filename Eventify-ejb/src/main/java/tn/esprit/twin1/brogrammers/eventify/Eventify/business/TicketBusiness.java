@@ -1,5 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -10,6 +11,7 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RowTicketReservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 
 /**
@@ -22,10 +24,6 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 	
-	
-    public TicketBusiness() {
-        // TODO Auto-generated constructor stub
-    }
 
 	@Override
 	public void create(Ticket ticket) {
@@ -54,7 +52,14 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 
 	@Override
 	public boolean deleteTicketById(int id) {
-		// TODO Auto-generated method stub
+		Iterator<Ticket> iterator=this.getAllTickets().iterator();
+		while(iterator.hasNext()){
+			Ticket t=iterator.next();
+			if(t.getId()==id){
+				entityManager.remove(this.findTicketById(id));
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -67,7 +72,7 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	public List<Ticket> findTicketByType(String typeTicket) {
 		Query query = entityManager
 	    		.createQuery("SELECT t FROM Ticket t WHERE t.typeTicket LIKE :typeTicket")
-	    		.setParameter("type", typeTicket);
+	    		.setParameter("typeTicket", typeTicket);
 	    return (List<Ticket>) query.getResultList();
 	}
 

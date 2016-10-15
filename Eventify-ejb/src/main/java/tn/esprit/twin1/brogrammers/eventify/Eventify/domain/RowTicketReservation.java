@@ -26,6 +26,7 @@ public class RowTicketReservation implements Serializable {
 		super();
 	}   
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}

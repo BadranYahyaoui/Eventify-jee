@@ -18,10 +18,10 @@ public class Reservation implements Serializable {
 	   
 	
 	private int id;
-	private boolean state;
 	private float amount;
 	private Date reservationDate;
 	private User user;
+	private int state;
 	private Transaction transaction;
 	private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
@@ -34,6 +34,13 @@ public class Reservation implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
 	public Reservation() {
 		super();
 	}
@@ -45,13 +52,7 @@ public class Reservation implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}   
-	public boolean getState() {
-		return this.state;
-	}
-
-	public void setState(boolean state) {
-		this.state = state;
-	}   
+	
 	public float getAmount() {
 		return this.amount;
 	}
@@ -73,6 +74,7 @@ public class Reservation implements Serializable {
 	public void setTransaction(Transaction transaction) {
 		this.transaction = transaction;
 	}
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reservation", fetch = FetchType.LAZY)
 	public List<RowTicketReservation> getRowticketreservations() {
 		return rowticketreservations;
