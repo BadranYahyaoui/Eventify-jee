@@ -15,7 +15,6 @@ public interface ITicketBusinessLocal {
 	public void updateTicket(Ticket ticket);
 	public boolean deleteTicket(Ticket ticket);
 	public boolean deleteTicketById(int id);
-	public RowTicketReservation findRowTicketReservationById(int idRowTicketReservation);
 	public Ticket findTicketById(int idTicket);
 	public List<Ticket> findTicketByType(String typeTicket);
 	
