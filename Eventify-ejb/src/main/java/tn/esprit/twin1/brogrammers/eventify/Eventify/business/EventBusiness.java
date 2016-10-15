@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 
@@ -24,6 +26,10 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
+	
+	
+	@EJB
+	OrganizationBusinessLocal organizationBusiness;
 
 //ajout
 	@Override
@@ -34,8 +40,21 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 	@Override
 	public List<Event> getAllEvents() {
-	    Query query = entityManager.createQuery("SELECT e FROM Event e");
-	    return (List<Event>) query.getResultList();
+	 //   Query query = entityManager.createQuery("SELECT e FROM Event e");
+	   // return (List<Event>) query.getResultList();
+		
+		List<Event> events= (List<Event>)entityManager
+				.createQuery("SELECT new Event(e.id,e.title,e.theme,o) FROM Event e JOIN e.organization o")
+				.getResultList();
+		
+		for (Event event : events) {
+			Organization organization= organizationBusiness.findOrganizationById(event.getOrganization().getId());
+			System.out.println("****After get organization****" + organization + "*********");
+			event.setOrganization(organization);
+		}
+		
+		return events;
+		
 	}
 
 	@Override

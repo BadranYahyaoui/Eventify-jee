@@ -60,6 +60,48 @@ public class Event implements Serializable {
 	}
 	
 	
+	
+	
+	public Event(int id, String title, String theme,
+			Organization organization) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.theme = theme;
+		this.organization = organization;
+	}
+
+	public Event(int id, String title, String theme) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.theme = theme;
+	}
+
+
+
+
+	public Event(int id, String title, String theme, Date startTime, Date endTime, float longitude, float latitude,
+			int placeNumber, String eventType, String eventCategory, int typeCreator, int nbViews, Date createdAt) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.theme = theme;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.placeNumber = placeNumber;
+		this.eventType = eventType;
+		this.eventCategory = eventCategory;
+		this.typeCreator = typeCreator;
+		this.nbViews = nbViews;
+		this.createdAt = createdAt;
+	}
+
+
+
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -171,7 +213,6 @@ public class Event implements Serializable {
 
 	/* FOREIGN KEY Start */
 	@ManyToOne(fetch=FetchType.LAZY)
-	@XmlTransient
 	public Organization getOrganization() {
 		return organization;
 	}

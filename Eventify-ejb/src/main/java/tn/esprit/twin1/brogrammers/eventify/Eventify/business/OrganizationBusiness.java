@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AA;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
@@ -46,13 +47,18 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 
 	@Override
 	public List<Organization> getAllOrganizations() {
-		Query query = entityManager.createQuery("SELECT o FROM Organization o");
+		Query query = entityManager.createQuery
+				("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate) FROM Organization o");
 	    return (List<Organization>) query.getResultList();
 	}
 
 	@Override
 	public Organization findOrganizationById(int id) {
-		return entityManager.find(Organization.class, id);
+		Query query = entityManager.
+				createQuery("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate) FROM Organization o WHERE o.id=:param")
+				.setParameter("param", id);
+		 return (Organization) query.getSingleResult();
+		
 	}
 
 	@Override
@@ -70,5 +76,13 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	    		.setParameter("name", name);
 	    return (List<Organization>) query.getResultList();
 	}
+	
+	public List<Event> getMyEvents(int id){
+		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme) FROM Organization o JOIN o.events e WHERE o.id=:param");
+		    return (List<Event>) query.setParameter("param", id).getResultList();
+
+	}
+	
+	
 
 }

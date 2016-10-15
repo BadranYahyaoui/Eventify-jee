@@ -18,4 +18,6 @@ public interface OrganizationBusinessLocal {
 	public List<Organization> findOrganizationByType(String type);
 	public List<Organization> findOrganizationByName(String name);
 	//public List<Organization> findOrganizationByEvent(Event event);
+	public List<Event> getMyEvents(int id);
+
 }
