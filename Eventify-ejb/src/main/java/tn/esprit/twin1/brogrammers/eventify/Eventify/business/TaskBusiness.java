@@ -11,8 +11,7 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Media;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;;
 
@@ -42,7 +41,7 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 
 	@Override
 	public void deleteTask(Task task) {
-		
+		entityManager.remove(task);
 		
 	}
 
@@ -70,14 +69,14 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 	}
 
 	@Override
-	public void cancelTask(Task task, int idOrganizer) {
-		Task t=entityManager.find(Task.class,task.getId());
-       // entityManager.getTransaction().begin();
+	public void cancelTask(int idTask, int idOrganizer) {
+		Task t=entityManager.find(Task.class,idTask);
+      
 		List<Organizer> l =t.getOrganizers();
         Iterator<Organizer> it = l.iterator();
         while (it.hasNext()) {
           Organizer organizer = it.next();
-          if (organizer.getTask().equals(task)) {
+          if (organizer.getTask().equals(t)) {
             it.remove();
           }
         }
@@ -125,5 +124,11 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 		entityManager.persist(task);
 		
 	}
+	
+	
+	
+	
+	
+	
 
 }

@@ -27,7 +27,7 @@ public interface TaskBusinessLocal {
 	public  List<Task>GetTasksByOrganizer(int idOrganizer);
 		
 	 //cancel task to an orgnizer
-	public void cancelTask(Task task,int idOrganizer);
+	public void cancelTask(int idTask,int idOrganizer);
 	
 	
 	
