@@ -8,6 +8,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 
 @Remote
 public interface TaskBusinessRemote {
+	
+	public void  createTask(Task task);
 	//update task
 	   public void updateTask(Task task);
 	   
@@ -24,7 +26,7 @@ public interface TaskBusinessRemote {
 	public  List<Task>GetTasksByOrganizer(int idOrganizer);
 		
 	 //cancel task to an orgnizer
-	public boolean cancelTask(Task task,int idOrganizer);
+	public void cancelTask(Task task,int idOrganizer);
 	
 	
 	
