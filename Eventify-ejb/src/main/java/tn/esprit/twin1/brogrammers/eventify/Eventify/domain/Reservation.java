@@ -27,7 +27,7 @@ public class Reservation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {
 		return user;
 	}
@@ -45,6 +45,7 @@ public class Reservation implements Serializable {
 		super();
 	}
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -81,6 +82,12 @@ public class Reservation implements Serializable {
 	}
 	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
 		this.rowticketreservations = rowticketreservations;
+	}
+	@Override
+	public String toString() {
+		return "Reservation [id=" + id + ", amount=" + amount + ", reservationDate=" + reservationDate + ", user="
+				+ user + ", state=" + state + ", transaction=" + transaction + ", rowticketreservations="
+				+ rowticketreservations + "]";
 	}
    
 }

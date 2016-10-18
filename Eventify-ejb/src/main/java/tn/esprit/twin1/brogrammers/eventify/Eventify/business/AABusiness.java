@@ -7,6 +7,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AABusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AABusinessRemote;
@@ -48,5 +49,21 @@ public class AABusiness implements AABusinessRemote, AABusinessLocal {
 		return aa;
 		
 	}
+		
+		
+		/*
+		List<AA> aa = null;
+		Query query = entityManager.createQuery("SELECT t FROM AA t JOIN FETCH t.a");
+		A as = new A(1, "");
+		AA cc = new AA(1,"2",as);
+		aa.add(cc);
+		for (int i = 0; i < query.getResultList().size(); i++)
+		{
+			aa.add((AA)query.getSingleResult());
+			
+		}
+		
+		return aa;
+		*/
+	}
 
-}

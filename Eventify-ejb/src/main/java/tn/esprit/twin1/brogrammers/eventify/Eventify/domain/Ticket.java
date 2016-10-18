@@ -31,6 +31,7 @@ public class Ticket implements Serializable {
 		super();
 	}   
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -87,6 +88,12 @@ public class Ticket implements Serializable {
 	}
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+	@Override
+	public String toString() {
+		return "Ticket [id=" + id + ", nbTickets=" + nbTickets + ", typeTicket=" + typeTicket + ", priceTicket="
+				+ priceTicket + ", paymentMethod=" + paymentMethod + ", backgroundImage=" + backgroundImage
+				+ ", rowticketreservations=" + rowticketreservations + ", event=" + event + "]";
 	}
    
 	

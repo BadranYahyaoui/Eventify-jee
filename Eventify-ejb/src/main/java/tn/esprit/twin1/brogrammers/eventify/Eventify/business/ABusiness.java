@@ -12,6 +12,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ABusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ABusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.A;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AA;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 
 /**
  * Session Bean implementation class Abusiness
@@ -32,8 +33,8 @@ public class ABusiness implements ABusinessLocal,ABusinessRemote {
 
 	@Override
 	public List<A> getAllA() {
-		  Query query = entityManager.createQuery("SELECT new A (a.idA,a.nameA) FROM A a");
-		    return (List<A>) query.getResultList();
+		Query query = entityManager.createQuery("SELECT t FROM A t");
+	    return (List<A>) query.getResultList();
 	}
 
 	@Override

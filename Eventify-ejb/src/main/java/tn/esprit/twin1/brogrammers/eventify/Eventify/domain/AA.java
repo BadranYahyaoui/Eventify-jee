@@ -19,7 +19,7 @@ public class AA implements Serializable {
 	private int idAA;
 	private String nameAA;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private A a;
 
 	private static final long serialVersionUID = 1L;
