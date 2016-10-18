@@ -78,9 +78,10 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	}
 	
 	public List<Event> getMyEvents(int id){
-		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme) FROM Organization o JOIN o.events e WHERE o.id=:param");
+		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
+						+ "e.typeCreator,e.nbViews,e.createdAt) FROM Organization o JOIN o.events e WHERE o.id=:param");
 		    return (List<Event>) query.setParameter("param", id).getResultList();
-
 	}
 	
 	

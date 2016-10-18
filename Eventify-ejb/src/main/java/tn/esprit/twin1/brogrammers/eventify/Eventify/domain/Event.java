@@ -57,19 +57,31 @@ public class Event implements Serializable {
 	
 	public Event() {
 		super();
-	}
+	}	
 	
-	
-	
-	
-	public Event(int id, String title, String theme,
+
+	public Event(int id, String title, String theme, Date startTime, Date endTime, float longitude, float latitude,
+			int placeNumber, String eventType, String eventCategory, int typeCreator, int nbViews, Date createdAt,
 			Organization organization) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.theme = theme;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.placeNumber = placeNumber;
+		this.eventType = eventType;
+		this.eventCategory = eventCategory;
+		this.typeCreator = typeCreator;
+		this.nbViews = nbViews;
+		this.createdAt = createdAt;
 		this.organization = organization;
 	}
+
+
+
 
 	public Event(int id, String title, String theme) {
 		super();
@@ -114,7 +126,6 @@ public class Event implements Serializable {
 	
 	
 	@OneToMany(mappedBy="event", fetch=FetchType.LAZY)
-	@XmlTransient
 	public List<Media> getMedias() {
 		return medias;
 	}
@@ -223,7 +234,6 @@ public class Event implements Serializable {
 	}
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)
-	@XmlTransient
 	public List<Wishlist> getWishlists() {
 		return wishlists;
 	}
@@ -234,7 +244,6 @@ public class Event implements Serializable {
 	}
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)
-	@XmlTransient
 	public List<Rate> getRate() {
 		return rate;
 	}
@@ -246,7 +255,6 @@ public class Event implements Serializable {
 
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)  
-	@XmlTransient
 	public List<Question> getQuestions() {
 		return questions;
 	}
@@ -257,7 +265,6 @@ public class Event implements Serializable {
 	}
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)  
-	@XmlTransient
 	public List<Task> getTasks() {
 		return tasks;
 	}
@@ -268,7 +275,6 @@ public class Event implements Serializable {
 	}
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY)  
-	@XmlTransient
 	public List<Ticket> getTickets() {
 		return tickets;
 	}

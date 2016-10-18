@@ -31,6 +31,13 @@ public class Wishlist implements Serializable {
 		this.dateAdding= new Date();
 	}
   
+	
+	
+	public Wishlist(Date dateAdding) {
+		super();
+		this.dateAdding = dateAdding;
+	}
+
 	@EmbeddedId
 	public WishlistPK getWishlistPK() {
 		return wishlistPK;

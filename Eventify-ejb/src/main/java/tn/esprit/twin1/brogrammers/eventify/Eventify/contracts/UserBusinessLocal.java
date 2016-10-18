@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 
 @Local
 public interface UserBusinessLocal {
@@ -14,6 +15,7 @@ public interface UserBusinessLocal {
 	public List<User> findAllUsers();
 	public void updateUser(User user);
 	public void deleteUser(int id);
+	public List<Wishlist> getMyWishlist(int idUser); //added by Ibra
 	
 
 }
