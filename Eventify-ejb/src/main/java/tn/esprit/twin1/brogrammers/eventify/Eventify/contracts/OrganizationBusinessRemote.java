@@ -18,5 +18,5 @@ public interface OrganizationBusinessRemote {
 	public List<Organization> findOrganizationByName(String name);
 	//public List<Organization> findOrganizationByEvent(Event event);
 	public List<Event> getMyEvents(int id);
-
+	public List<Organization> SearchForOrganizations(String search);
 }

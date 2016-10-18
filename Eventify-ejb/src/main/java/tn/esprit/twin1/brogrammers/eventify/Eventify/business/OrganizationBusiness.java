@@ -82,6 +82,15 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 		    return (List<Event>) query.setParameter("param", id).getResultList();
 
 	}
+
+	@Override
+	public List<Organization> SearchForOrganizations(String search) {
+		Query query = entityManager
+	    		.createQuery("SELECT o FROM Organization o WHERE o.organizationName LIKE :search OR o.organizationType LIKE :search1 ")
+	    		.setParameter("search",'%' +search +'%')
+	    		.setParameter("search1",'%' +search +'%');
+	    return (List<Organization>) query.getResultList();
+	}
 	
 	
 

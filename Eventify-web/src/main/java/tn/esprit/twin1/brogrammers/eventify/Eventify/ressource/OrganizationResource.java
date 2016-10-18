@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -105,6 +106,24 @@ public class OrganizationResource {
 		return organizationBusiness.getMyEvents(id);
 	}
 
-	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response SearchForOrganizations(@QueryParam(value="search")String search,
+									@QueryParam(value="organizationName")String organizationName,
+									@QueryParam(value="organizationType")String organizationType
+									){
+		
+		List<Organization> liste=null;
+		if(search!=null && organizationName==null && organizationType==null )
+		liste = organizationBusiness.SearchForOrganizations(search);
+		else if (search==null && organizationName!=null && organizationType==null)
+			liste = organizationBusiness.findOrganizationByName(organizationName);
+		else if (search==null && organizationName==null && organizationType!=null)
+			liste = organizationBusiness.findOrganizationByType(organizationType);
+		else if (search==null && organizationName==null && organizationType==null)
+			{ liste= organizationBusiness.getAllOrganizations();
+			}
+		return Response.status(Status.OK).entity(liste).build();
+	}
 	
 }
