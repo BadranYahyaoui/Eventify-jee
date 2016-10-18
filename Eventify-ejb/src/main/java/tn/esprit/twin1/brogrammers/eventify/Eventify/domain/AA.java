@@ -36,6 +36,14 @@ public class AA implements Serializable {
 		this.a = a;
 
 	}
+	
+	/*TO ADD*/
+	public AA(int idAA, String nameAA) {
+		super();
+		this.idAA = idAA;
+		this.nameAA = nameAA;
+
+	}
 
 	public int getIdAA() {
 		return this.idAA;
