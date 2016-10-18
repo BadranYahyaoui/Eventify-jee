@@ -2,7 +2,6 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.List;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +11,6 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusin
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class OrganizationBusiness
@@ -46,13 +44,18 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 
 	@Override
 	public List<Organization> getAllOrganizations() {
-		Query query = entityManager.createQuery("SELECT o FROM Organization o");
+		Query query = entityManager.createQuery
+				("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate) FROM Organization o");
 	    return (List<Organization>) query.getResultList();
 	}
 
 	@Override
 	public Organization findOrganizationById(int id) {
-		return entityManager.find(Organization.class, id);
+		Query query = entityManager.
+				createQuery("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate) FROM Organization o WHERE o.id=:param")
+				.setParameter("param", id);
+		 return (Organization) query.getSingleResult();
+		
 	}
 
 	@Override
@@ -70,5 +73,14 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	    		.setParameter("name", name);
 	    return (List<Organization>) query.getResultList();
 	}
+	
+	public List<Event> getMyEvents(int id){
+		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
+						+ "e.typeCreator,e.nbViews,e.createdAt) FROM Organization o JOIN o.events e WHERE o.id=:param");
+		    return (List<Event>) query.setParameter("param", id).getResultList();
+	}
+	
+	
 
 }

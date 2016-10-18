@@ -25,6 +25,15 @@ public class RowTicketReservation implements Serializable {
 	public RowTicketReservation() {
 		super();
 	}   
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate, Reservation reservation,
+		Ticket ticket) {
+		super();
+		this.id = id;
+		this.nbTicketsReserved = nbTicketsReserved;
+		this.reservationDate = reservationDate;
+		this.reservation = reservation;
+		this.ticket = ticket;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
@@ -47,19 +56,24 @@ public class RowTicketReservation implements Serializable {
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
 	}
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Reservation getReservation() {
 		return reservation;
 	}
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Ticket getTicket() {
 		return ticket;
 	}
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
+	}
+	@Override
+	public String toString() {
+		return "RowTicketReservation [id=" + id + ", nbTicketsReserved=" + nbTicketsReserved + ", reservationDate="
+				+ reservationDate + ", reservation=" + reservation + ", ticket=" + ticket + "]";
 	}   
 
    

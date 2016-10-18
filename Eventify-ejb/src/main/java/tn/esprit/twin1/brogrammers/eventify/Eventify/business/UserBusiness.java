@@ -9,7 +9,9 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 
 /**
  * Session Bean implementation class UserBusiness
@@ -57,5 +59,13 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 		entityManager.remove(findUserById(id));
 
 	}
+	//added by Ibra
+	public List<Wishlist> getMyWishlist(int idUser){
+		 Query query = entityManager.createQuery("SELECT new Wishlist(w.dateAdding) "
+		 		+ "FROM User u JOIN u.wishlists w WHERE u.id=:param");
+		    return query.setParameter("param", idUser).getResultList();
+	}
 
+	
+	
 }

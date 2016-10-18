@@ -8,12 +8,15 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 
 @Local
 public interface TaskBusinessLocal {
+	
+	
+	public void  createTask(Task task);
 	//update task
 	   public void updateTask(Task task);
 	   
 	   //DeleteTask
 	   public void deleteTask(Task task);
-	
+	 
 	//get a task by id
 	public Task findTaskByID(int id);
 	
@@ -24,7 +27,7 @@ public interface TaskBusinessLocal {
 	public  List<Task>GetTasksByOrganizer(int idOrganizer);
 		
 	 //cancel task to an orgnizer
-	public boolean cancelTask(Task task,int idOrganizer);
+	public void cancelTask(int idTask,int idOrganizer);
 	
 	
 	

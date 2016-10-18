@@ -1,5 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -92,6 +94,16 @@ public class OrganizationResource {
 			return Response.status(Status.OK).entity(o).build();
 		}
 	}
+	
+	
+	@GET
+	@Path("{id}/events")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Event> getMyEvents(@PathParam("id") int id){
+
+		return organizationBusiness.getMyEvents(id);
+	}
+
 	
 	
 }
