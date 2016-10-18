@@ -24,7 +24,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
  *  PS : DON'T FUCKING TOUCH THIS LOVELY BY HAKIM
  */
 
-@Path("user")
+@Path("users")
 @RequestScoped
 public class UserResource {
 

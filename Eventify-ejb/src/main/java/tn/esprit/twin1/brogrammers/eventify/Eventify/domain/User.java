@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -27,7 +29,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private Date creationDate;
-	private int loyaltyPoints;
+	private int loyaltyPoint;
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,14 +41,47 @@ public class User implements Serializable {
 	private List<ReferrelUser> ReferredUsers;
 	private List<ReferrelUser> ReferralUsers;
 	private List<Answer> answers;
-	private List<Rate> rate;
+	private List<Rate> rates;
 
+	/*********************************
+	 * Constructors
+	 *********************/
 	public User() {
 		super();
 	}
 
+	public User(int id, String firstName, String lastName, String username, String password, Date creationDate,
+			int loyaltyPoint) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.creationDate = creationDate;
+		this.loyaltyPoint = loyaltyPoint;
+	}
+	
+	public User(String firstName, String lastName, String username, String password, Date creationDate,
+			int loyaltyPoint) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.creationDate = creationDate;
+		this.loyaltyPoint = loyaltyPoint;
+	}
+	
+	
+	
+
 	/*********************************
-	 * PK 
+	 * End Of Constructors
+	 *********************/
+
+	/*********************************
+	 * PK
 	 *********************/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,21 +170,19 @@ public class User implements Serializable {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-	
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	public List<Rate> getRate() {
-		return rate;
+	public List<Rate> getRates() {
+		return rates;
 	}
 
-	public void setRate(List<Rate> rate) {
-		this.rate = rate;
+	public void setRates(List<Rate> rates) {
+		this.rates = rates;
 	}
-	
+
 	/*********************
 	 * End of Navigation Attributes
 	 ******************************/
-
-	
 
 	/**************************************
 	 * Simple Attributes
@@ -195,12 +228,12 @@ public class User implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	public int getLoyaltyPoints() {
-		return this.loyaltyPoints;
+	public int getLoyaltyPoint() {
+		return loyaltyPoint;
 	}
 
-	public void setLoyaltyPoints(int loyaltyPoints) {
-		this.loyaltyPoints = loyaltyPoints;
+	public void setLoyaltyPoint(int loyaltyPoint) {
+		this.loyaltyPoint = loyaltyPoint;
 	}
 
 	/*********************
