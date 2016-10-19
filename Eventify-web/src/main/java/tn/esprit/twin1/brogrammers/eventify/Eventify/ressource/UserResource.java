@@ -41,6 +41,19 @@ public class UserResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("confirm/{confirmationToken}")
+	public Response activateAccount(@PathParam("confirmationToken") String confirmationToken) {
+		boolean result = userBusiness.activateAccount(confirmationToken);
+		if (result) {
+			return Response.status(Status.OK).entity(true).build();
+		} else {
+			return Response.status(Status.FORBIDDEN).entity(false).build();
+		}
+
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public User findUserById(@PathParam("id") int id) {
 
@@ -70,11 +83,11 @@ public class UserResource {
 
 	}
 
-	//added by Ibra
+	// added by Ibra
 	@GET
 	@Produces
 	@Path("{id}/wishlist")
-	public List<Wishlist> getMyWishlist(@PathParam("id") int id){
+	public List<Wishlist> getMyWishlist(@PathParam("id") int id) {
 		return userBusiness.getMyWishlist(id);
 	}
 }
