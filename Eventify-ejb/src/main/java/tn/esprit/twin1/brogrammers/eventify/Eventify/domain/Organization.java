@@ -31,8 +31,6 @@ public class Organization implements Serializable {
 	private List<Organizer> organizers;
 	
 	
-
-	
 	
 	
 	public Organization(int id, String organizationName, String organizationType, Date creationDate) {
@@ -42,6 +40,19 @@ public class Organization implements Serializable {
 		this.organizationType = organizationType;
 		this.creationDate = creationDate;
 	}
+	
+	
+	
+
+	public Organization(String organizationName, String organizationType, Date creationDate) {
+		super();
+		this.organizationName = organizationName;
+		this.organizationType = organizationType;
+		this.creationDate = creationDate;
+	}
+
+
+
 
 	@OneToMany(mappedBy="organization", fetch = FetchType.EAGER)
 	public List<Organizer> getOrganizers() {

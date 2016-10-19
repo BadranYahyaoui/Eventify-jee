@@ -39,7 +39,7 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 		user.setConfirmationToken(activationHashedCode);
 		//Emailer.sendEmail("Eventify Account Activation", "http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode, user.getEmail());
 		entityManager.persist(user);
-		Emailer.SendEmail(user.getEmail(), "Eventify Account Activation", EmailTemplate.activiationTemplate("http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode));
+		//Emailer.SendEmail(user.getEmail(), "Eventify Account Activation", EmailTemplate.activiationTemplate("http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode));
 		
 		
 	}
