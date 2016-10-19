@@ -11,6 +11,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 public interface UserBusinessLocal {
 	
 	public void createUser(User user);
+	public boolean activateAccount(String confirmationToken);
 	public User findUserById(int id);
 	public List<User> findAllUsers();
 	public void updateUser(User user);

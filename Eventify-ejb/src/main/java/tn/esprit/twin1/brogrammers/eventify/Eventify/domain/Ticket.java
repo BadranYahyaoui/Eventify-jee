@@ -23,33 +23,9 @@ public class Ticket implements Serializable {
 	private String paymentMethod;
 	private String backgroundImage;
 	private List<RowTicketReservation> rowticketreservations;
-	private Event event;
 	private static final long serialVersionUID = 1L;
 
-	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
-			String backgroundImage) {
-		super();
-		this.id = id;
-		this.nbTickets = nbTickets;
-		this.typeTicket = typeTicket;
-		this.priceTicket = priceTicket;
-		this.paymentMethod = paymentMethod;
-		this.backgroundImage = backgroundImage;
-	}
-	
-	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
-			String backgroundImage, Event event) {
-		super();
-		this.id = id;
-		this.nbTickets = nbTickets;
-		this.typeTicket = typeTicket;
-		this.priceTicket = priceTicket;
-		this.paymentMethod = paymentMethod;
-		this.backgroundImage = backgroundImage;
-		this.event = event;
-	}
-	
-	
+	private Event event;
 	
 	public Ticket() {
 		super();
@@ -98,7 +74,7 @@ public class Ticket implements Serializable {
 	public void setBackgroundImage(String backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
-	@OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch = FetchType.LAZY)
 	public List<RowTicketReservation> getRowticketreservations() {
 		return rowticketreservations;
 	}

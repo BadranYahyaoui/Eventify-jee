@@ -3,23 +3,16 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusinessLocal;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RowTicketReservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class TicketBusiness
@@ -30,8 +23,7 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
-	@EJB
-	EventBusinessLocal eventbusiness;
+	
 
 	@Override
 	public void create(Ticket ticket) {
@@ -42,22 +34,8 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	
 	@Override
 	public List<Ticket> getAllTickets() {
-		List<Ticket> ticket = (List<Ticket>) entityManager.createQuery(
-				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.paymentMethod,t.backgroundImage,event) "
-						+ "FROM Ticket t JOIN t.event event").getResultList();
-		
-
-		
-for (Ticket tickets : ticket) {
-			
-			
-			Event event = eventbusiness.findEventById(tickets.getEvent().getId());
-			tickets.setEvent(null); /* A VERIFIER POUR GETALLEVENT WITHOUT BLOCKING THE REST OF DISPLAY */
-
-		
-		
-		}
-	    return ticket;
+		 Query query = entityManager.createQuery("SELECT t FROM Ticket t");
+		    return (List<Ticket>) query.getResultList();
 	}
 
 	@Override
@@ -87,14 +65,7 @@ for (Ticket tickets : ticket) {
 	
 	@Override
 	public Ticket findTicketById(int idTicket) {
-		Query query = entityManager.createQuery(
-				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.paymentMethod,t.backgroundImage) "
-						+ "FROM Ticket t WHERE t.id=:idtick");
-		
-
-		Ticket t = (Ticket) query.setParameter("idtick", idTicket).getSingleResult();
-		//t.setEvent(eventbusiness.findEventById(t.getEvent().getId()));
-		return t;
+		return entityManager.find(Ticket.class, idTicket);
 	}
 
 	@Override
@@ -102,7 +73,7 @@ for (Ticket tickets : ticket) {
 		Query query = entityManager
 	    		.createQuery("SELECT t FROM Ticket t WHERE t.typeTicket LIKE :typeTicket")
 	    		.setParameter("typeTicket", typeTicket);
-	    return (List<Ticket>) query.getSingleResult();
+	    return (List<Ticket>) query.getResultList();
 	}
 
 

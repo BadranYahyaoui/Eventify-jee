@@ -99,9 +99,10 @@ public class OrganizationResource {
 	@GET
 	@Path("{id}/events")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Event> getMyEvents(@PathParam("id") int id){
+	public Response getMyEvents(@PathParam("id") int id){
 
-		return organizationBusiness.getMyEvents(id);
+		return Response.status(Status.FOUND).entity(organizationBusiness.getMyEvents(id)).build();
+				
 	}
 
 	
