@@ -1,4 +1,4 @@
-package tn.esprit.twin1.brogrammers.eventify.contracts.business;
+package tn.esprit.twin1.brogrammers.eventify.Eventify.contracts;
 
 import javax.ejb.Local;
 
