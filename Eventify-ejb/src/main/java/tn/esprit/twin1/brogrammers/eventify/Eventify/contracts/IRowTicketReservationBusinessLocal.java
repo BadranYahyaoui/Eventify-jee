@@ -13,6 +13,7 @@ public interface IRowTicketReservationBusinessLocal {
 	public List<RowTicketReservation> getAllRowTicketReservations();
 	public void updateTicket(RowTicketReservation rowTicketReservation);
 	public boolean deleteRowTicketReservation(RowTicketReservation rowTicketReservation);
+	public RowTicketReservation findRowTicketReservationById(int idRowTicketReservation);
 	public boolean deleteRowTicketReservationById(int idRowTicketReservation);
 	public List<RowTicketReservation> findRowTicketReservationByIdTicket(int idFKTicket);
 	public List<RowTicketReservation> findRowTicketReservationByIdReservation(int idFKReservation);

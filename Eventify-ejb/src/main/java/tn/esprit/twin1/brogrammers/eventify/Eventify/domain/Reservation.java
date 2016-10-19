@@ -26,7 +26,22 @@ public class Reservation implements Serializable {
 	private List<RowTicketReservation> rowticketreservations;
 	private static final long serialVersionUID = 1L;
 
-	
+	public Reservation(int id, float amount, Date reservationDate, int state, User user, Transaction transaction) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.user = user;
+		this.state = state;
+		this.transaction = transaction;
+	}
+	public Reservation(int id, float amount, Date reservationDate, int state) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.state = state;
+	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {
 		return user;

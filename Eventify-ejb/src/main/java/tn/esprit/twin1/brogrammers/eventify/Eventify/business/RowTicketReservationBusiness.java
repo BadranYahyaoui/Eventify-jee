@@ -47,31 +47,21 @@ public class RowTicketReservationBusiness implements IRowTicketReservationBusine
 	private Ticket ticket;
 	@Override
 	public List<RowTicketReservation> getAllRowTicketReservations() {
-		/*
-List<RowTicketReservation> rowticketreservation= (List<RowTicketReservation>) entityManager.createQuery("SELECT "
-		+ "new RowTicketReservation(rowticketreservation.id,rowticketreservation.nbTicketsReserved,rowticketreservation.reservationDate,reservation,ticket)  FROM RowTicketReservation rowticketreservation  JOIN  rowticketreservation.reservation reservation LEFT JOIN  rowticketreservation.ticket ticket").getResultList();
-		*/
-		
+
 		List<RowTicketReservation> rowticketreservation= (List<RowTicketReservation>) entityManager.createQuery("SELECT "
-		+ "new RowTicketReservation(rowticketreservation.id,rowticketreservation.nbTicketsReserved,rowticketreservation.reservationDate,reservation, ticket)  FROM RowTicketReservation rowticketreservation  JOIN rowticketreservation.ticket ticket LEFT JOIN rowticketreservation.reservation reservation   ").getResultList();
-				
+		+ "new RowTicketReservation(rowticketreservation.id,rowticketreservation.nbTicketsReserved,rowticketreservation.reservationDate,reservation,ticket)  FROM RowTicketReservation rowticketreservation JOIN rowticketreservation.ticket ticket JOIN rowticketreservation.reservation reservation").getResultList();
+	
 		
 		
 		for (RowTicketReservation forrow : rowticketreservation) {
-			
-			Reservation reservation = this.entityManager.find(Reservation.class, 1);
-			forrow.setReservation(reservation);
-			
-			Ticket ticket = this.entityManager.find(Ticket.class, 1);
+			Ticket ticket = ticketbusinessloccal.findTicketById(forrow.getTicket().getId());
 			forrow.setTicket(ticket);
 			
-			//Reservation reservation=reservationbusinessloccal.findReservationById(forrow.getReservation().getId());
-		//	forrow.setReservation(reservation);
-			//System.out.println(reservation);
-		//	System.out.println("lool");
-		//	Ticket ticket=ticketbusinessloccal.findTicketById(forrow.getTicket().getId());
-		//	System.out.println(ticket);
-		//	forrow.setTicket(ticket);
+			Reservation reservation = reservationbusinessloccal.findReservationById(forrow.getReservation().getId());
+		forrow.setReservation(reservation);
+
+		
+			
 		}
 		
 		
@@ -107,7 +97,11 @@ List<RowTicketReservation> rowticketreservation= (List<RowTicketReservation>) en
 	
 	@Override
 	public RowTicketReservation findRowTicketReservationById(int idRowTicketReservation) {
-		return entityManager.find(RowTicketReservation.class, idRowTicketReservation);
+		Query query = entityManager.createQuery("SELECT new RowTicketReservation(r.id, r.nbTicketsReserved, r.reservationDate) FROM RowTicketReservation r WHERE r.id=:idrow");
+		//RowTicketReservation r = (RowTicketReservation) query.setParameter("idrow", idRowTicketReservation).getSingleResult();
+		//r.setTicket(ticketbusinessloccal.findTicketById(r.getTicket().getId()));
+		//r.setReservation(reservationbusinessloccal.findReservationById(r.getReservation().getId()));
+		return (RowTicketReservation) query.setParameter("idrow", idRowTicketReservation).getSingleResult();
 	}
 
 	@Override

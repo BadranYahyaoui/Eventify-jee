@@ -27,6 +27,31 @@ public class Ticket implements Serializable {
 
 	private Event event;
 	
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
+			String backgroundImage) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+		this.paymentMethod = paymentMethod;
+		this.backgroundImage = backgroundImage;
+	}
+	
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
+			String backgroundImage, Event event) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+		this.paymentMethod = paymentMethod;
+		this.backgroundImage = backgroundImage;
+		this.event = event;
+	}
+	
+	
+	
 	public Ticket() {
 		super();
 	}   
