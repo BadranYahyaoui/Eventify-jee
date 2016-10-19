@@ -22,11 +22,7 @@ public class RowTicketReservation implements Serializable {
 	private Ticket ticket;
 	private static final long serialVersionUID = 1L;
 
-	public RowTicketReservation() {
-		super();
-	}   
-	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate, Reservation reservation,
-		Ticket ticket) {
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate, Reservation reservation, Ticket ticket) {
 		super();
 		this.id = id;
 		this.nbTicketsReserved = nbTicketsReserved;
@@ -34,6 +30,25 @@ public class RowTicketReservation implements Serializable {
 		this.reservation = reservation;
 		this.ticket = ticket;
 	}
+	public RowTicketReservation() {
+		super();
+	}   
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate, Reservation reservation) {
+		super();
+		this.id = id;
+		this.nbTicketsReserved = nbTicketsReserved;
+		this.reservationDate = reservationDate;
+		this.reservation = reservation;
+		this.ticket = ticket;
+	}
+	
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate) {
+		super();
+		this.id = id;
+		this.nbTicketsReserved = nbTicketsReserved;
+		this.reservationDate = reservationDate;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
@@ -56,14 +71,14 @@ public class RowTicketReservation implements Serializable {
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	public Reservation getReservation() {
 		return reservation;
 	}
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	public Ticket getTicket() {
 		return ticket;
 	}

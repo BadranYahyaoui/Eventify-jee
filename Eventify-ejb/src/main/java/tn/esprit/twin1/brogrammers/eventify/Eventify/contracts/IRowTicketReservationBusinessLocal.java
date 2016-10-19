@@ -16,5 +16,7 @@ public interface IRowTicketReservationBusinessLocal {
 	public boolean deleteRowTicketReservationById(int idRowTicketReservation);
 	public List<RowTicketReservation> findRowTicketReservationByIdTicket(int idFKTicket);
 	public List<RowTicketReservation> findRowTicketReservationByIdReservation(int idFKReservation);
+	public RowTicketReservation findRowTicketReservationById(int idRowTicketReservation);
+
 	
 }

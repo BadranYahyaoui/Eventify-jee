@@ -27,6 +27,22 @@ public class Reservation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
+	public Reservation(int id, float amount, Date reservationDate, int state, User user, Transaction transaction) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.user = user;
+		this.state = state;
+		this.transaction = transaction;
+	}
+	public Reservation(int id, float amount, Date reservationDate, int state) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.state = state;
+	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {
 		return user;
@@ -76,7 +92,7 @@ public class Reservation implements Serializable {
 		this.transaction = transaction;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reservation", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
 	public List<RowTicketReservation> getRowticketreservations() {
 		return rowticketreservations;
 	}

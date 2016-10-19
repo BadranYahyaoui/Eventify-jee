@@ -1,20 +1,12 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Attribut;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionCategory;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionType;
 
 
 
@@ -36,16 +28,9 @@ public class QuestionBusiness implements QuestionBusinessRemote, QuestionBusines
     }
 
 	@Override
-	public Question createQuestion(Question question) {
+	public void createQuestion(Question question) {
 
-		try {
-			entityManager.persist(question);
-			return question;
-
-		} catch (Exception e) {
-			System.err.println("Cant find Event");
-			return null;
-		}
+		entityManager.merge(question);
 		
 	}
 
@@ -74,24 +59,7 @@ public class QuestionBusiness implements QuestionBusinessRemote, QuestionBusines
 
 	@Override
 	public Question getQuestionById(int id) {
-		Query query = entityManager.
-				createQuery("SELECT new Question("
-						+ "q.id,"
-						+ "q.questionDescription,"
-						+ "q.questionType,"
-						+ "q.questionCategory,"
-						+ "q.status,"
-						+ "q.questionDate,"
-						+ "q.order) FROM Question q WHERE q.id=:param")
-				.setParameter("param", id);
-		 return (Question) query.getSingleResult();
-	}
-
-	@Override
-	public List<Attribut> getMyAttributs(int id) {
-		 Query query = entityManager.createQuery("SELECT new Attribut(a.id,a.attributValue,a.duplicated) FROM Question q JOIN q.attributs a WHERE q.id=:param");
-	    return (List<Attribut>) query.setParameter("param", id).getResultList();
-
+		return entityManager.find(Question.class , id);
 	}
 
     

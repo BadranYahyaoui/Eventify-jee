@@ -8,8 +8,5 @@
         <dependent-module archiveName="Eventify-ejb.jar" deploy-path="/" handle="module:/resource/Eventify-ejb/Eventify-ejb">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="jcaptcha.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/com/octo/captcha/jcaptcha/1.0-all/jcaptcha-1.0-all.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
     </wb-module>
 </project-modules>

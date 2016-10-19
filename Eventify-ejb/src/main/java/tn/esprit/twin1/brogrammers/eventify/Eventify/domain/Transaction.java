@@ -24,6 +24,14 @@ public class Transaction implements Serializable {
 		super();
 	}   
 	
+	public Transaction(int id, String token, float amount, Reservation reservation) {
+		super();
+		this.id = id;
+		this.token = token;
+		this.amount = amount;
+		this.reservation = reservation;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
@@ -49,6 +57,7 @@ public class Transaction implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	@OneToOne
 	public Reservation getReservation() {
 		return reservation;
