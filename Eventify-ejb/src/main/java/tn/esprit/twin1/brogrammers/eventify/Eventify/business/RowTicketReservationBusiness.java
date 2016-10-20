@@ -1,17 +1,21 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IRowTicketReservationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IRowTicketReservationBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RowTicketReservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 
@@ -25,17 +29,43 @@ public class RowTicketReservationBusiness implements IRowTicketReservationBusine
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 	
+	@EJB
+	IReservationBusinessLocal reservationbusinessloccal;
+	@EJB
+	ITicketBusinessLocal ticketbusinessloccal;
+	
 
 	@Override
 	public void create(RowTicketReservation rowTicketReservation) {
 		entityManager.persist(rowTicketReservation);
 		
 	}
-
+	private int id;
+	private int nbTicketsReserved;
+	private Date reservationDate;
+	private Reservation reservation;
+	private Ticket ticket;
 	@Override
 	public List<RowTicketReservation> getAllRowTicketReservations() {
-		Query query = entityManager.createQuery("SELECT r FROM RowTicketReservation r");
-	    return (List<RowTicketReservation>) query.getResultList();
+
+		List<RowTicketReservation> rowticketreservation= (List<RowTicketReservation>) entityManager.createQuery("SELECT "
+		+ "new RowTicketReservation(rowticketreservation.id,rowticketreservation.nbTicketsReserved,rowticketreservation.reservationDate,reservation,ticket)  FROM RowTicketReservation rowticketreservation JOIN rowticketreservation.ticket ticket JOIN rowticketreservation.reservation reservation").getResultList();
+	
+		
+		
+		for (RowTicketReservation forrow : rowticketreservation) {
+			Ticket ticket = ticketbusinessloccal.findTicketById(forrow.getTicket().getId());
+			forrow.setTicket(ticket);
+			
+			Reservation reservation = reservationbusinessloccal.findReservationById(forrow.getReservation().getId());
+		forrow.setReservation(reservation);
+
+		
+			
+		}
+		
+		
+		return rowticketreservation;
 	}
 
 	@Override
@@ -67,7 +97,11 @@ public class RowTicketReservationBusiness implements IRowTicketReservationBusine
 	
 	@Override
 	public RowTicketReservation findRowTicketReservationById(int idRowTicketReservation) {
-		return entityManager.find(RowTicketReservation.class, idRowTicketReservation);
+		Query query = entityManager.createQuery("SELECT new RowTicketReservation(r.id, r.nbTicketsReserved, r.reservationDate) FROM RowTicketReservation r WHERE r.id=:idrow");
+		//RowTicketReservation r = (RowTicketReservation) query.setParameter("idrow", idRowTicketReservation).getSingleResult();
+		//r.setTicket(ticketbusinessloccal.findTicketById(r.getTicket().getId()));
+		//r.setReservation(reservationbusinessloccal.findReservationById(r.getReservation().getId()));
+		return (RowTicketReservation) query.setParameter("idrow", idRowTicketReservation).getSingleResult();
 	}
 
 	@Override

@@ -3,14 +3,17 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RowTicketReservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 
@@ -24,6 +27,8 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 	
+	@EJB
+	EventBusinessLocal eventbusiness;
 
 	@Override
 	public void create(Ticket ticket) {
@@ -34,10 +39,23 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	
 	@Override
 	public List<Ticket> getAllTickets() {
-		 Query query = entityManager.createQuery("SELECT t FROM Ticket t");
-		    return (List<Ticket>) query.getResultList();
-	}
+		List<Ticket> ticket = (List<Ticket>) entityManager.createQuery(
+				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.paymentMethod,t.backgroundImage,event) "
+						+ "FROM Ticket t JOIN t.event event").getResultList();
+		
 
+		
+for (Ticket tickets : ticket) {
+			
+			
+			Event event = eventbusiness.findEventById(tickets.getEvent().getId());
+			tickets.setEvent(null); /* A VERIFIER POUR GETALLEVENT WITHOUT BLOCKING THE REST OF DISPLAY */
+
+		
+		
+		}
+	    return ticket;
+	}
 	@Override
 	public void updateTicket(Ticket ticket) {
 		entityManager.merge(ticket);	
@@ -65,8 +83,16 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	
 	@Override
 	public Ticket findTicketById(int idTicket) {
-		return entityManager.find(Ticket.class, idTicket);
+		Query query = entityManager.createQuery(
+				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.paymentMethod,t.backgroundImage) "
+						+ "FROM Ticket t WHERE t.id=:idtick");
+		
+
+		Ticket t = (Ticket) query.setParameter("idtick", idTicket).getSingleResult();
+		//t.setEvent(eventbusiness.findEventById(t.getEvent().getId()));
+		return t;
 	}
+
 
 	@Override
 	public List<Ticket> findTicketByType(String typeTicket) {

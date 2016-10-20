@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionCategory;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionType;
+
 /**
  * Entity implementation class for Entity: Questions
  *
@@ -17,9 +20,9 @@ public class Question implements Serializable {
 	   
 	private int id;
 	private String questionDescription;
-	private String questionType;
-	private String questionCategory;
-	private boolean status;
+	private QuestionType questionType;
+	private QuestionCategory questionCategory;
+	private int status;
 	private Date questionDate;
 	private int order;
 	
@@ -34,6 +37,45 @@ public class Question implements Serializable {
 		super();
 	}   
 	
+	
+	
+	public Question(String questionDescription, QuestionType questionType, QuestionCategory questionCategory, int status,
+			Date questionDate, int order) {
+		super();
+		this.questionDescription = questionDescription;
+		this.questionType = questionType;
+		this.questionCategory = questionCategory;
+		this.status = status;
+		this.questionDate = questionDate;
+		this.order = order;
+	}
+
+	
+
+
+	public Question(int id, String questionDescription, QuestionType questionType, QuestionCategory questionCategory,
+			int status, Date questionDate, int order) {
+		super();
+		this.id = id;
+		this.questionDescription = questionDescription;
+		this.questionType = questionType;
+		this.questionCategory = questionCategory;
+		this.status = status;
+		this.questionDate = questionDate;
+		this.order = order;
+	}
+	
+	
+
+
+
+	public Question(int id) {
+		super();
+		this.id = id;
+	}
+
+
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -50,25 +92,29 @@ public class Question implements Serializable {
 	public void setQuestionDescription(String questionDescription) {
 		this.questionDescription = questionDescription;
 	}   
-	public String getQuestionType() {
+	
+	@Enumerated(EnumType.STRING)
+	public QuestionType getQuestionType() {
 		return this.questionType;
 	}
 
-	public void setQuestionType(String questionType) {
+	public void setQuestionType(QuestionType questionType) {
 		this.questionType = questionType;
 	}   
-	public String getQuestionCategory() {
+	
+	@Enumerated(EnumType.STRING)
+	public QuestionCategory getQuestionCategory() {
 		return this.questionCategory;
 	}
 
-	public void setQuestionCategory(String questionCategory) {
+	public void setQuestionCategory(QuestionCategory questionCategory) {
 		this.questionCategory = questionCategory;
 	}   
-	public boolean getStatus() {
+	public int getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}   
 	public Date getQuestionDate() {

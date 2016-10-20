@@ -22,9 +22,33 @@ public class RowTicketReservation implements Serializable {
 	private Ticket ticket;
 	private static final long serialVersionUID = 1L;
 
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate, Reservation reservation, Ticket ticket) {
+		super();
+		this.id = id;
+		this.nbTicketsReserved = nbTicketsReserved;
+		this.reservationDate = reservationDate;
+		this.reservation = reservation;
+		this.ticket = ticket;
+	}
 	public RowTicketReservation() {
 		super();
 	}   
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate, Reservation reservation) {
+		super();
+		this.id = id;
+		this.nbTicketsReserved = nbTicketsReserved;
+		this.reservationDate = reservationDate;
+		this.reservation = reservation;
+		this.ticket = ticket;
+	}
+	
+	public RowTicketReservation(int id, int nbTicketsReserved, Date reservationDate) {
+		super();
+		this.id = id;
+		this.nbTicketsReserved = nbTicketsReserved;
+		this.reservationDate = reservationDate;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
@@ -60,6 +84,11 @@ public class RowTicketReservation implements Serializable {
 	}
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
+	}
+	@Override
+	public String toString() {
+		return "RowTicketReservation [id=" + id + ", nbTicketsReserved=" + nbTicketsReserved + ", reservationDate="
+				+ reservationDate + ", reservation=" + reservation + ", ticket=" + ticket + "]";
 	}   
 
    

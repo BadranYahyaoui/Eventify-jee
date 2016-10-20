@@ -27,10 +27,36 @@ public class Ticket implements Serializable {
 
 	private Event event;
 	
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
+			String backgroundImage) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+		this.paymentMethod = paymentMethod;
+		this.backgroundImage = backgroundImage;
+	}
+	
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
+			String backgroundImage, Event event) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+		this.paymentMethod = paymentMethod;
+		this.backgroundImage = backgroundImage;
+		this.event = event;
+	}
+	
+	
+	
 	public Ticket() {
 		super();
 	}   
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -87,6 +113,12 @@ public class Ticket implements Serializable {
 	}
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+	@Override
+	public String toString() {
+		return "Ticket [id=" + id + ", nbTickets=" + nbTickets + ", typeTicket=" + typeTicket + ", priceTicket="
+				+ priceTicket + ", paymentMethod=" + paymentMethod + ", backgroundImage=" + backgroundImage
+				+ ", rowticketreservations=" + rowticketreservations + ", event=" + event + "]";
 	}
    
 	

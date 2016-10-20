@@ -4,12 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
+
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.MD5Hash;
 
 /**
  * Entity implementation class for Entity: User
@@ -25,9 +31,12 @@ public class User implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String username;
+	private String email;
 	private String password;
 	private Date creationDate;
-	private int loyaltyPoints;
+	private int loyaltyPoint;
+	private AccountState accountState;// Enumeration
+	private String confirmationToken;
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,14 +48,55 @@ public class User implements Serializable {
 	private List<ReferrelUser> ReferredUsers;
 	private List<ReferrelUser> ReferralUsers;
 	private List<Answer> answers;
-	private List<Rate> rate;
+	private List<Rate> rates;
 
+	/*********************************
+	 * Constructors
+	 *********************/
 	public User() {
 		super();
 	}
 
+	public User(int id, String firstName, String lastName, String username, String email, String password,
+			Date creationDate, int loyaltyPoint, AccountState accountState, String confirmationToken) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.creationDate = creationDate;
+		this.loyaltyPoint = loyaltyPoint;
+		this.accountState = accountState;
+		this.confirmationToken = confirmationToken;
+
+	}
+
+	public User(String firstName, String lastName, String username, String email, String password, Date creationDate,
+			int loyaltyPoint) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.creationDate = creationDate;
+		this.loyaltyPoint = loyaltyPoint;
+	}
+
+	public User(int id,String confirmationToken) {
+		super();
+		this.id=id;
+		this.confirmationToken = confirmationToken;
+	}
+
 	/*********************************
-	 * PK 
+	 * End Of Constructors
+	 *********************/
+
+	/*********************************
+	 * PK
 	 *********************/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,26 +185,24 @@ public class User implements Serializable {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-	
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	public List<Rate> getRate() {
-		return rate;
+	public List<Rate> getRates() {
+		return rates;
 	}
 
-	public void setRate(List<Rate> rate) {
-		this.rate = rate;
+	public void setRates(List<Rate> rates) {
+		this.rates = rates;
 	}
-	
+
 	/*********************
 	 * End of Navigation Attributes
 	 ******************************/
 
-	
-
 	/**************************************
 	 * Simple Attributes
 	 ******************************/
-
+	@Column(nullable = false)
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -163,6 +211,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 	}
 
+	@Column(nullable = false)
 	public String getLastName() {
 		return this.lastName;
 	}
@@ -171,6 +220,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
+	@Column(unique = true, nullable = false)
 	public String getUsername() {
 		return this.username;
 	}
@@ -179,12 +229,13 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
+	@Column(nullable = false)
 	public String getPassword() {
 		return this.password;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password =password;
 	}
 
 	public Date getCreationDate() {
@@ -195,12 +246,40 @@ public class User implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	public int getLoyaltyPoints() {
-		return this.loyaltyPoints;
+	public int getLoyaltyPoint() {
+		return loyaltyPoint;
 	}
 
-	public void setLoyaltyPoints(int loyaltyPoints) {
-		this.loyaltyPoints = loyaltyPoints;
+	public void setLoyaltyPoint(int loyaltyPoint) {
+		this.loyaltyPoint = loyaltyPoint;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public AccountState getAccountState() {
+		return accountState;
+	}
+
+	public void setAccountState(AccountState accountState) {
+		this.accountState = accountState;
+	}
+
+	@Column(nullable = false)
+	public String getConfirmationToken() {
+		return confirmationToken;
+	}
+
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
+	}
+
+	@Column(unique = true, nullable = false)
+	@Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", message = "{invalid.email}")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/*********************

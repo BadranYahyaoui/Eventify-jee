@@ -9,7 +9,12 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AccountState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.EmailTemplate;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Emailer;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.MD5Hash;
 
 /**
  * Session Bean implementation class UserBusiness
@@ -28,20 +33,54 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 
 	@Override
 	public void createUser(User user) {
+		user.setPassword(MD5Hash.getMD5Hash(user.getPassword()));
+		user.setAccountState(AccountState.NOTACTIVATED);
+		String activationHashedCode=MD5Hash.getMD5Hash(user.getUsername() + user.getEmail());
+		user.setConfirmationToken(activationHashedCode);
+		//Emailer.sendEmail("Eventify Account Activation", "http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode, user.getEmail());
+		entityManager.persist(user);
+		//Emailer.SendEmail(user.getEmail(), "Eventify Account Activation", EmailTemplate.activiationTemplate("http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode));
+		
+		
+	}
 
-		entityManager.merge(user);
+	@Override
+	public boolean activateAccount(String confirmationToken) {
+		Query query = entityManager.createQuery(
+				"SELECT new User(u.id,u.confirmationToken) " + "FROM User u WHERE u.confirmationToken=:param");
+		User u = null;
+		try {
+			u = (User) query.setParameter("param", confirmationToken).getSingleResult();
+
+			if (u != null && u.getConfirmationToken().equals(confirmationToken)) {
+				User userTochange = findUserById(u.getId());
+				userTochange.setAccountState(AccountState.ACTIVATED);
+				updateUser(userTochange);
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			System.out.println("\n\n\n\n\n\n confirmationToken Not Found | User Not Set \n\n\n\n\n\n ");
+			return false;
+		}
 
 	}
 
 	@Override
 	public User findUserById(int id) {
-
-		return entityManager.find(User.class, id);
+		Query query = entityManager.createQuery(
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+						+ "FROM User u WHERE u.id=:param");
+		return (User) query.setParameter("param", id).getSingleResult();
 	}
 
 	@Override
 	public List<User> findAllUsers() {
-		Query query = entityManager.createQuery("SELECT u FROM User u");
+		Query query = entityManager.createQuery(
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+						+ "FROM User u");
 		return (List<User>) query.getResultList();
 	}
 
@@ -56,6 +95,12 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 	public void deleteUser(int id) {
 		entityManager.remove(findUserById(id));
 
+	}
+
+	public List<Wishlist> getMyWishlist(int idUser) {
+		Query query = entityManager
+				.createQuery("SELECT new Wishlist(w.dateAdding) FROM User u JOIN u.wishlists w WHERE u.id=:param");
+		return query.setParameter("param", idUser).getResultList();
 	}
 
 }

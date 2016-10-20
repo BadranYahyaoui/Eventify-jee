@@ -18,17 +18,43 @@ public class Attribut implements Serializable {
 	
 	private int id;
 	private String attributValue;
+	private boolean duplicated;
 	private static final long serialVersionUID = 1L;
-
+	/* Foreign Key */
 	private List<Answer> answers;
-	private Question questions;
+	private Question question;
+	
 	
 
 	public Attribut() {
 		super();
 	}
 	
+	
+	
+	public Attribut(int id, String attributValue, boolean duplicated) {
+		super();
+		this.id = id;
+		this.attributValue = attributValue;
+		this.duplicated = duplicated;
+	}
+	
+	
+	
+
+
+
+	public Attribut(String attributValue, boolean duplicated, Question question) {
+		super();
+		this.attributValue = attributValue;
+		this.duplicated = duplicated;
+		this.question = question;
+	}
+
+
+
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -44,6 +70,20 @@ public class Attribut implements Serializable {
 		this.attributValue = attributValue;
 	}
 
+	
+	
+	public boolean isDuplicated() {
+		return duplicated;
+	}
+
+
+
+	public void setDuplicated(boolean duplicated) {
+		this.duplicated = duplicated;
+	}
+
+
+
 	@OneToMany(mappedBy="attribut")
 	public List<Answer> getAnswers() {
 		return answers;
@@ -55,11 +95,11 @@ public class Attribut implements Serializable {
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Question getQuestions() {
-		return questions;
+		return question;
 	}
 
-	public void setQuestions(Question questions) {
-		this.questions = questions;
+	public void setQuestions(Question question) {
+		this.question = question;
 	}
    
 	

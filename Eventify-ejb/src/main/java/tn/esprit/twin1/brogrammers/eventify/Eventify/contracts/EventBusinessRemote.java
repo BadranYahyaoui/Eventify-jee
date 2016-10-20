@@ -19,7 +19,8 @@ public interface EventBusinessRemote {
 	public List<Event> findEventByCategory(String category);
 	public List<Event> findEventByPeriode(Date startTime,Date endTime);
 	public List<Event> findEventByDate(Date date);
-	public List<Event> findEventByOrganization(Organization organization);
+	public List<Event> findEventNearBy(double myLongitude,double myLatitude);
 	public List<Event> SearchForEvents(String search);
+	public List<Event> getPopularEvents();
 
 }

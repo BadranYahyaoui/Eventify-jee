@@ -2,7 +2,6 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.List;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,10 +9,8 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AA;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class OrganizationBusiness
@@ -78,9 +75,10 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	}
 	
 	public List<Event> getMyEvents(int id){
-		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme) FROM Organization o JOIN o.events e WHERE o.id=:param");
+		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) FROM Organization o JOIN o.events e WHERE o.id=:param");
 		    return (List<Event>) query.setParameter("param", id).getResultList();
-
 	}
 
 	@Override
