@@ -45,8 +45,8 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 						+ "FROM Reservation r JOIN r.user user JOIN r.transaction transaction  ").getResultList();
 		
 		for (Reservation reservations : reservation) {
-			User user = userbusiness.findUserById(reservations.getUser().getId());
-			reservations.setUser(user);
+		//	User user = userbusiness.findUserById(reservations.getUser().getId());
+		//	reservations.setUser(user);
 			
 			//Transaction transaction = transactionbusiness.findTransactionById(reservations.getTransaction().getId());
 			//reservations.setTransaction(transaction);

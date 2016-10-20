@@ -23,9 +23,20 @@ public class Reservation implements Serializable {
 	private User user;
 	private int state;
 	private Transaction transaction;
-	private List<RowTicketReservation> rowticketreservations;
+	private Ticket ticket;
 	private static final long serialVersionUID = 1L;
 
+	public Reservation(int id, float amount, Date reservationDate,  int state,User user, Transaction transaction,
+			Ticket ticket) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.user = user;
+		this.state = state;
+		this.transaction = transaction;
+		this.ticket = ticket;
+	}
 	public Reservation(int id, float amount, Date reservationDate, int state, User user, Transaction transaction) {
 		super();
 		this.id = id;
@@ -91,18 +102,17 @@ public class Reservation implements Serializable {
 		this.transaction = transaction;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reservation", fetch = FetchType.LAZY)
-	public List<RowTicketReservation> getRowticketreservations() {
-		return rowticketreservations;
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Ticket getTicket() {
+		return ticket;
 	}
-	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
-		this.rowticketreservations = rowticketreservations;
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
 	}
 	@Override
 	public String toString() {
 		return "Reservation [id=" + id + ", amount=" + amount + ", reservationDate=" + reservationDate + ", user="
-				+ user + ", state=" + state + ", transaction=" + transaction + ", rowticketreservations="
-				+ rowticketreservations + "]";
+				+ user + ", state=" + state + ", transaction=" + transaction + ",+ ]";
 	}
    
 }

@@ -14,7 +14,6 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLoca
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RowTicketReservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 
 /**

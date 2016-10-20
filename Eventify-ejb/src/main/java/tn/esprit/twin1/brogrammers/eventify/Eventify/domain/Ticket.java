@@ -22,7 +22,7 @@ public class Ticket implements Serializable {
 	private float priceTicket;
 	private String paymentMethod;
 	private String backgroundImage;
-	private List<RowTicketReservation> rowticketreservations;
+	private List<Reservation> reservations;
 	private static final long serialVersionUID = 1L;
 
 	private Event event;
@@ -99,14 +99,16 @@ public class Ticket implements Serializable {
 	public void setBackgroundImage(String backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch = FetchType.LAZY)
-	public List<RowTicketReservation> getRowticketreservations() {
-		return rowticketreservations;
+	public List<Reservation> getReservations() {
+		return reservations;
 	}
-	public void setRowticketreservations(List<RowTicketReservation> rowticketreservations) {
-		this.rowticketreservations = rowticketreservations;
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
-	
+
 	@ManyToOne
 	public Event getEvent() {
 		return event;
@@ -118,7 +120,7 @@ public class Ticket implements Serializable {
 	public String toString() {
 		return "Ticket [id=" + id + ", nbTickets=" + nbTickets + ", typeTicket=" + typeTicket + ", priceTicket="
 				+ priceTicket + ", paymentMethod=" + paymentMethod + ", backgroundImage=" + backgroundImage
-				+ ", rowticketreservations=" + rowticketreservations + ", event=" + event + "]";
+				+  ", event=" + event + "]";
 	}
    
 	
