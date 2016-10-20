@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
@@ -49,9 +50,12 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
 	}
 
 	@Override
-	public List<Organizer> getAllOrganizersByOrganization() {
-		// TODO Auto-generated method stub
-		return null;
+	//a voir erreur
+	public List<Organizer> getAllOrganizersByOrganization(Organization organization) {
+		   Query query = entityManager
+		    		.createQuery("SELECT o FROM Organizer o WHERE o.organization.id = :organizationId")
+		    		.setParameter("organizationId", organization.getId());
+		    return (List<Organizer>) query.getResultList();
 	}
 
 	@Override

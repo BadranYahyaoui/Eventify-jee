@@ -12,7 +12,7 @@ public interface OrganizerBusinessRemote {
 	public void updateOrganizer(Organizer organizer);
 	public void deleteOrganizer(int id);
 	public List<Organizer> getAllOrganizers();
-	public List<Organizer> getAllOrganizersByOrganization();
+	public List<Organizer> getAllOrganizersByOrganization(Organization organization);
 	public List<Organization> SearchForOrganizers(String search);
 	public Organization findOrganizerById(int id);
 }
