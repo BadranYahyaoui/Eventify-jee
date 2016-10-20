@@ -25,12 +25,13 @@ public class Event implements Serializable {
 	private String theme;
 	private Date startTime;
 	private Date endTime;
-	private float longitude;
-	private float latitude;
+	private double longitude;
+	private double latitude;
 	private int placeNumber;
 	private EventType eventType; 
 	private EventCategory eventCategory;
 	private int nbViews;
+	//private int nbLikes;
 	private Date createdAt;
 	private String facebookLink;
 	private String twitterLink;
@@ -75,7 +76,7 @@ public class Event implements Serializable {
 
 
 
-	public Event(int id, String title, String theme, Date startTime, Date endTime, float longitude, float latitude,
+	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, EventCategory eventCategory, int nbViews, Date createdAt,
 			String facebookLink, String twitterLink, EventState eventState, Organization organization) {
 		super();
@@ -101,7 +102,7 @@ public class Event implements Serializable {
 
 
 
-	public Event(int id, String title, String theme, Date startTime, Date endTime, float longitude, float latitude,
+	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, EventCategory eventCategory, int nbViews, Date createdAt,
 			String facebookLink, String twitterLink, EventState eventState) {
 		super();
@@ -133,7 +134,7 @@ public class Event implements Serializable {
 	
 
 
-	public Event(String title, String theme, Date startTime, Date endTime, float longitude, float latitude,
+	public Event(String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, EventCategory eventCategory, int nbViews, Date createdAt,
 			String facebookLink, String twitterLink, EventState eventState) {
 		super();
@@ -209,18 +210,18 @@ public class Event implements Serializable {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}   
-	public float getLongitude() {
+	public double getLongitude() {
 		return this.longitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}   
-	public float getLatitude() {
+	public double getLatitude() {
 		return this.latitude;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}   
 	public int getPlaceNumber() {

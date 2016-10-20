@@ -88,21 +88,25 @@ public class EventResource {
 	public Response SearchForEvents(@QueryParam(value="search")String search,
 									@QueryParam(value="type")String type,
 									@QueryParam(value="category")String category,
-									@QueryParam(value="organization")int organization
-									){
+									@QueryParam(value="organization")int organization,
+									@QueryParam(value="longitude") String longitude,
+									@QueryParam(value="latitude") String latitude
+			){
 		
 		List<Event> liste=null;
-		if(search!=null && type==null && category==null && organization==0)
+		if(search!=null && type==null && category==null && longitude==null && latitude ==null && organization==0)
 		liste = eventBusiness.SearchForEvents(search);
-		else if (search==null && type!=null && category==null && organization==0)
+		else if (search==null && type!=null && category==null && longitude==null && latitude ==null && organization==0)
 			liste = eventBusiness.findEventByType(type);
-		else if (search==null && type==null && category!=null && organization==0)
+		else if (search==null && type==null && category!=null && longitude==null && latitude ==null && organization==0)
 			liste = eventBusiness.findEventByCategory(category);
 		/*else if (search==null && type==null && category==null && organization>0)
 			liste = eventBusiness.findEventByOrganization(organization);*/
-		else if (search==null && type==null && category==null && organization==0)
-			{ liste= eventBusiness.getAllEvents();
-			}
+		else if (search==null && type==null && category==null && longitude!=null && latitude !=null && organization==0)
+			liste= eventBusiness.findEventNearBy(Double.parseDouble(longitude), Double.parseDouble(latitude));
+			else if (search==null && type==null && category==null && longitude==null && latitude ==null && organization==0)
+				 liste= eventBusiness.getAllEvents();
+
 		return Response.status(Status.OK).entity(liste).build();
 	}
 

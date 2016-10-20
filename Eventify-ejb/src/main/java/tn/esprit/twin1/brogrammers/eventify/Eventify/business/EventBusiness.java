@@ -1,9 +1,10 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.*;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -87,12 +88,19 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 	@Override
 	public Event findEventById(int idEvent) {
-		Query query = entityManager.
-				createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) FROM Event e WHERE e.id=:param")
-				.setParameter("param", idEvent);
-		 return (Event) query.getSingleResult();
+		
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+							+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
+							+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) FROM Event e WHERE e.id=:param")
+					.setParameter("param", idEvent);
+			 return (Event) query.getSingleResult();
+
+		} catch (Exception e) {
+			System.err.println("Failed to find the event");
+			return null;
+		}
 	}
 
 	@Override
@@ -181,4 +189,28 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 	}
 
+	@Override
+	public List<Event> getPopularEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	@Override
+	public List<Event> findEventNearBy(double myLongitude, double myLatitude) {
+		List<Event> events = getAllEvents();
+		List<Event> nearByEvents = new ArrayList<>();
+		for (Event event : events) {
+			
+			if(Util.distance(myLatitude, myLongitude, event.getLatitude(), event.getLongitude())<1){
+				nearByEvents.add(event);
+			}
+		}
+		return nearByEvents;
+	}
+
+	
+	
+	
 }
