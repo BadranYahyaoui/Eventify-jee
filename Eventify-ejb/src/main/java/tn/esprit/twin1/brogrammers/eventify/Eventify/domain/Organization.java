@@ -41,7 +41,14 @@ public class Organization implements Serializable {
 		this.creationDate = creationDate;
 	}
 	
-	
+	public Organization(int id, String organizationName, String organizationType, Date creationDate , User user) {
+		super();
+		this.id = id;
+		this.organizationName = organizationName;
+		this.organizationType = organizationType;
+		this.creationDate = creationDate;
+		this.user = user;
+	}
 	
 
 	public Organization(String organizationName, String organizationType, Date creationDate) {
@@ -54,7 +61,7 @@ public class Organization implements Serializable {
 
 
 
-	@OneToMany(mappedBy="organization", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="organization", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	public List<Organizer> getOrganizers() {
 		return organizers;
 	}
@@ -63,7 +70,7 @@ public class Organization implements Serializable {
 		this.organizers = organizers;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public User getUser() {
 		return user;
 	}

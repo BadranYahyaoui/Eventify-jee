@@ -1,6 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 
-import javax.ejb.EJB;
+//import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import tn.esprit.twin1.brogrammers.eventify.Eventify.business.TaskBusiness;
+//import tn.esprit.twin1.brogrammers.eventify.Eventify.business.TaskBusiness;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
@@ -22,7 +22,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 @Path("Tasks")
 @RequestScoped
 public class TaskResource {
-	@EJB
+/*	@EJB
 	TaskBusiness taskBusniss;
 	
 	@PUT
@@ -98,7 +98,7 @@ public class TaskResource {
 	
 	
 	
-	
+	*/
 	
 	
 }

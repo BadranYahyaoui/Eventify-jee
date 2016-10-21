@@ -30,7 +30,15 @@ public class OrganizationResource {
 	@EJB
 	OrganizationBusinessLocal organizationBusiness;
 	
-	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllOrganizations()
+	{
+		//System.out.println(organizationBusiness.getAllOrganizations().toString());
+		
+
+		return Response.status(Status.FOUND).entity(organizationBusiness.getAllOrganizations()).build();
+	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -51,15 +59,15 @@ public class OrganizationResource {
 	
 	
 	
-	/*@DELETE
+	@DELETE
 	@Path("{id}")
 	public Response deleteOrganization(@PathParam(value="id")int id){
 		if(organizationBusiness.deleteOrganization(id))
 			return Response.status(Status.OK).build();
 	return Response.status(Response.Status.NOT_FOUND).build();
 		
-	}*/
-	
+	}
+	/*
 	@DELETE
 	@Path("{id}")
 	public void deleteOrganization(@PathParam("id") int id) {
@@ -67,8 +75,9 @@ public class OrganizationResource {
 		organizationBusiness.deleteOrganization(id);
 
 	}
+	*/
 	
-	@GET
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllEvents()
 	{
@@ -78,7 +87,7 @@ public class OrganizationResource {
 
 		return Response.status(Status.FOUND).entity(organizationBusiness.getAllOrganizations()).build();
 	}
-	
+	*/
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -106,7 +115,7 @@ public class OrganizationResource {
 				
 	}
 
-	@GET
+	/*@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response SearchForOrganizations(@QueryParam(value="search")String search,
 									@QueryParam(value="organizationName")String organizationName,
@@ -124,6 +133,6 @@ public class OrganizationResource {
 			{ liste= organizationBusiness.getAllOrganizations();
 			}
 		return Response.status(Status.OK).entity(liste).build();
-	}
+	}*/
 	
 }

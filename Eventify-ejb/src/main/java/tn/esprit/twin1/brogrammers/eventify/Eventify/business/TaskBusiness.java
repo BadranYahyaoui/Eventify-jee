@@ -1,4 +1,4 @@
-package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
+/*package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,13 +18,14 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;;
 /**
  * Session Bean implementation class TaskBusiness
  */
+/*
 @Stateless
 public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 
     /**
      * Default constructor. 
      */
-	@PersistenceContext(unitName = "Eventify-ejb")
+	/*@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 	
     public TaskBusiness() {
@@ -132,3 +133,4 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 	
 
 }
+*/

@@ -23,7 +23,8 @@ public class Task implements Serializable {
 	private int taskStatus;
 	private Date createdAt;
 	private static final long serialVersionUID = 1L;
-	private List<Organizer> organizers;
+	//private List<Organizer> organizers;
+	private Organizer organizer;
 	private Event event;
 
 	public Task() {
@@ -66,13 +67,15 @@ public class Task implements Serializable {
 		this.createdAt = createdAt;
 	}
 	
-	@OneToMany(mappedBy="task")
+	
+	//coment by narimen
+	/*@OneToMany(mappedBy="task")
 	public List<Organizer> getOrganizers() {
 		return organizers;
 	}
 	public void setOrganizers(List<Organizer> organizers) {
 		this.organizers = organizers;
-	}
+	}*/
 	
 	@ManyToOne
 	public Event getEvent() {
@@ -80,6 +83,14 @@ public class Task implements Serializable {
 	}
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+	// add by narimen
+	@ManyToOne
+	public Organizer getOrganizer() {
+		return organizer;
+	}
+	public void setOrganizer(Organizer organizer) {
+		this.organizer = organizer;
 	}
 	
 	

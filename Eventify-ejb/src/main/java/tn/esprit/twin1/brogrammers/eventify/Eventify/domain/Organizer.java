@@ -6,9 +6,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 
@@ -23,7 +25,8 @@ public class Organizer implements Serializable {
 private OrganizerPK  organizerPK;
 	private User user;
 	private Organization organization;
-	private Task task; //addedbybadran
+	
+	private List<Task> tasks; //addedbybadran //modifier par narimen
 
 	@EmbeddedId
 	public OrganizerPK getOrganizerPK() {
@@ -58,13 +61,21 @@ private OrganizerPK  organizerPK;
 		super();
 	}
 	//addedbyBadran
-	@ManyToOne
+	/* @ManyToOne
 	public Task getTask() {
 		return task;
 	}
 
 	public void setTask(Task task) {
 		this.task = task;
+	}*/
+	@OneToMany(mappedBy="organizer", fetch = FetchType.LAZY)
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 	
 	

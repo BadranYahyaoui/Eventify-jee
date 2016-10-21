@@ -1,5 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -14,6 +15,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 
 /**
  * Session Bean implementation class OrganizerBusiness
@@ -38,25 +40,31 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
 	}
 
 	@Override
-	public void deleteOrganizer(int id) {
-		entityManager.remove(findOrganizerById(id));
+	public boolean deleteOrganizer(int id) {
+		if(getOrganizerById(id)!=null)
+		{
+			entityManager.remove(getOrganizerById(id));;
+			return true;
+		}
+		else
+		return false;
+		
 		
 	}
 
 	@Override
-	public List<Organizer> getAllOrganizers() {
-		Query query = entityManager.createQuery("SELECT o FROM Organizer o");
-		return (List<Organizer>) query.getResultList();
-	}
-
-	@Override
-	//a voir erreur
-	public List<Organizer> getAllOrganizersByOrganization(Organization organization) {
-		   Query query = entityManager
-		    		.createQuery("SELECT o FROM Organizer o WHERE o.organization.id = :organizationId")
-		    		.setParameter("organizationId", organization.getId());
+	public List<Organizer> getAllOrganizersByOrganization(int OrganizationId) {
+		/*Query query = entityManager.createQuery("SELECT o FROM Organizer o");
+		return (List<Organizer>) query.getResultList();*/
+		
+		
+		 Query query = entityManager
+		    		.createQuery("SELECT o FROM Organizer o WHERE o.OrganizerPK.OrganizationId = :OrganizationId")
+		    		.setParameter("OrganizationId",OrganizationId);
 		    return (List<Organizer>) query.getResultList();
 	}
+
+
 
 	@Override
 	public List<Organization> SearchForOrganizers(String search) {
@@ -68,6 +76,11 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
 	public Organization findOrganizerById(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Organizer getOrganizerById(int id) {
+		return entityManager.find(Organizer.class, id);
 	}
 
 }

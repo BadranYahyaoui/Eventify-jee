@@ -2,15 +2,18 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
+import java.util.Iterator;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class OrganizationBusiness
@@ -20,6 +23,9 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
+	
+	@EJB
+	UserBusinessLocal userbusiness;
     /**
      * Default constructor. 
      */
@@ -27,7 +33,12 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 
 	@Override
 	public void create(Organization organization) {
-		entityManager.persist(organization);
+		try {
+			entityManager.persist(organization);
+		} catch (Exception e) {
+			System.err.println("error");
+		}
+		
 		
 	}
 
@@ -38,15 +49,32 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	}
 
 	@Override
-	public void deleteOrganization(int id) {
-		entityManager.remove(findOrganizationById(id));
+	public boolean deleteOrganization(int id) {
+		Iterator<Organization> iterator=this.getAllOrganizations().iterator();
+		while(iterator.hasNext()){
+			Organization r=iterator.next();
+			if(r.getId()==id){
+				entityManager.remove(this.findOrganizationById(id));
+				return true;
+			}
+		}
+		return false;
 	}
 
+	
+	
 	@Override
 	public List<Organization> getAllOrganizations() {
-		Query query = entityManager.createQuery
-				("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate) FROM Organization o");
-	    return (List<Organization>) query.getResultList();
+		List<Organization> organizations = (List<Organization>) entityManager.createQuery
+				("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate,user) FROM Organization o JOIN o.user user");
+	   
+		for (Organization organization : organizations) {
+			User user = userbusiness.findUserById(organization.getUser().getId());
+			organization.setUser(user);
+			
+		}
+		
+		return organizations;
 	}
 
 	@Override
@@ -89,7 +117,8 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	    		.setParameter("search1",'%' +search +'%');
 	    return (List<Organization>) query.getResultList();
 	}
-	
+
+
 	
 
 }

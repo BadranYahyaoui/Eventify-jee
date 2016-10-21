@@ -11,7 +11,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 public interface OrganizationBusinessRemote {
 	public void create(Organization organization);
 	public void updateOrganization(Organization organization);
-	public void deleteOrganization(int id);
+	public boolean deleteOrganization(int id);
 	public List<Organization> getAllOrganizations();
 	public Organization findOrganizationById(int id);
 	public List<Organization> findOrganizationByType(String type);
