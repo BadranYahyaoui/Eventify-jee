@@ -39,10 +39,10 @@ public class WishlistResource {
 	
 	
 	@DELETE
-	@Path("{id}")
-	public Response RemoveFromWishlist(@PathParam(value="id")int id){
+	public Response RemoveFromWishlist(@QueryParam("userId")int userId,
+									@QueryParam("eventId")int eventId){
 		
-		if(wishlistBusiness.RemoveEventFromWishlist(id))
+		if(wishlistBusiness.RemoveEventFromWishlist(userId, eventId))
 			return Response.status(Status.OK).build();
 		else
 			return Response.status(Status.NOT_FOUND).build();
@@ -51,9 +51,19 @@ public class WishlistResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response GetWishlistByUser(@QueryParam(value="userId")int userId){
-	List<Wishlist> liste=	wishlistBusiness.getWishlistByUser(userId);
-		return Response.status(Status.OK).entity(liste).build();
+	public Response GetWishlistByUser(@QueryParam(value="userId")int userId,
+										@QueryParam(value="eventId")int eventId)
+	{
+		
+		if(userId!=0 && eventId==0){
+			List<Wishlist> liste=wishlistBusiness.getWishlistByUserId(userId);
+			return Response.status(Status.OK).entity(liste).build();
+		}
+		else {
+			List<Wishlist> liste=wishlistBusiness.getWishlistByEventId(eventId);
+			return Response.status(Status.OK).entity(liste).build();
+		}
+
 	}
 
 	

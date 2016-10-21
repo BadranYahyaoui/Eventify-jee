@@ -13,18 +13,33 @@ import javax.persistence.*;
 
 public class Answer implements Serializable {
 
+	
+	private AnswerPK answerPK;
+
+	private User user;
+	private Attribut attribut;
+
+	
 	private String answer;
 	private Date dateAnswer;
 
-	private AnswerPK answerPK;
-	private User user;
-	private Attribut attribut;
 
 	private static final long serialVersionUID = 1L;
 
 	public Answer() {
 		super();
 	}
+
+	
+	
+	public Answer(AnswerPK answerPK, String answer, Date dateAnswer) {
+		super();
+		this.answerPK = answerPK;
+		this.answer = answer;
+		this.dateAnswer = dateAnswer;
+	}
+
+
 
 	public String getAnswer() {
 		return this.answer;

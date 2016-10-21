@@ -1,5 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -10,6 +11,7 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
@@ -30,14 +32,14 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 	}
 
 	@Override
-	public boolean RemoveEventFromWishlist(int id) {
+	public boolean RemoveEventFromWishlist(int userId,int eventId) {
 		
-		if(getWishlistById(id)!=null)
+		if(getWishlistByEventIdAndUserId(userId, eventId)!=null)
 		{
-			entityManager.remove(getWishlistById(id));;
+			entityManager.remove(getWishlistByEventIdAndUserId(userId, eventId));;
 			return true;
 		}
-		else
+		else 
 		return false;
 			
 		
@@ -45,19 +47,48 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 	}
 
 	@Override
-	public List<Wishlist> getWishlistByUser(int userId) {
-		System.err.println("************ ID User  *******" + userId);
-	    Query query = entityManager
-	    		.createQuery("SELECT w FROM Wishlist w WHERE w.wishlistPK.userId = :userId")
-	    		.setParameter("userId", userId);
-	    return (List<Wishlist>) query.getResultList();
-		
+	public List<Wishlist> getWishlistByUserId(int id) {
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Wishlist(w.wishlistPK,w.dateAdding) FROM Wishlist w WHERE w.wishlistPK.userId=:param")
+					.setParameter("param", id);
+			 return query.getResultList();
+
+		} catch (Exception e) {
+			System.err.println("Cant Find Wishlist");
+			return new ArrayList<Wishlist>();
+		}
 	}
 
 	@Override
-	public Wishlist getWishlistById(int id) {
-		return entityManager.find(Wishlist.class, id);
+	public List<Wishlist> getWishlistByEventId(int id) {
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Wishlist(w.wishlistPK,w.dateAdding) FROM Wishlist w WHERE w.wishlistPK.eventId=:param")
+					.setParameter("param", id);
+			 return query.getResultList();
+
+		} catch (Exception e) {
+			System.err.println("Cant Find Wishlist");
+			return new ArrayList<Wishlist>();
+		}
 	}
+
+	@Override
+	public Wishlist getWishlistByEventIdAndUserId(int userId,int eventId) {
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Wishlist(w.wishlistPK,w.dateAdding) FROM Wishlist w"
+							+ " WHERE w.wishlistPK.eventId=:eventId AND w.wishlistPK.userId=:userId")
+					.setParameter("eventId", eventId)
+			.setParameter("userId", userId);
+			 return (Wishlist) query.getSingleResult();
+
+		} catch (Exception e) {
+			System.err.println("Cant Find Wishlist");
+			return null; } 
+		} 
+	
 
     
 

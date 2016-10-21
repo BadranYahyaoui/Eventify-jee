@@ -1,5 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -14,22 +16,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AttributBusinessLocal;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Attribut;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AnswerBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
 
-@Path("attributs")
+@Path("answers")
 @RequestScoped
-public class AttributResource {
-
+public class AnswerResource {
 	@EJB
-	AttributBusinessLocal attributBusiness;
+	AnswerBusinessLocal answerBusiness;
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addAttribut(Attribut attribut){
+	public Response addAnswer(Answer answer){
 		
 		try {
-			attributBusiness.createAttribut(attribut);
+			answerBusiness.createAnswer(answer);
 			return Response.status(Status.CREATED).build();
 		} catch (Exception e) {
 			return Response.status(Status.NOT_ACCEPTABLE).build();
@@ -39,9 +40,9 @@ public class AttributResource {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAttribut(Attribut attribut){
+	public Response updateAnswer(Answer answer){
 		try {
-			attributBusiness.updateAttribut(attribut);
+			answerBusiness.updateAnswer(answer);
 			return Response.status(Status.OK).build();
 		} catch (Exception e) {
 			return Response.status(Status.NOT_MODIFIED).build();
@@ -52,9 +53,9 @@ public class AttributResource {
 	
 	@DELETE
 	@Path("{id}")
-	public Response deleteAttribut(@PathParam(value="id")int id){
+	public Response deleteAnswer(@PathParam(value="id")int id){
 		
-		boolean b = attributBusiness.deleteAttribut(id);
+		boolean b = answerBusiness.deleteAnswer(id);
 		if(b)
 			return Response.status(Status.OK).build();
 		else
@@ -65,16 +66,15 @@ public class AttributResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public Response getAttributById(@PathParam("id")int id){
-		Attribut attribut = attributBusiness.getAttributById(id);
-		if(attribut!=null)
-			return Response.status(Status.OK).entity(attribut).build();
+	public Response getAnswerByUserId(@PathParam("id")int id){
+		List answers = (List) answerBusiness.getAnswerByUserId(id);
+		if(answers.size()!=0)
+			return Response.status(Status.OK).entity(answers).build();
 		else
 			return Response.status(Status.NOT_FOUND).build();
 
 	}
+
 	
-	
-	
-	
+
 }

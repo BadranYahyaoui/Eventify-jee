@@ -30,9 +30,17 @@ public class Wishlist implements Serializable {
 		this.user =user;
 		this.dateAdding= new Date();
 	}
+	
+	
   
 	
 	
+	public Wishlist(WishlistPK wishlistPK, Date dateAdding) {
+		super();
+		this.wishlistPK = wishlistPK;
+		this.dateAdding = dateAdding;
+	}
+
 	public Wishlist(Date dateAdding, User user, Event event) {
 		super();
 		this.dateAdding = dateAdding;
