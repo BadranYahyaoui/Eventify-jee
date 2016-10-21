@@ -12,11 +12,13 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessRemote;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
@@ -33,6 +35,8 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 	
 	@EJB
 	ITransactionBusinessLocal transactionbusiness;
+	@EJB
+	ITicketBusinessLocal ticketbusiness;
 	@Override
 	public void create(Reservation reservation) {
 		entityManager.persist(reservation);
@@ -41,12 +45,15 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	@Override
 	public List<Reservation> getAllReservations() {
-		List<Reservation> reservation= (List<Reservation>)  entityManager.createQuery("SELECT new Reservation(r.id,r.amount,r.reservationDate,r.state, user, transaction) "
-						+ "FROM Reservation r JOIN r.user user JOIN r.transaction transaction  ").getResultList();
+		List<Reservation> reservation= (List<Reservation>)  entityManager.createQuery("SELECT new Reservation(r.id,r.amount,r.reservationDate,r.reservationState,r.paymentMethod , user, transaction,ticket) "
+						+ "FROM Reservation r JOIN r.user user JOIN r.transaction transaction JOIN r.ticket ticket  ").getResultList();
 		
 		for (Reservation reservations : reservation) {
-		//	User user = userbusiness.findUserById(reservations.getUser().getId());
-		//	reservations.setUser(user);
+			User user = userbusiness.findUserById(reservations.getUser().getId());
+			reservations.setUser(user);
+			
+			Ticket ticket = ticketbusiness.findTicketById(reservations.getTicket().getId());
+			reservations.setTicket(ticket);
 			
 			//Transaction transaction = transactionbusiness.findTransactionById(reservations.getTransaction().getId());
 			//reservations.setTransaction(transaction);
@@ -81,7 +88,7 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	@Override
 	public Reservation findReservationById(int idReservation) {
-		Query query = entityManager.createQuery("SELECT new Reservation(r.id,r.amount,r.reservationDate,r.state) "
+		Query query = entityManager.createQuery("SELECT new Reservation(r.id,r.amount,r.reservationDate,r.reservationState,r.paymentMethod) "
 				+ "FROM Reservation r WHERE r.id=:idres");
 		
 		Reservation r = (Reservation) query.setParameter("idres", idReservation).getSingleResult();

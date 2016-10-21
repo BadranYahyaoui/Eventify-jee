@@ -33,6 +33,13 @@ public class Transaction implements Serializable {
 	}
  
 	
+	public Transaction(int id, String token, float amount) {
+		super();
+		this.id = id;
+		this.token = token;
+		this.amount = amount;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {

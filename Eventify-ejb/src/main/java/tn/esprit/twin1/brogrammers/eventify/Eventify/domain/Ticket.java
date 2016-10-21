@@ -20,38 +20,47 @@ public class Ticket implements Serializable {
 	private int nbTickets;
 	private String typeTicket;
 	private float priceTicket;
-	private String paymentMethod;
 	private String backgroundImage;
 	private List<Reservation> reservations;
 	private static final long serialVersionUID = 1L;
 
 	private Event event;
 	
-	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket,
 			String backgroundImage) {
 		super();
 		this.id = id;
 		this.nbTickets = nbTickets;
 		this.typeTicket = typeTicket;
 		this.priceTicket = priceTicket;
-		this.paymentMethod = paymentMethod;
 		this.backgroundImage = backgroundImage;
 	}
 	
-	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, String paymentMethod,
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket,
 			String backgroundImage, Event event) {
 		super();
 		this.id = id;
 		this.nbTickets = nbTickets;
 		this.typeTicket = typeTicket;
 		this.priceTicket = priceTicket;
-		this.paymentMethod = paymentMethod;
 		this.backgroundImage = backgroundImage;
 		this.event = event;
 	}
 	
 	
 	
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket, 
+			String backgroundImage, List<Reservation> reservations, Event event) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+		this.backgroundImage = backgroundImage;
+		this.reservations = reservations;
+		this.event = event;
+	}
+
 	public Ticket() {
 		super();
 	}   
@@ -85,13 +94,7 @@ public class Ticket implements Serializable {
 	public void setPriceTicket(float priceTicket) {
 		this.priceTicket = priceTicket;
 	}   
-	public String getPaymentMethod() {
-		return this.paymentMethod;
-	}
 
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}   
 	public String getBackgroundImage() {
 		return this.backgroundImage;
 	}
@@ -119,7 +122,7 @@ public class Ticket implements Serializable {
 	@Override
 	public String toString() {
 		return "Ticket [id=" + id + ", nbTickets=" + nbTickets + ", typeTicket=" + typeTicket + ", priceTicket="
-				+ priceTicket + ", paymentMethod=" + paymentMethod + ", backgroundImage=" + backgroundImage
+				+ priceTicket  + ", backgroundImage=" + backgroundImage
 				+  ", event=" + event + "]";
 	}
    

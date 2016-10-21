@@ -84,6 +84,10 @@ public class TransactionBusiness implements ITransactionBusinessRemote, ITransac
 
 	@Override
 	public Transaction findTransactionById(int idtransaction) {
-		return entityManager.find(Transaction.class, idtransaction);
+		Query query = entityManager.createQuery("SELECT new Transaction(t.id,t.token,t.amount) "
+				+ "FROM Transaction t WHERE t.id=:idtran");
+		Transaction t = (Transaction) query.setParameter("idtran", idtransaction).getSingleResult();
+		//r.setUser(userbusiness.findUserById(r.getUser().getId()));
+		return t;
 	}
 }

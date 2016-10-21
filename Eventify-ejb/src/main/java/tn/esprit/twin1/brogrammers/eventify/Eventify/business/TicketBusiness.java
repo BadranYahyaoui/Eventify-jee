@@ -31,15 +31,19 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 
 	@Override
 	public void create(Ticket ticket) {
-		entityManager.persist(ticket);
 		
+		try {
+			entityManager.persist(ticket);
+		} catch (Exception e) {
+			System.err.println("Can't add Ticket! :(");
+		}
 	}
 
 	
 	@Override
 	public List<Ticket> getAllTickets() {
 		List<Ticket> ticket = (List<Ticket>) entityManager.createQuery(
-				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.paymentMethod,t.backgroundImage,event) "
+				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage,event) "
 						+ "FROM Ticket t JOIN t.event event").getResultList();
 		
 
@@ -55,10 +59,15 @@ for (Ticket tickets : ticket) {
 		}
 	    return ticket;
 	}
+	
 	@Override
 	public void updateTicket(Ticket ticket) {
-		entityManager.merge(ticket);	
-		
+		try {
+			entityManager.merge(ticket);	
+
+		} catch (Exception e) {
+			System.err.println("Can't modify Ticket! :(");
+		}
 	}
 
 	@Override
@@ -83,7 +92,7 @@ for (Ticket tickets : ticket) {
 	@Override
 	public Ticket findTicketById(int idTicket) {
 		Query query = entityManager.createQuery(
-				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.paymentMethod,t.backgroundImage) "
+				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage) "
 						+ "FROM Ticket t WHERE t.id=:idtick");
 		
 

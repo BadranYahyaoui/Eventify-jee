@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.PaymentMethod;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.ReservationState;
+
 
 /**
  * Entity implementation class for Entity: Reservation
@@ -21,37 +25,40 @@ public class Reservation implements Serializable {
 	private float amount;
 	private Date reservationDate;
 	private User user;
-	private int state;
+	private ReservationState reservationState;
+	private PaymentMethod paymentMethod;
 	private Transaction transaction;
 	private Ticket ticket;
 	private static final long serialVersionUID = 1L;
 
-	public Reservation(int id, float amount, Date reservationDate,  int state,User user, Transaction transaction,
+	public Reservation(int id, float amount, Date reservationDate,  ReservationState reservationState,PaymentMethod paymentMethod ,User user, Transaction transaction,
 			Ticket ticket) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.reservationDate = reservationDate;
 		this.user = user;
-		this.state = state;
+		this.reservationState = reservationState;
+		this.paymentMethod=paymentMethod;
 		this.transaction = transaction;
 		this.ticket = ticket;
 	}
-	public Reservation(int id, float amount, Date reservationDate, int state, User user, Transaction transaction) {
+	public Reservation(int id, float amount, Date reservationDate, ReservationState reservationState, User user, Transaction transaction) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.reservationDate = reservationDate;
 		this.user = user;
-		this.state = state;
+		this.reservationState = reservationState;
 		this.transaction = transaction;
 	}
-	public Reservation(int id, float amount, Date reservationDate, int state) {
+	public Reservation(int id, float amount, Date reservationDate, ReservationState reservationState,PaymentMethod paymentMethod) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.reservationDate = reservationDate;
-		this.state = state;
+		this.reservationState = reservationState;
+		this.paymentMethod=paymentMethod;
 	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {
@@ -61,11 +68,12 @@ public class Reservation implements Serializable {
 		this.user = user;
 	}
 	
-	public int getState() {
-		return state;
+	@Enumerated(EnumType.STRING)
+	public ReservationState getReservationState() {
+		return reservationState;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setReservationState(ReservationState reservationState) {
+		this.reservationState = reservationState;
 	}
 	public Reservation() {
 		super();
@@ -87,6 +95,8 @@ public class Reservation implements Serializable {
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}   
+	
+	
 	public Date getReservationDate() {
 		return this.reservationDate;
 	}
@@ -109,10 +119,18 @@ public class Reservation implements Serializable {
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 	}
+	
+	@Enumerated(EnumType.STRING)
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
 	@Override
 	public String toString() {
 		return "Reservation [id=" + id + ", amount=" + amount + ", reservationDate=" + reservationDate + ", user="
-				+ user + ", state=" + state + ", transaction=" + transaction + ",+ ]";
+				+ user + ", ReservationState reservationState=" + reservationState + ", transaction=" + transaction + ",+ ]";
 	}
    
 }
