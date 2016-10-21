@@ -31,6 +31,7 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 		
 	}
 
+	//A Verifier
 	@Override
 	public boolean RemoveEventFromWishlist(int userId,int eventId) {
 		

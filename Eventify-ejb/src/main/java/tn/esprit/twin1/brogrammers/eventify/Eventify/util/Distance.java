@@ -1,6 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.util;
 
-public class Util {
+public class Distance {
 	public static double distance(double lat1, double lng1, double lat2, double lng2) {
 
 	    double earthRadius = 6371; 

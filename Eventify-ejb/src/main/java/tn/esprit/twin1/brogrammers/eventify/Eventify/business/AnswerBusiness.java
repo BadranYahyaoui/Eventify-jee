@@ -55,7 +55,7 @@ public class AnswerBusiness implements AnswerBusinessRemote, AnswerBusinessLocal
 		
 	}
 
-
+	//A Verifier
 	@Override
 	public boolean deleteAnswer(int id) {
 		try {

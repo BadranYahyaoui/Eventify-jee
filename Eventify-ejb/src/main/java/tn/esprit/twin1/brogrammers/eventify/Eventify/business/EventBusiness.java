@@ -203,7 +203,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> nearByEvents = new ArrayList<>();
 		for (Event event : events) {
 			
-			if(Util.distance(myLatitude, myLongitude, event.getLatitude(), event.getLongitude())<1){
+			if(Distance.distance(myLatitude, myLongitude, event.getLatitude(), event.getLongitude())<1){
 				nearByEvents.add(event);
 			}
 		}

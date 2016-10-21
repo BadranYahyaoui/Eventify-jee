@@ -19,7 +19,6 @@ public class Answer implements Serializable {
 	private User user;
 	private Attribut attribut;
 
-	
 	private String answer;
 	private Date dateAnswer;
 
@@ -35,6 +34,19 @@ public class Answer implements Serializable {
 	public Answer(AnswerPK answerPK, String answer, Date dateAnswer) {
 		super();
 		this.answerPK = answerPK;
+		this.answer = answer;
+		this.dateAnswer = dateAnswer;
+	}
+
+	
+	
+
+
+	public Answer(AnswerPK answerPK, User user, Attribut attribut, String answer, Date dateAnswer) {
+		super();
+		this.answerPK = answerPK;
+		this.user = user;
+		this.attribut = attribut;
 		this.answer = answer;
 		this.dateAnswer = dateAnswer;
 	}

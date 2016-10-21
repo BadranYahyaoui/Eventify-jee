@@ -13,12 +13,15 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusin
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AnswerPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Attribut;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.WishlistPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventCategory;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventType;
@@ -81,11 +84,11 @@ public class DBPopulator {
 		eventBusiness.create(e2);
 		
 		
-		Question q1 = new Question("Combien d'enfants avez-vous ? ", QuestionType.Short_Anwser, QuestionCategory.RegistrationForm, 1, new Date(), 1);
+		Question q1 = new Question("Combien d'enfants avez-vous ? ", QuestionType.CheckBox, QuestionCategory.RegistrationForm, 1, new Date(), 1);
 		q1.setEvent(e1);
 		questionBusinessLocal.createQuestion(q1);
 
-		Question q2 = new Question("Cava ? ", QuestionType.Short_Anwser, QuestionCategory.RegistrationForm, 1, new Date(), 1);
+		Question q2 = new Question("Cava ? ", QuestionType.RadioBox, QuestionCategory.RegistrationForm, 1, new Date(), 1);
 		q2.setEvent(e1);
 		questionBusinessLocal.createQuestion(q2);
 
@@ -93,18 +96,44 @@ public class DBPopulator {
 		q3.setEvent(e2);
 		questionBusinessLocal.createQuestion(q3);
 
-		Attribut a1= new Attribut("hamdoulah", false, q1);
+		Attribut a1= new Attribut("1", false, q1);
 		attributBusiness.createAttribut(a1);
 
-		Attribut a2= new Attribut("7al 7it", false, q1);
+		Attribut a2= new Attribut("2", false, q1);
 		attributBusiness.createAttribut(a2);
 
-		Attribut a3= new Attribut("Labeess", false, q2);
+		Attribut a3= new Attribut("Tres Bien", false, q2);
 		attributBusiness.createAttribut(a3);
-
-		//Wishlist w1 = new Wishlist(new Date(),u1,e1);
-	//	wishlistBusiness.addEventToWishlist(w1);
 		
+		Attribut a4= new Attribut("Pas Mal", false, q2);
+		attributBusiness.createAttribut(a4);
+
+		/*
+		AnswerPK answerPK1 =new AnswerPK();
+		answerPK1.setIdAttribut(a1.getId());
+		answerPK1.setIdUser(u1.getId());
+		Answer answer1 = new Answer(answerPK1,u1,a1,"1",new Date());
+
+		AnswerPK answerPK2 =new AnswerPK();
+		answerPK2.setIdAttribut(a2.getId());
+		answerPK2.setIdUser(u1.getId());
+		Answer answer2 = new Answer(answerPK2,u1,a2,"2",new Date());
+
+		
+		
+		WishlistPK pk = new WishlistPK();
+		pk.setEventId(e1.getId());
+		pk.setUserId(u1.getId());
+		Wishlist w1 = new Wishlist(pk, new Date(), u1, e1);
+		wishlistBusiness.addEventToWishlist(w1);
+
+		WishlistPK pk1 = new WishlistPK();
+		pk.setEventId(e2.getId());
+		pk.setUserId(u1.getId());
+		Wishlist w2 = new Wishlist(pk, new Date(), u1, e2);
+		wishlistBusiness.addEventToWishlist(w2);
+		*/
+
 		
 		
 
