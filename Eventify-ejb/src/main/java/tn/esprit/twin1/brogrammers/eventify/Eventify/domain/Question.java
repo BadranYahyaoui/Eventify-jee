@@ -148,7 +148,7 @@ public class Question implements Serializable {
 	
 	//Assocation With Attributs
 	
-	@OneToMany(mappedBy="questions")
+	@OneToMany(mappedBy="questions",cascade=CascadeType.REMOVE)
 	public List<Attribut> getAttributs() {
 		return attributs;
 	}

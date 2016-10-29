@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -69,7 +70,7 @@ private OrganizerPK  organizerPK;
 	public void setTask(Task task) {
 		this.task = task;
 	}*/
-	@OneToMany(mappedBy="organizer", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="organizer", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
 	public List<Task> getTasks() {
 		return tasks;
 	}

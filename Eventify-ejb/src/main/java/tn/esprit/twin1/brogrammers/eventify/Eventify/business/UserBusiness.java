@@ -93,7 +93,9 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 
 	@Override
 	public void deleteUser(int id) {
-		entityManager.remove(findUserById(id));
+		//entityManager.remove(findUserById(id));
+		entityManager.remove(entityManager.find(User.class, id));
+
 
 	}
 

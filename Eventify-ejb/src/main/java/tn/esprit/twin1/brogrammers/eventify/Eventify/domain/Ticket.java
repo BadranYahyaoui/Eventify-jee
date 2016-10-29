@@ -103,7 +103,7 @@ public class Ticket implements Serializable {
 		this.backgroundImage = backgroundImage;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "ticket", fetch = FetchType.LAZY)
 	public List<Reservation> getReservations() {
 		return reservations;
 	}
