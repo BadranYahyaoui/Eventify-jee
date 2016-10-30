@@ -15,23 +15,23 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLo
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class TicketBusiness
  */
 @Stateless
-@LocalBean
 public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLocal {
 
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
-	
+
 	@EJB
 	EventBusinessLocal eventbusiness;
 
 	@Override
 	public void create(Ticket ticket) {
-		
+
 		try {
 			entityManager.persist(ticket);
 		} catch (Exception e) {
@@ -39,31 +39,29 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 		}
 	}
 
-	
 	@Override
 	public List<Ticket> getAllTickets() {
-		List<Ticket> ticket = (List<Ticket>) entityManager.createQuery(
-				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage,event) "
-						+ "FROM Ticket t JOIN t.event event").getResultList();
-		
+		List<Ticket> ticket = (List<Ticket>) entityManager
+				.createQuery("SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage,event) "
+						+ "FROM Ticket t JOIN t.event event")
+				.getResultList();
 
-		
-for (Ticket tickets : ticket) {
-			
-			
+		for (Ticket tickets : ticket) {
+
 			Event event = eventbusiness.findEventById(tickets.getEvent().getId());
-			tickets.setEvent(null); /* A VERIFIER POUR GETALLEVENT WITHOUT BLOCKING THE REST OF DISPLAY */
+			tickets.setEvent(null); /*
+									 * A VERIFIER POUR GETALLEVENT WITHOUT
+									 * BLOCKING THE REST OF DISPLAY
+									 */
 
-		
-		
 		}
-	    return ticket;
+		return ticket;
 	}
-	
+
 	@Override
 	public void updateTicket(Ticket ticket) {
 		try {
-			entityManager.merge(ticket);	
+			entityManager.merge(ticket);
 
 		} catch (Exception e) {
 			System.err.println("Can't modify Ticket! :(");
@@ -71,47 +69,29 @@ for (Ticket tickets : ticket) {
 	}
 
 	@Override
-	public boolean deleteTicket(Ticket ticket) {
-		entityManager.remove(entityManager.merge(ticket));
+	public boolean deleteTicketById(int id) {
+		entityManager.remove(entityManager.find(Ticket.class, id));
 		return true;
 	}
 
 	@Override
-	public boolean deleteTicketById(int id) {
-		Iterator<Ticket> iterator=this.getAllTickets().iterator();
-		while(iterator.hasNext()){
-			Ticket t=iterator.next();
-			if(t.getId()==id){
-				entityManager.remove(this.findTicketById(id));
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	@Override
 	public Ticket findTicketById(int idTicket) {
-		Query query = entityManager.createQuery(
-				"SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage) "
+		Query query = entityManager
+				.createQuery("SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage) "
 						+ "FROM Ticket t WHERE t.id=:idtick");
-		
 
 		Ticket t = (Ticket) query.setParameter("idtick", idTicket).getSingleResult();
-		//t.setEvent(eventbusiness.findEventById(t.getEvent().getId()));
+		// t.setEvent(eventbusiness.findEventById(t.getEvent().getId()));
 		return t;
 	}
 
-
 	@Override
 	public List<Ticket> findTicketByType(String typeTicket) {
-		Query query = entityManager
-	    		.createQuery("SELECT t FROM Ticket t WHERE t.typeTicket LIKE :typeTicket")
-	    		.setParameter("typeTicket", typeTicket);
-	    return (List<Ticket>) query.getResultList();
+		Query query = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.typeTicket LIKE :typeTicket")
+				.setParameter("typeTicket", typeTicket);
+		return (List<Ticket>) query.getResultList();
 	}
 
-
-
-
+	/**************************************** MET ********************************/
 
 }

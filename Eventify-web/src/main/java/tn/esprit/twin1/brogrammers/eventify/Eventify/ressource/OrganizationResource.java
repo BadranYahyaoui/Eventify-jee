@@ -93,7 +93,7 @@ public class OrganizationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public Response findOrganizationById(@PathParam("id") int id)
-	{
+	{  
 		Organization o = organizationBusiness.findOrganizationById(id);
 		if(o==null)
 		{
@@ -104,6 +104,24 @@ public class OrganizationResource {
 			return Response.status(Status.OK).entity(o).build();
 		}
 	}
+	
+	
+/*	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{organizationType}")
+	public Response findOrganizationByType(@PathParam("organizationType") String organizationType)
+	{
+		List<Organization> o = organizationBusiness.findOrganizationByType(organizationType);
+		if(o==null)
+		{
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		else
+		{
+			return Response.status(Status.OK).entity(o).build();
+		}
+	}
+	*/
 	
 	
 	@GET

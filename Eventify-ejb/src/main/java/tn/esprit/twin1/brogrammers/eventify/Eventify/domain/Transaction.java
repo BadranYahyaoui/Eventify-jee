@@ -65,7 +65,7 @@ public class Transaction implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	public Reservation getReservation() {
 		return reservation;
 	}
