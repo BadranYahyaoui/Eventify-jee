@@ -25,6 +25,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.WishlistPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventCategory;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventType;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.OrganizationType;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionCategory;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionType;
 
@@ -68,8 +69,8 @@ public class DBPopulator {
 		
 
 
-		Organization o1 = new Organization("TravelToDo","Fictif",new Date());
-		Organization o2 = new Organization("MySecondOrganization","Physique",new Date());
+		Organization o1 = new Organization("TravelToDo",OrganizationType.MORALE,new Date());
+		Organization o2 = new Organization("MySecondOrganization",OrganizationType.PHYSIQUE,new Date());
 		o1.setUser(u1);
 		o2.setUser(u2);
 		organizationBusiness.create(o1);

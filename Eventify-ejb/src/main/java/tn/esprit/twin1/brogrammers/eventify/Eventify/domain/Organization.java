@@ -8,6 +8,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.OrganizationType;
+
 /**
  * Entity implementation class for Entity: Organization
  *
@@ -20,7 +22,7 @@ public class Organization implements Serializable {
 	   
 	private int id;
 	private String organizationName;
-	private String organizationType;
+	private OrganizationType organizationType;
 	private Date creationDate;
 	private static final long serialVersionUID = 1L;
 	
@@ -33,7 +35,7 @@ public class Organization implements Serializable {
 	
 	
 	
-	public Organization(int id, String organizationName, String organizationType, Date creationDate) {
+	public Organization(int id, String organizationName, OrganizationType organizationType, Date creationDate) {
 		super();
 		this.id = id;
 		this.organizationName = organizationName;
@@ -41,7 +43,7 @@ public class Organization implements Serializable {
 		this.creationDate = creationDate;
 	}
 	
-	public Organization(int id, String organizationName, String organizationType, Date creationDate , User user) {
+	public Organization(int id, String organizationName, OrganizationType organizationType, Date creationDate , User user) {
 		super();
 		this.id = id;
 		this.organizationName = organizationName;
@@ -51,7 +53,7 @@ public class Organization implements Serializable {
 	}
 	
 
-	public Organization(String organizationName, String organizationType, Date creationDate) {
+	public Organization(String organizationName, OrganizationType organizationType, Date creationDate) {
 		super();
 		this.organizationName = organizationName;
 		this.organizationType = organizationType;
@@ -99,11 +101,11 @@ public class Organization implements Serializable {
 	public void setOrganizationName(String organizationName) {
 		this.organizationName = organizationName;
 	}   
-	public String getOrganizationType() {
+	public OrganizationType getOrganizationType() {
 		return this.organizationType;
 	}
 
-	public void setOrganizationType(String organizationType) {
+	public void setOrganizationType(OrganizationType organizationType) {
 		this.organizationType = organizationType;
 	}   
 	public Date getCreationDate() {

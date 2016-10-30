@@ -66,7 +66,7 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	@Override
 	public List<Organization> getAllOrganizations() {
 		List<Organization> organizations = (List<Organization>) entityManager.createQuery
-				("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate,user) FROM Organization o JOIN o.user user");
+				("SELECT new Organization(o.id,o.organizationName,o.organizationType,o.creationDate,user) FROM Organization o JOIN o.user user").getResultList();
 	   
 		for (Organization organization : organizations) {
 			User user = userbusiness.findUserById(organization.getUser().getId());
@@ -85,6 +85,8 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 		 return (Organization) query.getSingleResult();
 		
 	}
+	
+
 
 	@Override
 	public List<Organization> findOrganizationByType(String type) {
