@@ -21,8 +21,25 @@ public class Category implements Serializable{
 
 	
 	private List<Favorite> favorites;
+	private List<Event> events;
 	
 	
+	
+	public Category() {
+		super();
+	}
+	public Category(String categoryName) {
+		super();
+		this.categoryName = categoryName;
+	}
+	
+	
+	
+	public Category(int id, String categoryName) {
+		super();
+		this.id = id;
+		this.categoryName = categoryName;
+	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -45,6 +62,16 @@ public class Category implements Serializable{
 	public void setFavorites(List<Favorite> favorites) {
 		this.favorites = favorites;
 	}
+	
+	@OneToMany(mappedBy="category",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	public List<Event> getEvents() {
+		return events;
+	}
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+	
+	
 	
 	
 

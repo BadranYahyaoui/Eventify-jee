@@ -10,10 +10,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.swing.event.DocumentEvent.EventType;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 
@@ -28,6 +31,9 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 	@EJB
 	OrganizationBusinessLocal organizationBusiness;
+
+	@EJB
+	CategoryBusinessLocal categoryBusiness;
 
 	// ajout
 	@Override
@@ -48,14 +54,23 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) FROM Event e JOIN e.organization o")
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,"
+						+ "c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "FROM Event e "
+						+ "JOIN e.organization o JOIN e.category c")
 				.getResultList();
 
 		for (Event event : events) {
 			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
 			event.setOrganization(organization);
 		}
+		
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
+		}
+
 
 		return events;
 
@@ -92,10 +107,16 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		try {
 			Query query = entityManager.
 					createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-							+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-							+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) FROM Event e WHERE e.id=:param")
+							+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
+							+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) "
+							+ "FROM Event e JOIN e.category c "
+							+ "WHERE e.id=:param")
 					.setParameter("param", idEvent);
-			 return (Event) query.getSingleResult();
+			Event e = (Event) query.getSingleResult();
+			
+			Category category = categoryBusiness.findById(e.getCategory().getId());
+			e.setCategory(category);
+			 return e;
 
 		} catch (Exception e) {
 			System.err.println("Failed to find the event");
@@ -104,11 +125,14 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	}
 
 	@Override
-	public List<Event> findEventByType(String type) {
+	public List<Event> findEventByType(EventType type) {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) FROM Event e JOIN e.organization o WHERE e.eventType LIKE :type")
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,"
+						+ "c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "FROM Event e JOIN e.organization o JOIN e.category c "
+						+ "WHERE e.eventType LIKE :type")
 				.setParameter("type", type)
 				.getResultList();
 
@@ -116,23 +140,38 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
 			event.setOrganization(organization);
 		}
+		
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
+		}
+
 
 		return events;
 	}
 
 	@Override
-	public List<Event> findEventByCategory(String category) {
+	public List<Event> findEventByCategory(String categoryName) {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) FROM Event e JOIN e.organization o WHERE e.eventCategory LIKE :category")
-				.setParameter("category", category)
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,"
+						+ "c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "FROM Event e JOIN e.organization o JOIN e.category c "
+						+ "WHERE c.categoryName LIKE :category")
+				.setParameter("category", categoryName)
 				.getResultList();
 
 		for (Event event : events) {
 			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
 			event.setOrganization(organization);
 		}
+		
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
+		}
+
 
 		return events;
 	}
@@ -141,14 +180,22 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	public List<Event> findEventByPeriode(Date startTime, Date endTime) {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) FROM Event e JOIN e.organization o WHERE e.startTime = :startTime AND e.endTime = :endTime")
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,"
+						+ "c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "FROM Event e JOIN e.organization o JOIN e.category c "
+						+ "WHERE e.startTime = :startTime AND e.endTime = :endTime")
 				.setParameter("startTime", startTime)
 				.setParameter("endTime", endTime)
 				.getResultList();
 		for (Event event : events) {
 			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
 			event.setOrganization(organization);
+		}
+
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
 		}
 
 		return events;
@@ -158,13 +205,21 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	public List<Event> findEventByDate(Date date) {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) FROM Event e JOIN e.organization o WHERE :date BETWEEN e.startTime AND e.endTime ")
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,"
+						+ "c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "FROM Event e JOIN e.organization o JOIN e.category c "
+						+ "WHERE :date BETWEEN e.startTime AND e.endTime ")
 				.setParameter("date", date)
 				.getResultList();
 		for (Event event : events) {
 			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
 			event.setOrganization(organization);
+		}
+
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
 		}
 
 		return events;
@@ -174,8 +229,10 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	public List<Event> SearchForEvents(String search) {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) FROM Event e JOIN e.organization o WHERE e.title LIKE :search OR e.theme LIKE :search1 ")
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "FROM Event e JOIN e.organization o JOIN e.category c "
+						+ "WHERE e.title LIKE :search OR e.theme LIKE :search1 ")
 				.setParameter("search", '%' + search + '%')
 				.setParameter("search1", '%' + search + '%')
 				.getResultList();
@@ -183,6 +240,11 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		for (Event event : events) {
 			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
 			event.setOrganization(organization);
+		}
+
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
 		}
 
 		return events;
@@ -208,6 +270,16 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 			}
 		}
 		return nearByEvents;
+	}
+
+	@Override
+	public List<Event> getFavoriteEventByUser(int idUser) {
+	/*	List<Event> events = (List<Event>)entityManager
+				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o)"
+						+ "FROM Event e JOIN e.organization o ")*/
+		return null;
 	}
 
 	

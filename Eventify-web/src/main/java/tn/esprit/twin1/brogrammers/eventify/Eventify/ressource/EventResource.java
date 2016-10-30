@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.swing.event.DocumentEvent.EventType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -97,7 +98,7 @@ public class EventResource {
 		if(search!=null && type==null && category==null && longitude==null && latitude ==null && organization==0)
 		liste = eventBusiness.SearchForEvents(search);
 		else if (search==null && type!=null && category==null && longitude==null && latitude ==null && organization==0)
-			liste = eventBusiness.findEventByType(type);
+			liste = eventBusiness.findEventByType(EventType.class.cast(type));
 		else if (search==null && type==null && category!=null && longitude==null && latitude ==null && organization==0)
 			liste = eventBusiness.findEventByCategory(category);
 		/*else if (search==null && type==null && category==null && organization>0)

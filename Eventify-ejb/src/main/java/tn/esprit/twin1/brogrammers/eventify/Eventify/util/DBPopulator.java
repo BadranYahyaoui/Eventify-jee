@@ -8,6 +8,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AttributBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
@@ -16,6 +17,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessL
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AnswerPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Attribut;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
@@ -52,6 +54,10 @@ public class DBPopulator {
 	@EJB
 	AttributBusinessLocal attributBusiness;
 	
+	@EJB
+	CategoryBusinessLocal categoryBusiness;
+	
+	
 	public DBPopulator() {
 	}
 
@@ -67,6 +73,12 @@ public class DBPopulator {
 		userBusines.createUser(u2);
 		userBusines.createUser(u3);
 		
+		Category category = new Category(EventCategory.Business.toString()); 
+		Category category1 = new Category(EventCategory.Politics.toString()); 
+		Category category2 = new Category(EventCategory.Science_Technology.toString()); 
+		categoryBusiness.addCategory(category);
+		categoryBusiness.addCategory(category1);
+		categoryBusiness.addCategory(category2);
 
 
 		Organization o1 = new Organization("TravelToDo",OrganizationType.MORALE,new Date());
@@ -76,9 +88,9 @@ public class DBPopulator {
 		organizationBusiness.create(o1);
 		organizationBusiness.create(o2);
 		
-		Event e1 = new Event("Sa7tek bin Ydina", "Health for everyone",new Date(), new Date(), 12, 9, 1000, EventType.Conference, EventCategory.Health, 10, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
+		Event e1 = new Event("Sa7tek bin Ydina", "Health for everyone",new Date(), new Date(), 12, 9, 1000, EventType.Conference, category, 10, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
 		e1.setOrganization(o1);
-		Event e2 = new Event("Angular Course From Scratch", "Angular Course ",new Date(), new Date(), 12, 9, 1000, EventType.Class_Workshop, EventCategory.Science_Technology, 25, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
+		Event e2 = new Event("Angular Course From Scratch", "Angular Course ",new Date(), new Date(), 12, 9, 1000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
 		e2.setOrganization(o2);
 
 		eventBusiness.create(e1);
@@ -135,6 +147,7 @@ public class DBPopulator {
 		wishlistBusiness.addEventToWishlist(w2);
 		*/
 
+		
 		
 		
 

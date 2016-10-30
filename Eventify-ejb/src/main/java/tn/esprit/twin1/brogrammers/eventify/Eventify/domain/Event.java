@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
-
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventCategory;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventType;
@@ -29,7 +27,7 @@ public class Event implements Serializable {
 	private double latitude;
 	private int placeNumber;
 	private EventType eventType; 
-	private EventCategory eventCategory;
+	//private EventCategory eventCategory;
 	private int nbViews;
 	//private int nbLikes;
 	private Date createdAt;
@@ -42,18 +40,12 @@ public class Event implements Serializable {
 	
 	/* 	Foreign KEY Start */
 	private Organization organization;
-	
+	private Category category;
 	private List<Media> medias;
-	
-
 	private List<Wishlist> wishlists;
-	
 	private List<Rate> rate;
-	
 	private List<Question> questions;
-	
 	private List<Task> tasks;
-	
 	private List<Ticket> tickets;
 	
 	/* 	Foreign KEY END */
@@ -77,7 +69,7 @@ public class Event implements Serializable {
 
 
 	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
-			int placeNumber, EventType eventType, EventCategory eventCategory, int nbViews, Date createdAt,
+			int placeNumber, EventType eventType, Category category, int nbViews, Date createdAt,
 			String facebookLink, String twitterLink, EventState eventState, Organization organization) {
 		super();
 		this.id = id;
@@ -89,7 +81,7 @@ public class Event implements Serializable {
 		this.latitude = latitude;
 		this.placeNumber = placeNumber;
 		this.eventType = eventType;
-		this.eventCategory = eventCategory;
+		this.category = category;
 		this.nbViews = nbViews;
 		this.createdAt = createdAt;
 		this.facebookLink = facebookLink;
@@ -103,7 +95,7 @@ public class Event implements Serializable {
 
 
 	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
-			int placeNumber, EventType eventType, EventCategory eventCategory, int nbViews, Date createdAt,
+			int placeNumber, EventType eventType, Category category, int nbViews, Date createdAt,
 			String facebookLink, String twitterLink, EventState eventState) {
 		super();
 		this.id = id;
@@ -115,7 +107,7 @@ public class Event implements Serializable {
 		this.latitude = latitude;
 		this.placeNumber = placeNumber;
 		this.eventType = eventType;
-		this.eventCategory = eventCategory;
+		this.category = category;
 		this.nbViews = nbViews;
 		this.createdAt = createdAt;
 		this.facebookLink = facebookLink;
@@ -125,17 +117,8 @@ public class Event implements Serializable {
 
 
 
-
-
-
-
-
-
-	
-
-
 	public Event(String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
-			int placeNumber, EventType eventType, EventCategory eventCategory, int nbViews, Date createdAt,
+			int placeNumber, EventType eventType, Category category, int nbViews, Date createdAt,
 			String facebookLink, String twitterLink, EventState eventState) {
 		super();
 		this.title = title;
@@ -146,7 +129,7 @@ public class Event implements Serializable {
 		this.latitude = latitude;
 		this.placeNumber = placeNumber;
 		this.eventType = eventType;
-		this.eventCategory = eventCategory;
+		this.category = category;
 		this.nbViews = nbViews;
 		this.createdAt = createdAt;
 		this.facebookLink = facebookLink;
@@ -239,7 +222,7 @@ public class Event implements Serializable {
 	public void setEventType(EventType eventType) {
 		this.eventType = eventType;
 	}   
-	
+	/*
 	@Enumerated(EnumType.STRING)
 	public EventCategory getEventCategory() {
 		return eventCategory;
@@ -248,6 +231,7 @@ public class Event implements Serializable {
 	public void setEventCategory(EventCategory eventCategory) {
 		this.eventCategory = eventCategory;
 	}
+	*/
 	public int getNbViews() {
 		return this.nbViews;
 	}
@@ -304,6 +288,15 @@ public class Event implements Serializable {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)

@@ -37,7 +37,7 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 		
 		if(getWishlistByEventIdAndUserId(userId, eventId)!=null)
 		{
-			entityManager.remove(getWishlistByEventIdAndUserId(userId, eventId));;
+			entityManager.remove(entityManager.merge(getWishlistByEventIdAndUserId(userId, eventId)));;
 			return true;
 		}
 		else 
