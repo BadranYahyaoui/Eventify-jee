@@ -14,7 +14,7 @@ import com.twilio.sdk.resource.instance.Message;
 
 public class SmsSender {
     // Find your Account Sid and Token at twilio.com/user/account
-  /*  public static final String ACCOUNT_SID = "AC148a7d9c0de70c787999c2410540fc0d";
+    public static final String ACCOUNT_SID = "AC148a7d9c0de70c787999c2410540fc0d";
     public static final String AUTH_TOKEN = "d2ed89755c588f4c32bbdc82aaaad732";
 
     public static void main(String[] args) throws TwilioRestException {
@@ -33,6 +33,6 @@ public class SmsSender {
     //    System.out.println(message.getSid());
         
         
-    }*/
+    }
 
 }
