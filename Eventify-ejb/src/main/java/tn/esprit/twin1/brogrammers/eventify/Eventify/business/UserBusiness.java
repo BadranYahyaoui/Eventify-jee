@@ -108,7 +108,12 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 		User userLogged =(User) query.setParameter("uname", username).setParameter("upwd", hashedPwd).getSingleResult();
 		
 		
-		return AuthJWT.SignJWT();
+		String vf = AuthJWT.SignJWT("User",userLogged);
+		//AuthJWT.VerifyJWT(vf);
+		
+		
+		
+		return vf;
 
 	}
 
