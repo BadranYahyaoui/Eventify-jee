@@ -11,7 +11,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 public interface RefferUserBusinessLocal {
 	
 	public User ChooseReferralUser(User userReferral);
-	public User FindReferral(User userReferred);
+	public User FindReferral(int Id);
 	public User FindRefered(User userReferral);
 	public void RemoveReferred(User userReferral);
 	public List<User> FindAllReferral();

@@ -19,6 +19,16 @@ public class ReferrelUser implements Serializable {
 	private int stateInvitation;
 	
 
+	public ReferrelUser(ReferrelUserPK referrelUserPK, User userReferred, User userReferral, Date dateInvitation,
+			int stateInvitation) {
+		super();
+		this.referrelUserPK = referrelUserPK;
+		this.userReferred = userReferred;
+		this.userReferral = userReferral;
+		this.dateInvitation = dateInvitation;
+		this.stateInvitation = stateInvitation;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	public ReferrelUser() {

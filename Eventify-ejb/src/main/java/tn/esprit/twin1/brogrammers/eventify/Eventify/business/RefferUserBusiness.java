@@ -46,11 +46,11 @@ public class RefferUserBusiness implements RefferUserBusinessRemote, RefferUserB
 	}
 
 	@Override
-	public User FindReferral(User userReferred) {
+	public User FindReferral(int Id) {
 		
 		
 		
-		return entityManager.find(User.class, userReferred.getId());
+		return entityManager.find(User.class, Id);
 	}
 
 	@Override
