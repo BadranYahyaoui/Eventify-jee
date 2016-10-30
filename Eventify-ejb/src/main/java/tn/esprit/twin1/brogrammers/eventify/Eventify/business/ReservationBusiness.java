@@ -55,6 +55,7 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Reservation> getAllReservations() {
 		List<Reservation> reservation = (List<Reservation>) entityManager.createQuery(
