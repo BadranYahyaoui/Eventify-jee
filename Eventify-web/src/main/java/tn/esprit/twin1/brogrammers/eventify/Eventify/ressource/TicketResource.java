@@ -25,68 +25,61 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 public class TicketResource {
 	@EJB
 	ITicketBusinessLocal ticketBusiness;
-	
-	/*
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllTickets()
-	{
 
-		return Response.status(Status.FOUND).entity(ticketBusiness.getAllTickets()).build();
-		
-		
-	}
-	*/
-	
+	/*
+	 * @GET
+	 * 
+	 * @Produces(MediaType.APPLICATION_JSON) public Response getAllTickets() {
+	 * 
+	 * return
+	 * Response.status(Status.FOUND).entity(ticketBusiness.getAllTickets()).
+	 * build();
+	 * 
+	 * 
+	 * }
+	 */
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Ticket> findAllUsers() {
 
 		return ticketBusiness.getAllTickets();
 	}
-	
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public Response findTicketById(@PathParam("id") int id)
-	{
+	public Response findTicketById(@PathParam("id") int id) {
 		Ticket t = ticketBusiness.findTicketById(id);
-		if(t==null)
-		{
+		if (t == null) {
 			return Response.status(Status.NOT_FOUND).build();
-		}
-		else
-		{
+		} else {
 			return Response.status(Status.OK).entity(t).build();
 		}
 	}
-	
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addTicket(Ticket ticket)
-	{
+	public Response addTicket(Ticket ticket) {
 		ticketBusiness.create(ticket);
 		return Response.status(Status.CREATED).build();
 	}
-	
+
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateTicket(Ticket ticket){
+	public Response updateTicket(Ticket ticket) {
 		ticketBusiness.updateTicket(ticket);
 		return Response.status(Status.OK).build();
 	}
-	
+
 	@DELETE
 	@Path("{id}")
-	public Response deleteTicket(@PathParam(value="id")int id){
-		if(ticketBusiness.deleteTicketById(id))
-			{return Response.status(Status.OK).build();}
-		else
-		{
-	return Response.status(Response.Status.NOT_FOUND).build();
+	public Response deleteTicket(@PathParam(value = "id") int id) {
+		if (ticketBusiness.deleteTicketById(id)) {
+			return Response.status(Status.OK).build();
+		} else {
+			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 	}
-	
+
 }

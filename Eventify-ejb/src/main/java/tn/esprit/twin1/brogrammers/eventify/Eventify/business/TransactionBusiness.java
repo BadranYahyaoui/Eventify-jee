@@ -15,6 +15,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusin
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class TransactionBusiness
@@ -27,67 +28,49 @@ public class TransactionBusiness implements ITransactionBusinessRemote, ITransac
 	EntityManager entityManager;
 	@EJB
 	IReservationBusinessLocal reservationbusinessloccal;
-	
-    @Override
+
+	@Override
 	public List<Transaction> getAllTransactions() {
-    	List<Transaction> transaction= (List<Transaction>) entityManager.createQuery("SELECT new Transaction(t.id,t.token,t.amount,reservation) "
-						+ "FROM Transaction t JOIN t.reservation reservation").getResultList();
-    	
-    	
-    	for (Transaction transactions : transaction) {
-			
-			
-			Reservation reservation = reservationbusinessloccal.findReservationById(transactions.getReservation().getId());
+		List<Transaction> transaction = (List<Transaction>) entityManager
+				.createQuery("SELECT new Transaction(t.id,t.token,t.amount,reservation) "
+						+ "FROM Transaction t JOIN t.reservation reservation")
+				.getResultList();
+
+		for (Transaction transactions : transaction) {
+
+			Reservation reservation = reservationbusinessloccal
+					.findReservationById(transactions.getReservation().getId());
 			transactions.setReservation(reservation);
 
-		
-			
 		}
-	    return transaction;
-		
+		return transaction;
+
 	}
-    
+
 	@Override
 	public void create(Transaction transaction) {
 		entityManager.persist(transaction);
-		
-	}
 
+	}
 
 	@Override
 	public void updateTransaction(Transaction transaction) {
-		entityManager.merge(transaction);	
-		
+		entityManager.merge(transaction);
+
 	}
-
-
-	@Override
-	public boolean deleteTransaction(Transaction transaction) {
-		entityManager.remove(entityManager.merge(transaction));
-		return true;
-	}
-
 
 	@Override
 	public boolean deleteTransactionById(int id) {
-		Iterator<Transaction> iterator=this.getAllTransactions().iterator();
-		while(iterator.hasNext()){
-			Transaction t=iterator.next();
-			if(t.getId()==id){
-				entityManager.remove(this.findTransactionById(id));
-				return true;
-			}
-		}
-		return false;
+		entityManager.remove(entityManager.find(Transaction.class, id));
+		return true;
 	}
-
 
 	@Override
 	public Transaction findTransactionById(int idtransaction) {
-		Query query = entityManager.createQuery("SELECT new Transaction(t.id,t.token,t.amount) "
-				+ "FROM Transaction t WHERE t.id=:idtran");
+		Query query = entityManager.createQuery(
+				"SELECT new Transaction(t.id,t.token,t.amount) " + "FROM Transaction t WHERE t.id=:idtran");
 		Transaction t = (Transaction) query.setParameter("idtran", idtransaction).getSingleResult();
-		//r.setUser(userbusiness.findUserById(r.getUser().getId()));
+		// r.setUser(userbusiness.findUserById(r.getUser().getId()));
 		return t;
 	}
 }

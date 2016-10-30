@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.PaymentMethod;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.ReservationState;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.TimerState;
 
 
 /**
@@ -25,14 +27,16 @@ public class Reservation implements Serializable {
 	private float amount;
 	private Date reservationDate;
 	private User user;
-	private ReservationState reservationState;
+	private ReservationState reservationState=ReservationState.NOTCONFIRMED;
 	private PaymentMethod paymentMethod;
 	private Transaction transaction;
 	private Ticket ticket;
+	private TimerState timerState=TimerState.INPROGRESS;
 	private static final long serialVersionUID = 1L;
 
-	public Reservation(int id, float amount, Date reservationDate,  ReservationState reservationState,PaymentMethod paymentMethod ,User user, Transaction transaction,
-			Ticket ticket) {
+	
+	public Reservation(int id, float amount, Date reservationDate,  ReservationState reservationState,PaymentMethod paymentMethod ,User user,
+			Ticket ticket, TimerState timerState) {
 		super();
 		this.id = id;
 		this.amount = amount;
@@ -40,8 +44,8 @@ public class Reservation implements Serializable {
 		this.user = user;
 		this.reservationState = reservationState;
 		this.paymentMethod=paymentMethod;
-		this.transaction = transaction;
 		this.ticket = ticket;
+		this.timerState = timerState;
 	}
 	public Reservation(int id, float amount, Date reservationDate, ReservationState reservationState, User user, Transaction transaction) {
 		super();
@@ -126,6 +130,14 @@ public class Reservation implements Serializable {
 	}
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	public TimerState getTimerState() {
+		return timerState;
+	}
+	public void setTimerState(TimerState timerState) {
+		this.timerState = timerState;
 	}
 	@Override
 	public String toString() {

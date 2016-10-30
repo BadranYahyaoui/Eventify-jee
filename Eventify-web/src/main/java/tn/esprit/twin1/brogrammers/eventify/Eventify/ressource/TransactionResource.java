@@ -26,58 +26,50 @@ public class TransactionResource {
 
 	@EJB
 	ITransactionBusinessLocal transactionBusiness;
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Transaction> getAllTransaction() {
 
 		return transactionBusiness.getAllTransactions();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public Response findTransactionById(@PathParam("id") int id)
-	{
+	public Response findTransactionById(@PathParam("id") int id) {
 		Transaction t = transactionBusiness.findTransactionById(id);
-		if(t==null)
-		{
+		if (t == null) {
 			return Response.status(Status.NOT_FOUND).build();
-		}
-		else
-		{
+		} else {
 			return Response.status(Status.OK).entity(t).build();
 		}
 	}
-	
-/********/
-	
+
+	/********/
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addTransaction(Transaction transaction)
-	{
+	public Response addTransaction(Transaction transaction) {
 		transactionBusiness.create(transaction);
 		return Response.status(Status.CREATED).build();
 	}
-	
+
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateReservation(Transaction transaction){
+	public Response updateTransaction(Transaction transaction) {
 		transactionBusiness.updateTransaction(transaction);
 		return Response.status(Status.OK).build();
 	}
-	
+
 	@DELETE
 	@Path("{id}")
-	public Response deleteTransaction(@PathParam(value="id")int id){
-		if(transactionBusiness.deleteTransactionById(id))
-			{return Response.status(Status.OK).build();}
-		else
-		{
-	return Response.status(Response.Status.NOT_FOUND).build();
+	public Response deleteTransaction(@PathParam(value = "id") int id) {
+		if (transactionBusiness.deleteTransactionById(id)) {
+			return Response.status(Status.OK).build();
+		} else {
+			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 	}
-	
-	
-	
+
 }
