@@ -42,6 +42,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<Wishlist> wishlists;
+	private List<Favorite> favorites;
 	private List<Notification> notifications;
 	private List<Organization> organizations;
 	private List<Reservation> reservations;
@@ -115,7 +116,7 @@ public class User implements Serializable {
 	/**************************************
 	 * Navigation Attributes
 	 ******************************/
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Wishlist> getWishlists() {
 		return wishlists;
 	}
@@ -123,8 +124,18 @@ public class User implements Serializable {
 	public void setWishlists(List<Wishlist> wishlists) {
 		this.wishlists = wishlists;
 	}
+	
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	public List<Favorite> getFavorites() {
+		return favorites;
+	}
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	public void setFavorites(List<Favorite> favorites) {
+		this.favorites = favorites;
+	}
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Notification> getNotifications() {
 		return notifications;
 	}
@@ -133,7 +144,7 @@ public class User implements Serializable {
 		this.notifications = notifications;
 	}
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Organization> getOrganizations() {
 		return organizations;
 	}
@@ -142,7 +153,7 @@ public class User implements Serializable {
 		this.organizations = organizations;
 	}
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Reservation> getReservations() {
 		return reservations;
 	}
@@ -151,7 +162,7 @@ public class User implements Serializable {
 		this.reservations = reservations;
 	}
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Organizer> getOrganizers() {
 		return organizers;
 	}
@@ -160,7 +171,7 @@ public class User implements Serializable {
 		this.organizers = organizers;
 	}
 
-	@OneToMany(mappedBy = "userReferred", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "userReferred", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<ReferrelUser> getReferredUsers() {
 		return ReferredUsers;
 	}
@@ -169,7 +180,7 @@ public class User implements Serializable {
 		ReferredUsers = referredUsers;
 	}
 
-	@OneToMany(mappedBy = "userReferral", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "userReferral", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<ReferrelUser> getReferralUsers() {
 		return ReferralUsers;
 	}
@@ -178,7 +189,7 @@ public class User implements Serializable {
 		ReferralUsers = referralUsers;
 	}
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Answer> getAnswers() {
 		return answers;
 	}
@@ -187,7 +198,7 @@ public class User implements Serializable {
 		this.answers = answers;
 	}
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Rate> getRates() {
 		return rates;
 	}

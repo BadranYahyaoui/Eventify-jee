@@ -27,7 +27,7 @@ public class WishlistBusiness implements WishlistBusinessRemote, WishlistBusines
 
 	@Override
 	public void addEventToWishlist(Wishlist wishlist) {
-		entityManager.merge(wishlist);
+		entityManager.persist(wishlist);
 		
 	}
 

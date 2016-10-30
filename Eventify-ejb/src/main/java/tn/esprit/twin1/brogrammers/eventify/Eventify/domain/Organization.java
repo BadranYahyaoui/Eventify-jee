@@ -61,7 +61,7 @@ public class Organization implements Serializable {
 
 
 
-	@OneToMany(mappedBy="organization", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="organization", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	public List<Organizer> getOrganizers() {
 		return organizers;
 	}
@@ -114,7 +114,7 @@ public class Organization implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	@OneToMany(mappedBy="organization",fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="organization",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Event> getEvents() {
 		return events;
 	}

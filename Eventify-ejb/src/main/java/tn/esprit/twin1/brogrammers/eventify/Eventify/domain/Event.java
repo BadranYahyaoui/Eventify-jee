@@ -173,7 +173,7 @@ public class Event implements Serializable {
 	} 
 	
 	
-	@OneToMany(mappedBy="event", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="event", fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Media> getMedias() {
 		return medias;
 	}
@@ -306,7 +306,7 @@ public class Event implements Serializable {
 		this.organization = organization;
 	}
 
-	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Wishlist> getWishlists() {
 		return wishlists;
 	}
@@ -316,7 +316,7 @@ public class Event implements Serializable {
 		this.wishlists = wishlists;
 	}
 
-	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Rate> getRate() {
 		return rate;
 	}
@@ -327,7 +327,7 @@ public class Event implements Serializable {
 	}
 
 
-	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)  
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)  
 	public List<Question> getQuestions() {
 		return questions;
 	}
@@ -337,7 +337,7 @@ public class Event implements Serializable {
 		this.questions = questions;
 	}
 
-	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)  
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)  
 	public List<Task> getTasks() {
 		return tasks;
 	}
@@ -347,7 +347,7 @@ public class Event implements Serializable {
 		this.tasks = tasks;
 	}
 
-	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)  
+	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)  
 	public List<Ticket> getTickets() {
 		return tickets;
 	}

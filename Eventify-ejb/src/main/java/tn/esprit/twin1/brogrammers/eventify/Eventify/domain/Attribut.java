@@ -84,7 +84,7 @@ public class Attribut implements Serializable {
 
 
 
-	@OneToMany(mappedBy="attribut",cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="attribut",cascade=CascadeType.ALL)
 	public List<Answer> getAnswers() {
 		return answers;
 	}

@@ -70,7 +70,7 @@ private OrganizerPK  organizerPK;
 	public void setTask(Task task) {
 		this.task = task;
 	}*/
-	@OneToMany(mappedBy="organizer", fetch = FetchType.LAZY,cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="organizer", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public List<Task> getTasks() {
 		return tasks;
 	}
