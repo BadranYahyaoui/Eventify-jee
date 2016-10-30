@@ -82,6 +82,15 @@ public class UserResource {
 		userBusiness.deleteUser(id);
 
 	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("{username}/{pwd}")
+	public String loginUser(@PathParam("username") String username, @PathParam("pwd") String pwd)
+	{
+		return userBusiness.loginUser(username, pwd);
+	}
+	
 
 	// added by Ibra
 	@GET
