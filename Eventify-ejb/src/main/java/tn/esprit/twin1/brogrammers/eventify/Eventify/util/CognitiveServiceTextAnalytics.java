@@ -5,7 +5,6 @@ import java.net.URI;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
@@ -13,30 +12,40 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 public class CognitiveServiceTextAnalytics {
-	public static void main(String[] args) {
+	
+	public static String GetSentimentAnalytics() {
 		HttpClient httpclient = HttpClients.createDefault();
 
-		try {
-			URIBuilder builder = new URIBuilder("https://api.projectoxford.ai/face/v1.0/findsimilars");
+        try
+        {
+            URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment");
 
-			URI uri = builder.build();
-			HttpPost request = new HttpPost(uri);
-			request.setHeader("Content-Type", "application/json");
-			request.setHeader("Ocp-Apim-Subscription-Key", "{subscription key}");
+            builder.setParameter("numberOfLanguagesToDetect", "1");
+
+            URI uri = builder.build();
+            HttpPost request = new HttpPost(uri);
+            request.setHeader("Content-Type", "application/json");
+			request.setHeader("Ocp-Apim-Subscription-Key", "eba8e6cfda0f4b3e98bb85debb8072c9");
 
 			// Request body
-			StringEntity reqEntity = new StringEntity("{body}");
-			request.setEntity(reqEntity);
+			StringEntity reqEntity = new StringEntity("{'documents':[{'id':'1','text':'It was a terrible night'}]}");
+            request.setEntity(reqEntity);
 
-			HttpResponse response = httpclient.execute(request);
-			HttpEntity entity = response.getEntity();
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
+            
+            if (entity != null) 
+            {
+                System.out.println(EntityUtils.toString(entity));
+                return EntityUtils.toString(entity);
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage() + "hereeeeeee ");
+            return null;
 
-			if (entity != null) {
-				System.out.println(EntityUtils.toString(entity));
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-
-		}
+        }
+        return null;
 	}
 }

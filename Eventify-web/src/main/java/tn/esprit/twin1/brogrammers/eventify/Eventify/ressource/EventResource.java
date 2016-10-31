@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.CognitiveServiceTextAnalytics;
 
 @Path("events")
 @RequestScoped
@@ -93,6 +94,7 @@ public class EventResource {
 									@QueryParam(value="longitude") String longitude,
 									@QueryParam(value="latitude") String latitude,
 									@QueryParam(value="userId") int userId
+									
 			){
 		
 		List<Event> liste=null;
@@ -113,7 +115,9 @@ public class EventResource {
 
 		return Response.status(Status.OK).entity(liste).build();
 	}
-
+	
+	
+	
 	
 
 }
