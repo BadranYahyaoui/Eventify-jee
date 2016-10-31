@@ -13,6 +13,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RatePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
@@ -64,7 +65,7 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 	public List<Rate> getRateByUserId(int id) {
 		try {
 			Query query = entityManager.
-					createQuery("SELECT new Rate(r.RatePK,r.note) FROM Rate r WHERE r.RatePK.idUser=:param")
+					createQuery("SELECT new Rate(r.note, r.user, r.event,r.ratePK) FROM Rate r WHERE r.RatePK.idUser=:param")
 					.setParameter("param", id);
 			 return (List<Rate>) query.getResultList();
 
@@ -112,7 +113,7 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 	{
 		try{
 			Query query = entityManager.createQuery(
-				"SELECT new Rate(r.idEvent,r.idUser,r.note) " + "FROM Rate r");
+				"SELECT new Rate(r.note,user,event) " + "FROM Rate r");
 		return (List<Rate>) query.getResultList();
 		} 
 		catch(Exception e)
@@ -123,10 +124,6 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
    }
 			
 	
-	
-	
-	
 
-	
 }
 	

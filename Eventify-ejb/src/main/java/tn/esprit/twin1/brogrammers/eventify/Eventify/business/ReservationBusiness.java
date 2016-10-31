@@ -74,7 +74,7 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 			// transactionbusiness.findTransactionById(reservations.getTransaction().getId());
 			// reservations.setTransaction(transaction);
 
-		}
+		}	
 		return reservation;
 	}
 
