@@ -61,6 +61,15 @@ public class Ticket implements Serializable {
 		this.event = event;
 	}
 
+	public Ticket(int id, int nbTickets,float priceTicket, String typeTicket) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+
+	}
+	
 	public Ticket() {
 		super();
 	}   

@@ -1,10 +1,16 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Timer;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,22 +19,45 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.paypal.api.payments.RedirectUrls;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.business.ReservationBusiness;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.TimerState;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Paypal.PaymentWithPayPalServlet;
 
 @Path("reservation")
 @RequestScoped
 public class ReservationResource {
 	@EJB
 	IReservationBusinessLocal reservationBusiness;
+	@EJB
+	ITicketBusinessLocal ticketBusiness;
+	PaymentWithPayPalServlet p = new PaymentWithPayPalServlet();
+	
+	
+	
+	@GET
+	@Path("paypal/pay")
+	public void pay(@Context  HttpServletRequest servletRequest , @Context HttpServletResponse servletResponse) throws ServletException, IOException {
+		System.out.println("firaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
 
+		p.createPayment(servletRequest ,servletResponse);
+		RedirectUrls redirect=p.createPayment(servletRequest ,servletResponse).getRedirectUrls();
+		System.out.println("Req:"+servletRequest.getParameter("redirectURL"));
+		System.out.println(redirect);
+	}
+	
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllReservations() {
@@ -52,20 +81,35 @@ public class ReservationResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response addReservation(Reservation reservation) {
+	public Response addReservation(Reservation reservation,@QueryParam("nbTicket")int nbTicket) {
+		if(reservation.getTicket().getNbTickets()>nbTicket)
+		{
 		reservationBusiness.create(reservation);
+		Ticket ticket = reservation.getTicket();
+		int oldNbTicket = ticket.getNbTickets();
+		ticket.setNbTickets(oldNbTicket-nbTicket);
+		System.out.println("New NbTick:"+ticket.getNbTickets());
+		ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket-nbTicket);
+		
 		new Timer().schedule(new java.util.TimerTask() {
 			@Override
 			public void run() {
 				System.out.println("timeeeeeeeeeeeeeeer1");
 				reservation.setTimerState(TimerState.FINISHED);
 				updateReservation(reservation);
+				ticket.setNbTickets(oldNbTicket+nbTicket);
+				ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket);
+				System.out.println("Arja3 NbTick:"+ticket.getNbTickets());
 				System.out.println("timeeeeeeeeeeeeeeer2");
 
 			}
-		}, 3000);
-
+		}, 10000);
 		return Response.status(Status.CREATED).build();
+		}
+		
+		else
+		{
+		return Response.status(Status.BAD_REQUEST).build();}
 	}
 
 	@PUT
