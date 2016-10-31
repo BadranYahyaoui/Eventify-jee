@@ -22,7 +22,9 @@ public interface ITicketBusinessLocal {
 	public List<Ticket> findTicketByType(String typeTicket);
 
 	/** MET **/
-
+	public List<Ticket> getAllTicketsEventGroupedByType(int idevent);
+	public List<Ticket> AvailableTicketsOrderByPrice(int idevent);
+	public boolean UpdateNbTicket(int idTicket,int nbareser);
 	/** MET **/
 
 }
