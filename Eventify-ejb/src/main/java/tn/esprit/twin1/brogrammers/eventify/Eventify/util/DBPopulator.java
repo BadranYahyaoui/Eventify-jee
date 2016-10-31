@@ -10,6 +10,7 @@ import javax.ejb.Startup;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AttributBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.FavoriteBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
@@ -19,6 +20,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AnswerPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Attribut;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Favorite;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.FavoritePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
@@ -57,6 +60,8 @@ public class DBPopulator {
 	@EJB
 	CategoryBusinessLocal categoryBusiness;
 	
+	@EJB
+	FavoriteBusinessLocal favoriteBusiness;
 	
 	public DBPopulator() {
 	}
@@ -73,9 +78,9 @@ public class DBPopulator {
 		userBusines.createUser(u2);
 		userBusines.createUser(u3);
 		
-		Category category = new Category(EventCategory.Business.toString()); 
-		Category category1 = new Category(EventCategory.Politics.toString()); 
-		Category category2 = new Category(EventCategory.Science_Technology.toString()); 
+		Category category = new Category(EventCategory.Health.toString()); 
+		Category category1 = new Category(EventCategory.Science_Technology.toString()); 
+		Category category2 = new Category(EventCategory.Business.toString()); 
 		categoryBusiness.addCategory(category);
 		categoryBusiness.addCategory(category1);
 		categoryBusiness.addCategory(category2);
@@ -93,8 +98,12 @@ public class DBPopulator {
 		Event e2 = new Event("Angular Course From Scratch", "Angular Course ",new Date(), new Date(), 12, 9, 1000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
 		e2.setOrganization(o2);
 
+		Event e3 = new Event("React From zero to hero", "React Course ",new Date(), new Date(), 12, 9, 50000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",EventState.PUBLISHED);
+		e3.setOrganization(o1);
+
 		eventBusiness.create(e1);
 		eventBusiness.create(e2);
+		eventBusiness.create(e3);
 		
 		
 		Question q1 = new Question("Combien d'enfants avez-vous ? ", QuestionType.CheckBox, QuestionCategory.RegistrationForm, 1, new Date(), 1);
@@ -131,25 +140,52 @@ public class DBPopulator {
 		answerPK2.setIdAttribut(a2.getId());
 		answerPK2.setIdUser(u1.getId());
 		Answer answer2 = new Answer(answerPK2,u1,a2,"2",new Date());
+		 */
+		
+		
+		//Adding Wishlist Start
+		
+		Wishlist w1 = new Wishlist(new Date(), u1, e1);
+		Wishlist w2 = new Wishlist(new Date(), u1, e2);
+		w1.setWishlistPK(new WishlistPK());
+		w2.setWishlistPK(new WishlistPK());
+		
+		w1.getWishlistPK().setEventId(e1.getId());
+		w1.getWishlistPK().setUserId(u1.getId());
 
-		
-		
-		WishlistPK pk = new WishlistPK();
-		pk.setEventId(e1.getId());
-		pk.setUserId(u1.getId());
-		Wishlist w1 = new Wishlist(pk, new Date(), u1, e1);
+		w2.getWishlistPK().setEventId(e2.getId());
+		w2.getWishlistPK().setUserId(u1.getId());
+
 		wishlistBusiness.addEventToWishlist(w1);
-
-		WishlistPK pk1 = new WishlistPK();
-		pk.setEventId(e2.getId());
-		pk.setUserId(u1.getId());
-		Wishlist w2 = new Wishlist(pk, new Date(), u1, e2);
 		wishlistBusiness.addEventToWishlist(w2);
-		*/
+		
+		//Adding Wishlist END
 
+
+		//Adding Favorites Start
 		
+		Favorite f1 = new Favorite(2, u1, category);
+		Favorite f2 = new Favorite(1, u1, category1);
+		Favorite f3 = new Favorite(3, u1, category2);
 		
+		f1.setFavoritePK(new FavoritePK());
+		f1.getFavoritePK().setCategoryId(category.getId());
+		f1.getFavoritePK().setUserId(u1.getId());
+
+		f2.setFavoritePK(new FavoritePK());
+		f2.getFavoritePK().setCategoryId(category1.getId());
+		f2.getFavoritePK().setUserId(u1.getId());
+
+		f3.setFavoritePK(new FavoritePK());
+		f3.getFavoritePK().setCategoryId(category2.getId());
+		f3.getFavoritePK().setUserId(u1.getId());
 		
+		favoriteBusiness.addFavorite(f1);
+		favoriteBusiness.addFavorite(f2);
+		favoriteBusiness.addFavorite(f3);
+		
+		//Adding Favorites END
+
 
 	}
 		

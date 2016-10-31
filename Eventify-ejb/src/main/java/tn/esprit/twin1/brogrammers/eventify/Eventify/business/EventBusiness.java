@@ -274,12 +274,28 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 	@Override
 	public List<Event> getFavoriteEventByUser(int idUser) {
-	/*	List<Event> events = (List<Event>)entityManager
+		List<Event> events = (List<Event>)entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
 						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o)"
-						+ "FROM Event e JOIN e.organization o ")*/
-		return null;
+						+ "FROM Event e "
+						+ "JOIN e.organization o JOIN e.category c "
+						+ "JOIN c.favorites f "
+						+ "WHERE f.favoritePK.userId = :userId "
+						+ "ORDER BY f.priority")
+				.setParameter("userId", idUser)
+				.getResultList();
+		for (Event event : events) {
+			Organization organization = organizationBusiness.findOrganizationById(event.getOrganization().getId());
+			event.setOrganization(organization);
+		}
+
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
+		}
+		
+		return events;
 	}
 
 	

@@ -91,21 +91,24 @@ public class EventResource {
 									@QueryParam(value="category")String category,
 									@QueryParam(value="organization")int organization,
 									@QueryParam(value="longitude") String longitude,
-									@QueryParam(value="latitude") String latitude
+									@QueryParam(value="latitude") String latitude,
+									@QueryParam(value="userId") int userId
 			){
 		
 		List<Event> liste=null;
-		if(search!=null && type==null && category==null && longitude==null && latitude ==null && organization==0)
+		if(search!=null && type==null && category==null && longitude==null && latitude ==null && organization==0 && userId==0)
 		liste = eventBusiness.SearchForEvents(search);
-		else if (search==null && type!=null && category==null && longitude==null && latitude ==null && organization==0)
+		else if (search==null && type!=null && category==null && longitude==null && latitude ==null && organization==0 && userId==0)
 			liste = eventBusiness.findEventByType(EventType.class.cast(type));
-		else if (search==null && type==null && category!=null && longitude==null && latitude ==null && organization==0)
+		else if (search==null && type==null && category!=null && longitude==null && latitude ==null && organization==0 && userId==0)
 			liste = eventBusiness.findEventByCategory(category);
 		/*else if (search==null && type==null && category==null && organization>0)
 			liste = eventBusiness.findEventByOrganization(organization);*/
-		else if (search==null && type==null && category==null && longitude!=null && latitude !=null && organization==0)
+		else if (search==null && type==null && category==null && longitude!=null && latitude !=null && organization==0 && userId==0)
 			liste= eventBusiness.findEventNearBy(Double.parseDouble(longitude), Double.parseDouble(latitude));
-			else if (search==null && type==null && category==null && longitude==null && latitude ==null && organization==0)
+		else if (search==null && type==null && category==null && longitude==null && latitude ==null && organization==0 && userId!=0)
+			liste= eventBusiness.getFavoriteEventByUser(userId);
+		else if (search==null && type==null && category==null && longitude==null && latitude ==null && organization==0 && userId==0)
 				 liste= eventBusiness.getAllEvents();
 
 		return Response.status(Status.OK).entity(liste).build();

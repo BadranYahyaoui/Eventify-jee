@@ -24,6 +24,27 @@ public class Favorite implements Serializable {
 		this.priority = priority;
 	}
 
+	
+	
+	public Favorite(int priority, User user, Category category) {
+		super();
+		this.priority = priority;
+		this.user = user;
+		this.category = category;
+	}
+
+
+
+	public Favorite(FavoritePK favoritePK, int priority, User user, Category category) {
+		super();
+		this.favoritePK = favoritePK;
+		this.priority = priority;
+		this.user = user;
+		this.category = category;
+	}
+
+
+
 	public Favorite() {
 		super();
 	}
