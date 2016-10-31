@@ -9,12 +9,14 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 
 @Local
 public interface OrganizerBusinessLocal {
+	public void assignOrganizer(Organizer organizer);
 	public void updateOrganizer(Organizer organizer);
-	public boolean deleteOrganizer(int id);
-	public Organizer getOrganizerById(int id);
+	public boolean deleteOrganizer(int UserId,int OrganizationId);
+//	public Organizer getOrganizerById(int id);
 	public List<Organizer> getAllOrganizersByOrganization(int OrganizationId);
-	//public List<Organizer> getAllOrganizersByOrganization(Organization organizations);
-	public List<Organization> SearchForOrganizers(String search);
-	public Organization findOrganizerById(int id);
+	public List<Organizer> getAllOrganizersByUser(int UserId);
+	public Organizer getAllOrganizersByUserIdAndOrganizationId(int UserId,int OrganizationId);
+//	public List<Organization> SearchForOrganizers(String search);
+//	public Organization findOrganizerById(int id);
 
 }

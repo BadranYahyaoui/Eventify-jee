@@ -50,15 +50,8 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 
 	@Override
 	public boolean deleteOrganization(int id) {
-		Iterator<Organization> iterator=this.getAllOrganizations().iterator();
-		while(iterator.hasNext()){
-			Organization r=iterator.next();
-			if(r.getId()==id){
-				entityManager.remove(this.findOrganizationById(id));
-				return true;
-			}
-		}
-		return false;
+		entityManager.remove(entityManager.find(Organization.class, id));
+		return true;
 	}
 
 	

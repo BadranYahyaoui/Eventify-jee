@@ -1,5 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,55 +33,85 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
     public OrganizerBusiness() {
         // TODO Auto-generated constructor stub
     }
-
+    
+    
+    @Override
+	public void assignOrganizer(Organizer organizer) {
+		try {
+			entityManager.persist(organizer);
+		} catch (Exception e) {
+			System.err.println("error");
+		}
+		
+	}
+    
+    
 	@Override
 	public void updateOrganizer(Organizer organizer) {
 		entityManager.merge(organizer);
 		
 	}
 
-	@Override
-	public boolean deleteOrganizer(int id) {
-		if(getOrganizerById(id)!=null)
-		{
-			entityManager.remove(getOrganizerById(id));;
-			return true;
-		}
-		else
-		return false;
-		
-		
-	}
+
 
 	@Override
 	public List<Organizer> getAllOrganizersByOrganization(int OrganizationId) {
-		/*Query query = entityManager.createQuery("SELECT o FROM Organizer o");
-		return (List<Organizer>) query.getResultList();*/
 		
-		
-		 Query query = entityManager
-		    		.createQuery("SELECT o FROM Organizer o WHERE o.OrganizerPK.OrganizationId = :OrganizationId")
-		    		.setParameter("OrganizationId",OrganizationId);
-		    return (List<Organizer>) query.getResultList();
+	  
+		    try {
+				Query query = entityManager.
+						createQuery("SELECT new Organizer(o.organizerPK) FROM Organizer o WHERE o.organizerPK.idOrganization=:param")
+						.setParameter("param", OrganizationId);
+				 return query.getResultList();
+
+			} catch (Exception e) {
+				System.err.println("Cant Find Organizer");
+				return new ArrayList<Organizer>();
+			}
+	
 	}
 
 
 
+	
+
 	@Override
-	public List<Organization> SearchForOrganizers(String search) {
+	public boolean deleteOrganizer(int UserId, int OrganizationId) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override
-	public Organization findOrganizerById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Organizer> getAllOrganizersByUser(int UserId) {
+		  try {
+				Query query = entityManager.
+						createQuery("SELECT new Organizer(o.organizerPK) FROM Organizer o WHERE o.organizerPK.idUser=:param")
+						.setParameter("param", UserId);
+				 return query.getResultList();
+
+			} catch (Exception e) {
+				System.err.println("Cant Find Organizer");
+				return new ArrayList<Organizer>();
+			}
 	}
 
 	@Override
-	public Organizer getOrganizerById(int id) {
-		return entityManager.find(Organizer.class, id);
+	public Organizer getAllOrganizersByUserIdAndOrganizationId(int UserId, int OrganizationId) {
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Organizer(o.organizerPK,o.State) FROM Organizer o"
+							+ " WHERE o.organizerPK.idOrganization=:OrganizationId AND o.organizerPK.idUser=:UserId")
+			.setParameter("OrganizationId", OrganizationId)
+			.setParameter("UserId", UserId);
+			 return (Organizer) query.getSingleResult();
+
+		} catch (Exception e) {
+			System.err.println("Cant Find Organizer");
+			return null; } 
+		}
+	
+	
+	
 	}
 
-}
+
