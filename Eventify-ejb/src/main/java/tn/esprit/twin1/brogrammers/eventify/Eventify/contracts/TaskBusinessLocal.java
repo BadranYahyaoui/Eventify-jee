@@ -21,13 +21,12 @@ public interface TaskBusinessLocal {
 	public Task findTaskByID(int id);
 	
 	//get all the Tasks Related To an event
-	public List<Task>getAllTasksByID(int idEvent);
+	public List<Task>getAllTasksByEventID(int idEvent);
 	   
 	//get all the tasks Assigned to an oganizer 
 	public  List<Task>GetTasksByOrganizer(int idOrganizer);
 		
-	 //cancel task to an orgnizer
-	public void cancelTask(int idTask,int idOrganizer);
+	
 	
 	
 	
@@ -36,7 +35,7 @@ public interface TaskBusinessLocal {
 	
 	 //when Orgnizer complete Task
 		
-	public void taskStatusCompleted(int idOrgnizer,int Taskid);
+	public void taskStatusCompleted(int Taskid);
 	
 	
 	//get a task status --Completed --not completed --Working On
