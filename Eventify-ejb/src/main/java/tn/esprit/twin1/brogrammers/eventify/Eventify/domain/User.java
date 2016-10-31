@@ -15,8 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
-
-import tn.esprit.twin1.brogrammers.eventify.Eventify.util.MD5Hash;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.AccountState;
 
 /**
  * Entity implementation class for Entity: User

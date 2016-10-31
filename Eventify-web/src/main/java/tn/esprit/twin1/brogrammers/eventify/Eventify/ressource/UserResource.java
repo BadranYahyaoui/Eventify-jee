@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.Filters.Secured;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
@@ -23,6 +24,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 /*
  *  PS : DON'T FUCKING TOUCH THIS LOVELY BY HAKIM
  */
+
 
 @Path("users")
 @RequestScoped
@@ -51,7 +53,8 @@ public class UserResource {
 		}
 
 	}
-
+	
+	@Secured
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
@@ -82,6 +85,15 @@ public class UserResource {
 		userBusiness.deleteUser(id);
 
 	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("{username}/{pwd}")
+	public String loginUser(@PathParam("username") String username, @PathParam("pwd") String pwd)
+	{
+		return userBusiness.loginUser(username, pwd);
+	}
+	
 
 	// added by Ibra
 	@GET
@@ -90,4 +102,7 @@ public class UserResource {
 	public List<Wishlist> getMyWishlist(@PathParam("id") int id) {
 		return userBusiness.getMyWishlist(id);
 	}
+	
+	
+
 }

@@ -1,34 +1,41 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 
 import java.io.Serializable;
+import javax.persistence.*;
 
-import javax.persistence.Embeddable;
-
+/**
+ * Entity implementation class for Entity: CommentPK
+ *
+ */
 @Embeddable
-public class RatePK implements Serializable {
+public class CommentPK implements Serializable {
 
+	
 	private int idUser;
 	private int idEvent;
 	
+	
 	private static final long serialVersionUID = 1L;
 
-
+	public CommentPK() {
+		super();
+	}   
 	public int getIdUser() {
-		return idUser;
+		return this.idUser;
 	}
 
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
-	}
-
+	}   
 	public int getIdEvent() {
-		return idEvent;
+		return this.idEvent;
 	}
 
 	public void setIdEvent(int idEvent) {
 		this.idEvent = idEvent;
 	}
-
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -46,14 +53,12 @@ public class RatePK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RatePK other = (RatePK) obj;
+		CommentPK other = (CommentPK) obj;
 		if (idEvent != other.idEvent)
 			return false;
 		if (idUser != other.idUser)
 			return false;
 		return true;
 	}
-	
-	
-
+   
 }

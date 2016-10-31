@@ -13,6 +13,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLoca
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.FavoriteBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
@@ -24,6 +25,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Favorite;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.FavoritePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RatePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.WishlistPK;
@@ -59,6 +62,9 @@ public class DBPopulator {
 	
 	@EJB
 	CategoryBusinessLocal categoryBusiness;
+	
+	@EJB
+	RateBusinessLocal rateBusiness;
 	
 	@EJB
 	FavoriteBusinessLocal favoriteBusiness;
@@ -129,7 +135,30 @@ public class DBPopulator {
 		
 		Attribut a4= new Attribut("Pas Mal", false, q2);
 		attributBusiness.createAttribut(a4);
-
+		
+		
+		
+		
+		Rate r1 = new Rate(3,u1,e1);
+		r1.setRatePK(new RatePK());
+		r1.getRatePK().setIdUser(u1.getId());
+		r1.getRatePK().setIdEvent(e1.getId());
+		rateBusiness.createRate(r1);
+		
+		Rate r2 = new Rate(5,u2,e1);
+		r2.setRatePK(new RatePK());
+		r2.getRatePK().setIdUser(u2.getId());
+		r2.getRatePK().setIdEvent(e1.getId());
+		rateBusiness.createRate(r2);
+		
+		Rate r3 = new Rate(2,u3,e1);
+		r3.setRatePK(new RatePK());
+		r3.getRatePK().setIdUser(u3.getId());
+		r3.getRatePK().setIdEvent(e1.getId());
+		rateBusiness.createRate(r3);
+		
+		
+		
 		/*
 		AnswerPK answerPK1 =new AnswerPK();
 		answerPK1.setIdAttribut(a1.getId());

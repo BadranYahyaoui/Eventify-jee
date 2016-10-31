@@ -71,14 +71,17 @@ public class RateResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public Response getRateByUserId(@PathParam("id")int id) 
+	public List<Rate> GetAllRatesOfEvent(@PathParam("id")int id) 
+	 {
+		return RateBusiness.GetAllRatesOfEvent(id);
+	 }
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Rate> getAllRates()
 	{
-		List rates = (List) RateBusiness.getRateByUserId(id);
-		if(rates.size()!=0)
-			return Response.status(Status.OK).entity(rates).build();
-		else
-			return Response.status(Status.NOT_FOUND).build();
-
+	  return RateBusiness.getAllRates();
 	}
 
 	

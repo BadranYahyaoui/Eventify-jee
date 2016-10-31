@@ -17,5 +17,6 @@ public interface UserBusinessRemote {
 	public void updateUser(User user);
 	public void deleteUser(int id);
 	public List<Wishlist> getMyWishlist(int idUser); //added by Ibra
+	public String loginUser(String username, String pwd);
 
 }

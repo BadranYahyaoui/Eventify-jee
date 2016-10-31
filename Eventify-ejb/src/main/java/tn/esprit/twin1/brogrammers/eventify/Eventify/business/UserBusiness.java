@@ -9,11 +9,10 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.AccountState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.util.EmailTemplate;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Emailer;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.AccountState;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.AuthJWT;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.MD5Hash;
 
 /**
@@ -35,13 +34,15 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 	public void createUser(User user) {
 		user.setPassword(MD5Hash.getMD5Hash(user.getPassword()));
 		user.setAccountState(AccountState.NOTACTIVATED);
-		String activationHashedCode=MD5Hash.getMD5Hash(user.getUsername() + user.getEmail());
+		String activationHashedCode = MD5Hash.getMD5Hash(user.getUsername() + user.getEmail());
 		user.setConfirmationToken(activationHashedCode);
-		//Emailer.sendEmail("Eventify Account Activation", "http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode, user.getEmail());
+		// Emailer.sendEmail("Eventify Account Activation",
+		// "http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode,
+		// user.getEmail());
 		entityManager.persist(user);
-		//Emailer.SendEmail(user.getEmail(), "Eventify Account Activation", EmailTemplate.activiationTemplate("http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode));
-		
-		
+		// Emailer.SendEmail(user.getEmail(), "Eventify Account Activation",
+		// EmailTemplate.activiationTemplate("http://localhost:18080/Eventify-web/rest/users/confirm/"+activationHashedCode));
+
 	}
 
 	@Override
@@ -93,12 +94,30 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 
 	@Override
 	public void deleteUser(int id) {
-		//entityManager.remove(findUserById(id));
+		// entityManager.remove(findUserById(id));
 		entityManager.remove(entityManager.find(User.class, id));
-
 
 	}
 
+	@Override
+	public String loginUser(String username, String pwd) {
+		String hashedPwd=MD5Hash.getMD5Hash(pwd);
+		Query query = entityManager.createQuery(
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+						+ "FROM User u WHERE (u.username=:uname AND u.password=:upwd) ");
+		User userLogged =(User) query.setParameter("uname", username).setParameter("upwd", hashedPwd).getSingleResult();
+		
+		
+		String vf = AuthJWT.SignJWT("User",userLogged);
+		//AuthJWT.VerifyJWT(vf);
+		
+		
+		
+		return vf;
+
+	}
+
+	@Override
 	public List<Wishlist> getMyWishlist(int idUser) {
 		Query query = entityManager
 				.createQuery("SELECT new Wishlist(w.dateAdding) FROM User u JOIN u.wishlists w WHERE u.id=:param");

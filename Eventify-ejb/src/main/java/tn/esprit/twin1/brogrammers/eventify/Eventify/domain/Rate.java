@@ -22,6 +22,25 @@ public class Rate implements Serializable {
 		super();
 	}
 
+	
+	
+	public Rate(float note, User user, Event event) {
+		super();
+		this.note = note;
+		this.user = user;
+		this.event = event;
+	}
+
+
+
+	public Rate(float note, User user, Event event,RatePK ratePK) {
+		super();
+		this.note = note;
+		this.user = user;
+		this.event = event;
+		this.ratePK=ratePK;
+	}
+
 	@EmbeddedId
 	public RatePK getRatePK() {
 		return ratePK;
@@ -62,7 +81,5 @@ public class Rate implements Serializable {
 	}
 	
 	
-	
-	
-   
+
 }
