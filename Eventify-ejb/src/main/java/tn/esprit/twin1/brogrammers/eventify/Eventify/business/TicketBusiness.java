@@ -87,11 +87,35 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 
 	@Override
 	public List<Ticket> findTicketByType(String typeTicket) {
-		Query query = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.typeTicket LIKE :typeTicket")
+		Query query = entityManager.createQuery("SELECT NEW Ticket(t.id,t.nbTickets, t.priceTicket, t.typeTicket) FROM Ticket t WHERE t.typeTicket LIKE :typeTicket")
 				.setParameter("typeTicket", typeTicket);
 		return (List<Ticket>) query.getResultList();
 	}
 
-	/**************************************** MET ********************************/
 
+
+	/**************************************** MET ********************************/
+	@Override
+	public List<Ticket> getAllTicketsEventGroupedByType(int idevent) {
+		Query query  = entityManager.createQuery("SELECT NEW Ticket(t.id,t.nbTickets, t.priceTicket, t.typeTicket) FROM Ticket t where event.id =:idevent GROUP BY t.typeTicket,t.id")
+				.setParameter("idevent", idevent);
+		return (List<Ticket>) query.getResultList();
+	}
+
+	@Override
+	public List<Ticket> AvailableTicketsOrderByPrice(int idevent) {
+		Query query  = entityManager.createQuery("SELECT NEW Ticket(t.id,t.nbTickets, t.priceTicket, t.typeTicket) FROM Ticket t where event.id =:idevent "
+				+ "AND t.nbTickets > 0 ORDER BY t.priceTicket ASC")
+				.setParameter("idevent", idevent);
+		return (List<Ticket>) query.getResultList();
+	}
+
+	@Override
+	public boolean UpdateNbTicket(int idTicket,int nbareser) {
+		Query query  = entityManager.createQuery("UPDATE Ticket SET nbTickets =:nbareser where id =:idTicket")
+				.setParameter("idTicket", idTicket)
+				.setParameter("nbareser", nbareser);
+		query.executeUpdate();
+		return true;
+	}
 }

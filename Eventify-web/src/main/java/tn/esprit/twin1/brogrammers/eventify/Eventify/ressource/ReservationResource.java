@@ -19,6 +19,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,6 +29,7 @@ import com.paypal.api.payments.RedirectUrls;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.business.ReservationBusiness;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.TimerState;
@@ -38,7 +40,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Paypal.PaymentWithPayP
 public class ReservationResource {
 	@EJB
 	IReservationBusinessLocal reservationBusiness;
-
+	@EJB
+	ITicketBusinessLocal ticketBusiness;
 	PaymentWithPayPalServlet p = new PaymentWithPayPalServlet();
 	
 	
@@ -78,20 +81,35 @@ public class ReservationResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response addReservation(Reservation reservation) {
+	public Response addReservation(Reservation reservation,@QueryParam("nbTicket")int nbTicket) {
+		if(reservation.getTicket().getNbTickets()>nbTicket)
+		{
 		reservationBusiness.create(reservation);
+		Ticket ticket = reservation.getTicket();
+		int oldNbTicket = ticket.getNbTickets();
+		ticket.setNbTickets(oldNbTicket-nbTicket);
+		System.out.println("New NbTick:"+ticket.getNbTickets());
+		ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket-nbTicket);
+		
 		new Timer().schedule(new java.util.TimerTask() {
 			@Override
 			public void run() {
 				System.out.println("timeeeeeeeeeeeeeeer1");
 				reservation.setTimerState(TimerState.FINISHED);
 				updateReservation(reservation);
+				ticket.setNbTickets(oldNbTicket+nbTicket);
+				ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket);
+				System.out.println("Arja3 NbTick:"+ticket.getNbTickets());
 				System.out.println("timeeeeeeeeeeeeeeer2");
 
 			}
-		}, 3000);
-
+		}, 10000);
 		return Response.status(Status.CREATED).build();
+		}
+		
+		else
+		{
+		return Response.status(Status.BAD_REQUEST).build();}
 	}
 
 	@PUT
