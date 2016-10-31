@@ -3,6 +3,8 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +34,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusin
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.PaymentMethod;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.ReservationState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.TimerState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Paypal.PaymentWithPayPalServlet;
 
@@ -43,21 +47,19 @@ public class ReservationResource {
 	@EJB
 	ITicketBusinessLocal ticketBusiness;
 	PaymentWithPayPalServlet p = new PaymentWithPayPalServlet();
-	
-	
-	
+
 	@GET
 	@Path("paypal/pay")
-	public void pay(@Context  HttpServletRequest servletRequest , @Context HttpServletResponse servletResponse) throws ServletException, IOException {
+	public void pay(@Context HttpServletRequest servletRequest, @Context HttpServletResponse servletResponse)
+			throws ServletException, IOException {
 		System.out.println("firaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
 
-		p.createPayment(servletRequest ,servletResponse);
-		RedirectUrls redirect=p.createPayment(servletRequest ,servletResponse).getRedirectUrls();
-		System.out.println("Req:"+servletRequest.getParameter("redirectURL"));
+		p.createPayment(servletRequest, servletResponse);
+		RedirectUrls redirect = p.createPayment(servletRequest, servletResponse).getRedirectUrls();
+		System.out.println("Req:" + servletRequest.getParameter("redirectURL"));
 		System.out.println(redirect);
 	}
-	
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllReservations() {
@@ -81,35 +83,34 @@ public class ReservationResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response addReservation(Reservation reservation,@QueryParam("nbTicket")int nbTicket) {
-		if(reservation.getTicket().getNbTickets()>nbTicket)
-		{
-		reservationBusiness.create(reservation);
-		Ticket ticket = reservation.getTicket();
-		int oldNbTicket = ticket.getNbTickets();
-		ticket.setNbTickets(oldNbTicket-nbTicket);
-		System.out.println("New NbTick:"+ticket.getNbTickets());
-		ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket-nbTicket);
-		
-		new Timer().schedule(new java.util.TimerTask() {
-			@Override
-			public void run() {
-				System.out.println("timeeeeeeeeeeeeeeer1");
-				reservation.setTimerState(TimerState.FINISHED);
-				updateReservation(reservation);
-				ticket.setNbTickets(oldNbTicket+nbTicket);
-				ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket);
-				System.out.println("Arja3 NbTick:"+ticket.getNbTickets());
-				System.out.println("timeeeeeeeeeeeeeeer2");
+	public Response addReservation(Reservation reservation, @QueryParam("nbTicket") int nbTicket) {
+		if (reservation.getTicket().getNbTickets() > nbTicket) {
+			reservationBusiness.create(reservation);
+			Ticket ticket = reservation.getTicket();
+			int oldNbTicket = ticket.getNbTickets();
+			ticket.setNbTickets(oldNbTicket - nbTicket);
+			System.out.println("New NbTick:" + ticket.getNbTickets());
+			ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket - nbTicket);
 
-			}
-		}, 10000);
-		return Response.status(Status.CREATED).build();
+			new Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					System.out.println("timeeeeeeeeeeeeeeer1");
+					reservation.setTimerState(TimerState.FINISHED);
+					updateReservation(reservation);
+					ticket.setNbTickets(oldNbTicket + nbTicket);
+					ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket);
+					System.out.println("Arja3 NbTick:" + ticket.getNbTickets());
+					System.out.println("timeeeeeeeeeeeeeeer2");
+
+				}
+			}, 10000);
+			return Response.status(Status.CREATED).build();
 		}
-		
-		else
-		{
-		return Response.status(Status.BAD_REQUEST).build();}
+
+		else {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
 	}
 
 	@PUT
@@ -130,4 +131,58 @@ public class ReservationResource {
 		}
 	}
 
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("find")
+	public Response getReservations(@QueryParam(value = "reservationState") ReservationState reservationState,
+			@QueryParam(value = "timerState") TimerState timerState,
+			@QueryParam(value = "paymentMethod") PaymentMethod paymentMethod,
+			@QueryParam(value = "userId") int userId) {
+		List<Reservation> liste = null;
+		if (reservationState == null && timerState == null && paymentMethod == null && userId == 0) {
+			liste = reservationBusiness.getAllReservations();
+		} else if (reservationState != null && timerState == null && paymentMethod == null && userId == 0) {
+			liste = reservationBusiness.findReservationByState(reservationState);
+		} else if (reservationState == null && timerState != null && paymentMethod == null && userId == 0) {
+			liste = reservationBusiness.findReservationByTimerState(timerState);
+		} else if (reservationState == null && timerState == null && paymentMethod != null && userId == 0) {
+			liste = reservationBusiness.findReservationByPaymentMethod(paymentMethod);
+		} else if (reservationState == null && timerState == null && paymentMethod == null && userId != 0) {
+			liste = reservationBusiness.findReservationByUserId(userId);
+		}
+		return Response.status(Status.OK).entity(liste).build();
+	}
+
+	@GET
+	@Path("myconfirmedreservation")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response CheckConfirmedReservationSum(@QueryParam(value = "idEvent") int idEvent) {
+
+		return Response.ok(reservationBusiness.CheckConfirmedReservationSum(idEvent)).build();
+	}
+
+	@GET
+	@Path("ReservationsByPaymentMethod")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getAllReservationGroupByPaymentMethod(@QueryParam(value = "idEvent") int idEvent) {
+		return Response.status(Status.OK).entity(reservationBusiness.getAllReservationGroupByPaymentMethod(idEvent))
+				.build();
+
+	}
+	
+	@GET
+	@Path("EventAmount")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getSumOfAmountForOneEvent(@QueryParam(value = "idEvent") int idEvent) {
+		return Response.ok(reservationBusiness.getSumOfAmountForOneEvent(idEvent)).build();
+
+	}
+	
+	@GET
+	@Path("test")
+	public void getSumOfAmountForOneEventf() {
+		reservationBusiness.getAmountOrderByYear();
+
+	}
+	
 }

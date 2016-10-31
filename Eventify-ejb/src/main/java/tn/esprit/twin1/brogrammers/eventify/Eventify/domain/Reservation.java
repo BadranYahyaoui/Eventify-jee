@@ -64,6 +64,15 @@ public class Reservation implements Serializable {
 		this.reservationState = reservationState;
 		this.paymentMethod=paymentMethod;
 	}
+	public Reservation(int id, float amount, Date reservationDate, ReservationState reservationState,PaymentMethod paymentMethod, Ticket ticket) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.reservationState = reservationState;
+		this.paymentMethod=paymentMethod;
+		this.ticket = ticket;
+	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {
 		return user;

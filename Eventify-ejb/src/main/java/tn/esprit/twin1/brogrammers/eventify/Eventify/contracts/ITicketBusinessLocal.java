@@ -25,6 +25,7 @@ public interface ITicketBusinessLocal {
 	public List<Ticket> getAllTicketsEventGroupedByType(int idevent);
 	public List<Ticket> AvailableTicketsOrderByPrice(int idevent);
 	public boolean UpdateNbTicket(int idTicket,int nbareser);
+	public String TicketsPerCent(int eventId);
 	/** MET **/
 
 }
