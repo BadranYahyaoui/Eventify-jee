@@ -2,7 +2,6 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.util;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.util.HashMap;
@@ -11,10 +10,6 @@ import java.util.Map;
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.JWTVerifyException;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.crypto.MacProvider;
 
 public class AuthJWT {
 
@@ -38,7 +33,7 @@ public class AuthJWT {
 	}
 	
 	
-	public static void VerifyJWT(String jwtToVerify)
+	public static Map<String, Object> VerifyJWT(String jwtToVerify)
 	{
 		
 		try {
@@ -46,10 +41,14 @@ public class AuthJWT {
 		    final Map<String, Object> claims= verifier.verify(jwtToVerify);
 		    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Verification \n\n : " +claims+"\n\n END \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		   // return claims;
+		    return claims;
 		} catch (JWTVerifyException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException | SignatureException | IOException e) {
 		    // Invalid Token
 			//return null;
 			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Verification \n\n PROBLEM \n\n END \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		
+			return null;
+		
 		}
 		
 		
