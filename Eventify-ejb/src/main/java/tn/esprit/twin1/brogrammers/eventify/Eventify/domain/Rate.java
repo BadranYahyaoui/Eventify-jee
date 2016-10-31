@@ -17,6 +17,28 @@ public class Rate implements Serializable {
 	private Event event;
 	
 	private static final long serialVersionUID = 1L;
+	
+	
+	
+	
+	
+
+	public Rate(RatePK ratePK, float note) {
+		super();
+		this.ratePK = ratePK;
+		this.note = note;
+	}
+
+
+
+
+	public Rate(RatePK ratePK) {
+		super();
+		this.ratePK = ratePK;
+	}
+
+
+
 
 	public Rate() {
 		super();
@@ -24,6 +46,26 @@ public class Rate implements Serializable {
 
 	
 	
+	
+	public Rate(float note) {
+		super();
+		this.note = note;
+	}
+
+
+
+
+	public Rate(RatePK ratePK, float note, User user, Event event) {
+		super();
+		this.ratePK = ratePK;
+		this.note = note;
+		this.user = user;
+		this.event = event;
+	}
+
+
+
+
 	public Rate(float note, User user, Event event) {
 		super();
 		this.note = note;
@@ -41,6 +83,7 @@ public class Rate implements Serializable {
 		this.ratePK=ratePK;
 	}
 
+	
 	@EmbeddedId
 	public RatePK getRatePK() {
 		return ratePK;

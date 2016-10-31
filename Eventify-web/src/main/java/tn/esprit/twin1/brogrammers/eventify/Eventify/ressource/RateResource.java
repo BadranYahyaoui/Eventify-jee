@@ -12,12 +12,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
-
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 
 @Path("rates")
@@ -56,35 +57,79 @@ public class RateResource {
 	
 	
 	@DELETE
-	@Path("{id}")
-	public Response deleteAnswer(@PathParam(value="id")int id){
-		
-		boolean b = RateBusiness.deleteRate(id);
-		if(b)
-			return Response.status(Status.OK).build();
-		else
-			return Response.status(Status.NOT_FOUND).build();
-
-	}
-	
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{id}")
-	public List<Rate> GetAllRatesOfEvent(@PathParam("id")int id) 
-	 {
-		return RateBusiness.GetAllRatesOfEvent(id);
-	 }
-	
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Rate> getAllRates()
+	public Response deleteRate(@QueryParam(value="iduser")int idUser,@QueryParam(value="idevent")int idEvent)
 	{
-	  return RateBusiness.getAllRates();
+		
+		
+		if(RateBusiness.deleteRateByUser(idUser,idEvent))
+			{
+			System.out.println("deleted");
+			return Response.status(Status.OK).build();
+			}
+		
+		else
+			{
+			System.out.println("not deleted");
+			return Response.status(Status.NOT_FOUND).build();
+			}
 	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllRatessByUserIdAndRatesId(@QueryParam(value="iduser")int idUser,@QueryParam(value="idevent")int idEvent)
+	{
+		
+		if(idUser!=0 && idEvent==0){
+			List<Rate> liste=RateBusiness.GetAllRatesOfUser(idUser);
+			return Response.status(Status.OK).entity(liste).build();
+		}
+		else if (idUser!=0 && idEvent!=0){
+			Rate r=RateBusiness.getRateByUserIdAndEventId(idUser, idEvent);
+			return Response.status(Status.OK).entity(r).build();
+		}
+		else {
+			List<Rate> liste=RateBusiness.GetAllRatesOfEvent(idEvent);
+			return Response.status(Status.OK).entity(liste).build();
+		}
+
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{idevent}")
+	public Response CalculRate(@PathParam(value="idevent")int idEvent)
+	{
+		try {
+			float rate = RateBusiness.CalculRate(idEvent);
+			System.out.println("\n\n\n\n\n\n\n\nMoyenne Rate : "+rate+"\n\n\n\n\n\n\n\n");
+			return Response.status(Status.OK).build();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		System.out.println("cant calculate this shit !!!!!!!!!!");
+		return Response.status(Status.BAD_REQUEST).build();
+	}
+	
 
 	
 	
-
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+

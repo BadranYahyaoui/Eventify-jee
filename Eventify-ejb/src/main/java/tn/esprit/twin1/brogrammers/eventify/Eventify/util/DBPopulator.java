@@ -1,6 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.util;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,6 +15,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.FavoriteBusinessL
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RefferUserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.WishlistBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
@@ -27,6 +29,8 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RatePK;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUser;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUserPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.WishlistPK;
@@ -36,6 +40,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventTyp
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.OrganizationType;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionCategory;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionType;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.StateInvitation;
 
 @Singleton
 @Startup
@@ -68,6 +73,9 @@ public class DBPopulator {
 	
 	@EJB
 	FavoriteBusinessLocal favoriteBusiness;
+	
+	@EJB
+	RefferUserBusinessLocal ReferrelUserBusiness;
 	
 	public DBPopulator() {
 	}
@@ -156,6 +164,21 @@ public class DBPopulator {
 		r3.getRatePK().setIdUser(u3.getId());
 		r3.getRatePK().setIdEvent(e1.getId());
 		rateBusiness.createRate(r3);
+		
+		System.out.println("\n\n\n\n\n\n\n\nMoyenne Rate : "+rateBusiness.CalculRate(e1.getId())+"\n\n\n\n\n\n\n\n");
+		
+		ReferrelUser ref1 = new ReferrelUser(u1, u2, StateInvitation.CONFIRMED);
+		ref1.setReferrelUserPK(new ReferrelUserPK());
+		ref1.getReferrelUserPK().setIdUserReferral(u1.getId());
+		ref1.getReferrelUserPK().setIdUserReferred(u2.getId());
+		ReferrelUserBusiness.ChooseReferred(ref1);
+		
+		ReferrelUser ref2 = new ReferrelUser(u2, u3, StateInvitation.WAITING);
+		ref2.setReferrelUserPK(new ReferrelUserPK());
+		ref2.getReferrelUserPK().setIdUserReferral(u2.getId());
+		ref2.getReferrelUserPK().setIdUserReferred(u3.getId());
+		ReferrelUserBusiness.ChooseReferred(ref2);
+		
 		
 		
 		

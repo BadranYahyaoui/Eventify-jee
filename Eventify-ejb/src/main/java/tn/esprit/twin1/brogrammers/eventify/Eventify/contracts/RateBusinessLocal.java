@@ -14,13 +14,15 @@ public interface RateBusinessLocal {
 	
 	public void modifyRate(Rate rate);
 	
-	public boolean deleteRate(int id);
+	public boolean deleteRateByUser(int UserId,int EventId);
 	
-	public List<Rate> getRateByUserId(int id);
+	public float CalculRate(int idEvent);
 	
-	public float CalculRate(Event event);
+	public List<Rate> GetAllRatesOfEvent(int idEvent);
 	
-	public List<Rate> GetAllRatesOfEvent(int id);
+	public List<Rate> GetAllRatesOfUser(int idUser);
 	
-	public List<Rate> getAllRates();
+	public Rate getRateByUserIdAndEventId(int UserId, int EventId);
+	
+
 }
