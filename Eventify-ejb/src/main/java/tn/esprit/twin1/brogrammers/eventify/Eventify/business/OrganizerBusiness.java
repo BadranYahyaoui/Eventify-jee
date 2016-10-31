@@ -80,8 +80,10 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
 
 	@Override
 	public boolean deleteOrganizer(int UserId, int OrganizationId) {
-		// TODO Auto-generated method stub
-		return false;
+		
+			entityManager.remove(entityManager.merge(getAllOrganizersByUserIdAndOrganizationId(UserId, OrganizationId)));;
+			return true;
+		
 	}
 
 	@Override

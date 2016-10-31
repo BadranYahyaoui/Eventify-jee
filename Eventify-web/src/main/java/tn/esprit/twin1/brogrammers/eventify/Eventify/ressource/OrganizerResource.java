@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -85,4 +86,19 @@ public class OrganizerResource {
 	 organizerBusiness.GetNbOrganizerByOrganization();
 				
 	}
+	
+	
+	
+	@DELETE
+	public Response deleteOrganizer(@QueryParam("UserId")int UserId,
+									@QueryParam("OrganizationId")int OrganizationId){
+		
+		if(organizerBusiness.deleteOrganizer(UserId, OrganizationId))
+			return Response.status(Status.OK).build();
+		else
+			return Response.status(Status.NOT_FOUND).build();
+	}
+	
+	
+	
 }
