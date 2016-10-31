@@ -113,7 +113,88 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	    return (List<Organization>) query.getResultList();
 	}
 
+	@Override
+	public String GetNbOrganizationPhysiqueStatistics() {
+		Query query = entityManager
+	    .createQuery("SELECT o FROM Organization o where o.organizationType ='PHYSIQUE' ");
+	    
+		int x = query.getResultList().size();
+		Query query2 = entityManager
+			    .createQuery("SELECT o FROM Organization o ");
+			     
+		int y = query2.getResultList().size();
+		
+		return (x*100/y)+"%";
+	}
+
+	@Override
+	public void GetNbOrganizerByOrganization() {
+
+		List<Object[]> results = (List<Object[]>) entityManager
+		        .createQuery( "SELECT org.organizationName,COUNT(State) " +
+					    "FROM Organizer o  JOIN o.organization org " +
+					    "GROUP BY org.organizationName")
+		        .getResultList();
+		for (Object[] result : results) {
+		    String name = (String) result[0];
+		    System.out.println(name);
+		    int count = ((Number) result[1]).intValue();
+		    System.out.println(count);
+//ou remplacer * par :o.organizerPK.idOrganization
+		}
+		
+		
+		
+	}
+
+	@Override
+	public String GetNbOrganizationMoraleStatistics() {
+		Query query = entityManager
+			    .createQuery("SELECT o FROM Organization o where o.organizationType ='MORALE' ");
+			    
+				int x = query.getResultList().size();
+				Query query2 = entityManager
+					    .createQuery("SELECT o FROM Organization o ");
+					     
+				int y = query2.getResultList().size();
+				
+				return (x*100/y)+"%";
+	}
 
 	
+	
+	
+	
+	/* public String ProjectPercentageOfCompletion(int idProject){
+		float Percentage=0;
+		String LabelPercentage=null;
+		List<Task> AccomplishTasks;
+		List<Task> AllTasks;
+		int NbrAllTasks=0;
+		int NbrAccomplishTasks=0;
+		String AccomplishTasksQuery="select t from Task t where t.taskpk.idProject=:id and t.state='Done'";
+		TypedQuery <Task> query = entityManager.createQuery(AccomplishTasksQuery, Task.class);
+		query.setParameter("id", idProject);
+		AccomplishTasks = query.getResultList();
+		
+		for(Task task:AccomplishTasks){
+	    	 NbrAccomplishTasks ++;
+	    	 
+	     }
+		
+		String AllTasksQuery="select t from Task t where t.taskpk.idProject=:id";
+		TypedQuery <Task> query2 = entityManager.createQuery(AllTasksQuery, Task.class);
+		query2.setParameter("id", idProject);
+		AllTasks = query2.getResultList();
+		
+		for(Task task:AllTasks){
+	    	 NbrAllTasks ++;
+	    	 
+	     }
+		
+		Percentage = (100*NbrAccomplishTasks)/NbrAllTasks;
+		return LabelPercentage = Percentage+"%";
+	}*/
+	 
 
 }

@@ -19,4 +19,9 @@ public interface OrganizationBusinessRemote {
 	//public List<Organization> findOrganizationByEvent(Event event);
 	public List<Event> getMyEvents(int id);
 	public List<Organization> SearchForOrganizations(String search);
+	public String GetNbOrganizationPhysiqueStatistics();
+	public String GetNbOrganizationMoraleStatistics();
+
+	public void GetNbOrganizerByOrganization();
+
 }

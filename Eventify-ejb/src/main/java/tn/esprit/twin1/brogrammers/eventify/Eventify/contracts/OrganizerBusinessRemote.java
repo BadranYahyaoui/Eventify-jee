@@ -18,4 +18,7 @@ public interface OrganizerBusinessRemote {
 	public Organizer getAllOrganizersByUserIdAndOrganizationId(int UserId,int OrganizationId);
 //	public List<Organization> SearchForOrganizers(String search);
 //	public Organization findOrganizerById(int id);
+	
+	public void AcceptOrganizerRole(int UserId, int OrganizationId);
+	public void RejectOrganizerRole(int UserId, int OrganizationId);
 }
