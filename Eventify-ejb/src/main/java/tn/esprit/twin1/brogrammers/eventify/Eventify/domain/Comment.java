@@ -2,7 +2,7 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 
 import java.io.Serializable;
 import java.lang.String;
-import java.util.List;
+
 
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Comment implements Serializable {
 
 
-	private int Reference;
+	
 	private String Contain;
 	private User user;
 	private Event event;
@@ -24,9 +24,9 @@ public class Comment implements Serializable {
 	
 
 
-	public Comment(int reference, String contain, CommentPK commentPK) {
+	public Comment(String contain, CommentPK commentPK) {
 		super();
-		Reference = reference;
+		
 		Contain = contain;
 		this.commentPK = commentPK;
 	}
@@ -72,16 +72,6 @@ public void setCommentPK(CommentPK commentPK) {
 		this.event = event;
 	}
 	
-	//@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getReference() {
-		return Reference;
-	}
 
-	public void setReference(int reference) {
-		this.Reference = reference;
-	}
-	
-	
 }
 

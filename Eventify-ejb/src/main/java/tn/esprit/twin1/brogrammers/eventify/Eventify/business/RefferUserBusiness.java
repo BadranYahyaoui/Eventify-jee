@@ -83,15 +83,11 @@ public class RefferUserBusiness implements RefferUserBusinessRemote, RefferUserB
 
 
 	@Override
-	public void updateReffered(User Referred) {
+	public void updateReffered(ReferrelUser Referred) {
 		
 		entityManager.merge(Referred);
 		
 	}
-
-
-
-
 
 
 	@Override
@@ -112,10 +108,7 @@ public class RefferUserBusiness implements RefferUserBusinessRemote, RefferUserB
 		}
 	}
 
-
-
 	
-
 	@Override
 	public User FindReferralByIdReferred(int idReferred) 
 		{

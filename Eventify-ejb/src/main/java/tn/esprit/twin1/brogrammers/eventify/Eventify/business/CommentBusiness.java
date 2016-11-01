@@ -11,9 +11,9 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CommentBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CommentBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Comment;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
+
 
 /**
  * Session Bean implementation class CommentBusiness
@@ -35,64 +35,72 @@ public class CommentBusiness implements CommentBusinessRemote, CommentBusinessLo
         // TODO Auto-generated constructor stub
     }
 
+
 	@Override
 	public void AddComment(Comment comment) {
-		try {
-	        entityManager.persist(comment);
-
-		} catch (Exception e) {
-			System.err.println("Failed to Add");
-		}
+		
+		entityManager.persist(comment);
 		
 	}
+
+
+	@Override
+	public boolean DeleteComment(int idUser, int idEvent) {
+		
+		if(GetCommentByUserIdAndEventId(idUser, idEvent)!=null)
+		{
+			entityManager.remove(entityManager.merge(GetCommentByUserIdAndEventId(idUser, idEvent)));;
+			return true;
+		}
+		else 
+		return false;
+	}
+
 
 	@Override
 	public void updateComment(Comment comment) {
-		try {
-	        entityManager.merge(comment);
-
-		} catch (Exception e) {
-			System.err.println("Failed to Modify");
-		}
+		entityManager.merge(comment);
 		
 	}
 
-	@Override
-	public boolean DeleteComment(int ref) {
-		try{
-			entityManager.remove(entityManager.find(Comment.class, ref));
-			return true;
-		}catch(Exception e)
-		{
-			System.err.println("Cant Find comment");
-			return false;
-		}
-		
-	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Comment> getCommentsByUserId(int id) {
+	public List<Comment> getCommentsByEvent(int id) {
 		try {
 			Query query = entityManager.
-					createQuery("SELECT new Comment(c.Reference,c.Contain,c.CommentPK) FROM Comment c WHERE c.CommentPK.idUser=:param")
+					createQuery("SELECT new Comment(c.contain,c.commentPK) FROM Comment c "
+							+ "WHERE c.commentPK.idEvent=:param")
 					.setParameter("param", id);
-			 return (List<Comment>) query.getResultList();
+			System.out.println("comment finded by event");
+			 return query.getResultList();
 
 		} catch (Exception e) {
-			System.err.println("Cant Find Answer");
+			System.err.println("Cant Find comment of event");
 			return new ArrayList<Comment>();
 		}
+	
 	}
+
 
 	@Override
-	public Comment GetCommentByReference(int ref) {
-		Query query = entityManager.createQuery(
-				"SELECT new Comment(c.Reference,c.Contain,c.CommentPK) "
-						+ "FROM Comment c WHERE c.Reference=:refComment");
+	public Comment GetCommentByUserIdAndEventId(int idUser, int idEvent) {
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Comment(c.Contain,c.commentPK) FROM Rate r"
+							+ " WHERE commentPK.idUser=:userId AND commentPK.idEvent=:eventId")
+			.setParameter("userId", idUser)
+			.setParameter("eventId", idEvent);
+			System.out.println("Comment finded by event and user ");
+			 return (Comment) query.getSingleResult();
+			 
 
-		Comment comment = (Comment) query.setParameter("refComment", ref).getSingleResult();
-		// r.setUser(userbusiness.findUserById(r.getUser().getId()));
-		return comment;
+		} catch (Exception e) {
+			System.err.println("Cant Find Comment  event and user");
+			return null; } 
+		
 	}
+
+
 
 }

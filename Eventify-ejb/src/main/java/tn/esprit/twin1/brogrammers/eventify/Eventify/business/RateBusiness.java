@@ -63,13 +63,13 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 	@Override
 	public boolean deleteRateByUser(int UserId,int EventId) {
 		
-		try {
-			entityManager.remove(entityManager.merge(getRateByUserIdAndEventId(UserId,EventId))) ;
+		if(getRateByUserIdAndEventId(UserId, EventId)!=null)
+		{
+			entityManager.remove(entityManager.merge(getRateByUserIdAndEventId(UserId, EventId)));;
 			return true;
-		} catch (Exception e) {
-			System.err.println("Failed To Delete");
-			return false;
 		}
+		else 
+		return false;
 	}
 
 
@@ -90,7 +90,7 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 		
 		return MoyenneRate/RatesCount;
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Rate> GetAllRatesOfEvent(int idEvent) {
 		
@@ -107,7 +107,7 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 			}
 		
 	}
-	 
+	@SuppressWarnings("unchecked") 
 	@Override
 	public List<Rate> GetAllRatesOfUser(int idUser) {
 		

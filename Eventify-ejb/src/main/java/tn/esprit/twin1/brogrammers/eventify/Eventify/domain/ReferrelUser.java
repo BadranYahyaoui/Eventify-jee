@@ -18,7 +18,7 @@ public class ReferrelUser implements Serializable {
 	private User userReferred;
 	private User userReferral;
 	private Date dateInvitation;
-	private StateInvitation stateInvitation=StateInvitation.WAITING;
+	private StateInvitation stateInvitation;
 	
 	
 
@@ -91,6 +91,7 @@ public class ReferrelUser implements Serializable {
 		this.dateInvitation = dateInvitation;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public StateInvitation getStateInvitation() {
 		return stateInvitation;
 	}
