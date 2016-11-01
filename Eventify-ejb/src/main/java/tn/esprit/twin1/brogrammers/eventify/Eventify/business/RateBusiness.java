@@ -14,6 +14,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLoca
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 
 
@@ -36,6 +37,8 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 	
 	@EJB
 	EventBusinessLocal eventbusiness;
+	
+	
 	
 	public RateBusiness() {
     	super();
@@ -138,23 +141,29 @@ public class RateBusiness implements RateBusinessRemote, RateBusinessLocal {
 			System.err.println("Cant Find rate  event and user");
 			return null; } 
 		
-		}	
-   
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		}
+
+	@Override
+	public Event BestEventRated() {
 		
+		List<Event> events = new ArrayList<Event>();
+		events = eventbusiness.getAllEvents();
+		
+		float rate = 0 ;
+		Event bestEvent = new Event();
+		for (Event event : events) {
+			
+			if(rate< CalculRate(event.getId()))
+			{
+				rate=CalculRate(event.getId());
+				
+				bestEvent=event;
+			}
+			
+		}
+		
+		return bestEvent;
+	}
+	
 }
 	

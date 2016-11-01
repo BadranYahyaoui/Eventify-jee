@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 
@@ -27,6 +28,9 @@ public class RateResource {
 	
 	@EJB
 	RateBusinessLocal RateBusiness;
+	
+	
+	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -112,7 +116,16 @@ public class RateResource {
 	}
 	
 
-	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/best")
+	public Response BestEvent()
+	{
+		Event BestEvent = RateBusiness.BestEventRated();
+		
+		return Response.status(Status.OK).entity(BestEvent).build();
+		
+	}
 	
 	
 	
