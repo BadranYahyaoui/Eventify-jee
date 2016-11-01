@@ -84,12 +84,13 @@ public class EventResource {
 	@DELETE
 	@Path("{id}")
 	public Response deleteEvent(@PathParam(value="id")int id){
-		if(eventBusiness.deleteEvent(id))
+		boolean b= eventBusiness.deleteEvent(id);
+		if(b)
 		{
 			System.err.println("*************"+id+"***************");
 			return Response.status(Status.OK).build();
 		}
-	return Response.status(Response.Status.NOT_FOUND).build();
+	return Response.status(Response.Status.BAD_REQUEST).build();
 		
 	}
 	

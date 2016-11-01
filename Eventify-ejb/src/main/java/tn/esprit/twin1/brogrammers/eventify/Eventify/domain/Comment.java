@@ -62,13 +62,13 @@ public void setCommentPK(CommentPK commentPK) {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "idEvent", referencedColumnName = "id", updatable = false, insertable = false)
 	public Event getEvent() {
 		return event;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "idEvent", referencedColumnName = "id", updatable = false, insertable = false)
 	public void setEvent(Event event) {
 		this.event = event;
 	}

@@ -90,17 +90,17 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	@Override
 	public boolean deleteEvent(int id) {
 
-		Iterator<Event> iterator = this.getAllEvents().iterator();
-		while (iterator.hasNext()) {
-			Event e = iterator.next();
-			if (e.getId() == id) {
-				System.err.println("*************"+entityManager.merge(findEventById(id)).getTitle()+"***************");
+		try {
+			entityManager.remove(entityManager.find(Event.class, id));
+			return true;
 
-				entityManager.remove(entityManager.merge(findEventById(id)));
-				return true;
-			}
+		} catch (Exception e) {
+			System.err.println("Failed to delete");
+
+			return false;
 		}
-		return false;
+			
+		
 
 	}
 

@@ -50,6 +50,7 @@ public class User implements Serializable {
 	private List<ReferrelUser> ReferralUsers;
 	private List<Answer> answers;
 	private List<Rate> rates;
+	private List<Comment> comments;
 
 	/*********************************
 	 * Constructors
@@ -212,10 +213,22 @@ public class User implements Serializable {
 	public void setRates(List<Rate> rates) {
 		this.rates = rates;
 	}
+	
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+	public List<Comment> getComments() {
+		return comments;
+	}
 
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	
 	/*********************
 	 * End of Navigation Attributes
 	 ******************************/
+
+	
 
 	/**************************************
 	 * Simple Attributes

@@ -44,10 +44,11 @@ public class Event implements Serializable {
 	private Category category;
 	private List<Media> medias;
 	private List<Wishlist> wishlists;
-	private List<Rate> rate;
+	private List<Rate> rates;
 	private List<Question> questions;
 	private List<Task> tasks;
 	private List<Ticket> tickets;
+	private List<Comment> comments;
 	
 	/* 	Foreign KEY END */
 
@@ -349,13 +350,13 @@ public class Event implements Serializable {
 	}
 
 	@OneToMany(mappedBy="event", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
-	public List<Rate> getRate() {
-		return rate;
+	public List<Rate> getRates() {
+		return rates;
 	}
 
 
-	public void setRate(List<Rate> rate) {
-		this.rate = rate;
+	public void setRates(List<Rate> rates) {
+		this.rates = rates;
 	}
 
 
@@ -388,6 +389,17 @@ public class Event implements Serializable {
 	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
 	}
+
+	@OneToMany(mappedBy="event",cascade=CascadeType.ALL)
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	
 	
 	
 	/* FOREIGN KEY END */
