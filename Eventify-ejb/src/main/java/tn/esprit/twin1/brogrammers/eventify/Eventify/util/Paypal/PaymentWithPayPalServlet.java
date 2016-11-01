@@ -33,6 +33,9 @@ import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+
 
 public class PaymentWithPayPalServlet extends HttpServlet {
 
@@ -53,11 +56,12 @@ public class PaymentWithPayPalServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		createPayment(req, resp);
+		Reservation reservation = new Reservation();
+		createPayment(req, resp,reservation);
 		req.getRequestDispatcher("response.jsp").forward(req, resp);
 	}
 
-	public Payment createPayment(HttpServletRequest req, HttpServletResponse resp) {
+	public Payment createPayment(HttpServletRequest req, HttpServletResponse resp, Reservation reservation) {
 		Payment createdPayment = null;
 
 		// ### Api Context
@@ -82,22 +86,24 @@ public class PaymentWithPayPalServlet extends HttpServlet {
 				ResultPrinter.addResult(req, resp, "Executed The Payment", Payment.getLastRequest(), null, e.getMessage());
 			}
 		} else {
+			
+			
 
 			// ###Details
 			// Let's you specify details of a payment amount.
 			Details details = new Details();
-			details.setShipping("1");
-			details.setSubtotal("5");
-			details.setTax("1");
+			details.setShipping("0");
+			details.setSubtotal(String.valueOf(reservation.getAmount()));
+			details.setTax(String.valueOf(reservation.getAmount()*(7/100)));
 
 			// ###Amount
 			// Let's you specify a payment amount.
 			Amount amount = new Amount();
 			amount.setCurrency("USD");
 			// Total must be equal to sum of shipping, tax and subtotal.
-			amount.setTotal("7");
+			amount.setTotal(String.valueOf(reservation.getAmount()+reservation.getAmount()*(7/100)));
 			amount.setDetails(details);
-
+System.out.println("l3omlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+String.valueOf(reservation.getAmount()+reservation.getAmount()*(7/100)));
 			// ###Transaction
 			// A transaction defines the contract of a
 			// payment - what is the payment for and who
@@ -110,7 +116,7 @@ public class PaymentWithPayPalServlet extends HttpServlet {
 
 			// ### Items
 			Item item = new Item();
-			item.setName("Ground Coffee 40 oz").setQuantity("1").setCurrency("USD").setPrice("5");
+			item.setName("Paying Your Ticket").setQuantity("1").setCurrency("USD").setPrice(String.valueOf(reservation.getAmount()));
 			ItemList itemList = new ItemList();
 			List<Item> items = new ArrayList<Item>();
 			items.add(item);
@@ -145,10 +151,10 @@ public class PaymentWithPayPalServlet extends HttpServlet {
 			String guid = UUID.randomUUID().toString().replaceAll("-", "");
 			redirectUrls.setCancelUrl(req.getScheme() + "://"
 					+ req.getServerName() + ":" + req.getServerPort()
-					+ req.getContextPath() + "/paymentwithpaypal?guid=" + guid);
+					+ req.getContextPath() + "/rest/transaction/paypalredirectcancled"+"?guid=" + guid);
 			redirectUrls.setReturnUrl(req.getScheme() + "://"
 					+ req.getServerName() + ":" + req.getServerPort()
-					+ req.getContextPath() + "/paymentwithpaypal?guid=" + guid);
+					+ req.getContextPath() + "/rest/transaction/paypalredirect"+"?guid=" + guid);
 			payment.setRedirectUrls(redirectUrls);
 
 			System.out.println(req.getScheme() + "://"+ req.getServerName() + ":" + req.getServerPort()+ req.getContextPath() + "/paymentwithpaypal?guid=" + guid);

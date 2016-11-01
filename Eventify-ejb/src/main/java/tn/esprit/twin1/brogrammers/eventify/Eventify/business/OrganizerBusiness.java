@@ -1,14 +1,17 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessRemote;
@@ -77,8 +80,10 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
 
 	@Override
 	public boolean deleteOrganizer(int UserId, int OrganizationId) {
-		// TODO Auto-generated method stub
-		return false;
+		
+			entityManager.remove(entityManager.merge(getAllOrganizersByUserIdAndOrganizationId(UserId, OrganizationId)));;
+			return true;
+		
 	}
 
 	@Override
@@ -109,6 +114,59 @@ public class OrganizerBusiness implements OrganizerBusinessRemote, OrganizerBusi
 			System.err.println("Cant Find Organizer");
 			return null; } 
 		}
+
+
+	@Override
+	public void GetNbOrganizerByOrganization() {
+
+		/*List<Object[]> results = (List<Object[]>) entityManager
+		        .createQuery("SELECT oz.organizerPK AS name, COUNT(oz) AS total FROM Organizer oz JOIN oz.Organization o GROUP BY o.organizationName,o.id")
+		        .getResultList();
+		for (Object[] result : results) {
+		    String name = (String) result[0];
+		    System.out.println(name);
+		    int count = ((Number) result[1]).intValue();
+		    System.out.println(count);
+
+		}
+		*/
+		TypedQuery<Object[]> q = entityManager.createQuery(
+			    "SELECT org.organizationName,COUNT(State) " +
+			    "FROM Organizer o  JOIN o.organization org " +
+			    "GROUP BY org.organizationName", Object[].class);
+/* 		TypedQuery<Object[]> q = entityManager.createQuery(
+			    "SELECT org.organizationName,count(o.Stat) " +
+			    "FROM Organizer o  JOIN Organization org on  o.organizerPK.idOrganization=org.id" +
+			    "GROUP BY org.organizationName", Object[].class);
+*/          System.out.println(q);
+			List<Object[]> resultList = q.getResultList();
+			Map<String, Long> resultMap = new HashMap<String, Long>(resultList.size());
+			for (Object[] result : resultList)
+			  resultMap.put((String)result[0], (Long)result[1]);
+		
+		
+		
+	}
+
+
+	@Override
+	public void AcceptOrganizerRole(int UserId, int OrganizationId) {
+		Query query  = entityManager.createQuery("UPDATE Organizer o SET State ='ACCEPTED' where  o.organizerPK.idOrganization=:OrganizationId AND o.organizerPK.idUser=:UserId")
+				.setParameter("OrganizationId", OrganizationId)
+				.setParameter("UserId", UserId);
+		query.executeUpdate();
+		
+	}
+
+
+	@Override
+	public void RejectOrganizerRole(int UserId, int OrganizationId) {
+		// TODO Auto-generated method stub
+		Query query  = entityManager.createQuery("UPDATE Organizer o SET State ='REFUSED' where  o.organizerPK.idOrganization=:OrganizationId AND o.organizerPK.idUser=:UserId")
+				.setParameter("OrganizationId", OrganizationId)
+				.setParameter("UserId", UserId);
+		query.executeUpdate();
+	}
 	
 	
 	

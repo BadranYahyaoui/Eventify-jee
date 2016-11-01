@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
 
+import javax.ejb.EJB;
+
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
@@ -20,60 +22,99 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.Barcode128;
+import com.itextpdf.text.pdf.BarcodeEAN;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventCategory;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventType;
 
 public class TicketGenerator {
 
 	private static String FILE = "../../FirstPdf.pdf";
+	private static Font bigFont = new Font(Font.FontFamily.TIMES_ROMAN, 25,
+            Font.BOLD,BaseColor.WHITE);
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-                    Font.BOLD);
-    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-                    Font.NORMAL, BaseColor.RED);
+                    Font.BOLD,BaseColor.WHITE);
+    private static Font greyFont = new Font(Font.FontFamily.TIMES_ROMAN, 14,
+                    Font.NORMAL,BaseColor.GRAY);
     private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-                    Font.BOLD);
+                    Font.BOLD,BaseColor.WHITE);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-                    Font.BOLD);
-    public static final String IMAGE = "resources/images/berlin2013.jpg";
+                    Font.BOLD,BaseColor.WHITE);
+    public static final String IMAGE = "../../sticket.jpg";
 
     
     
-    public boolean GenerateTicket(Ticket ticket)
+    
+    public static void GenerateTicket(Ticket ticket)
     {
     	Document document = new Document();
         try {
         	PdfWriter writer =PdfWriter.getInstance(document, new FileOutputStream(FILE));
-        	Rectangle pagesize = new Rectangle(70,140);
+        	Rectangle pagesize = new Rectangle(700,300);
 			document.open();
+			Paragraph emptyline = new Paragraph();
+			emptyline.add(new Paragraph(" "));
 			document.setPageSize(pagesize);
+			document.newPage();
+			//PIC
+			PdfContentByte canvas = writer.getDirectContentUnder();
+			Image image = Image.getInstance(IMAGE);
+	        //image.scaleAbsolute(pagesize.rotate());
+	        image.setAbsolutePosition(0,0);
+	        canvas.addImage(image);
+			//PIC
 			document.addTitle("Your Access To"+ticket.getEvent().getTitle());
 	        document.addSubject(ticket.getEvent().getTheme());
 	        document.addKeywords(ticket.getEvent().getTitle()+"Ticket");
 	        document.addAuthor("Mohamed Firas Ouertani");
 	        document.addCreator("Mohamed Firas Ouertani");
 	        Paragraph prefacetitle = new Paragraph();
-	        prefacetitle.add(new Paragraph("Your Ticket For "+ticket.getEvent().getTitle(), catFont));
+	        prefacetitle.add(new Paragraph("Your Ticket For "+ticket.getEvent().getTitle(), bigFont));
 	        document.add(prefacetitle);
+	        document.add(emptyline);
+
 			Paragraph prefacetime = new Paragraph();
-			prefacetime.add(new Paragraph(ticket.getEvent().getStartTime().toString(),redFont));
+			prefacetime.add(new Paragraph(ticket.getEvent().getStartTime().toString(),greyFont));
 			document.add(prefacetime);
+			document.add(emptyline);
+			document.add(emptyline);
 			Paragraph prefacetype = new Paragraph();
-			prefacetype.add(new Paragraph("Type: "+ticket.getTypeTicket(), catFont));
+			prefacetype.add(new Paragraph("You Reserved For: "+ticket.getTypeTicket(), catFont));
 			document.add(prefacetype);
-			//PIC
-			PdfContentByte canvas = writer.getDirectContentUnder();
-	        Image image = Image.getInstance(IMAGE);
-	        image.scaleAbsolute(PageSize.A4.rotate());
-	        image.setAbsolutePosition(0, 0);
-	        canvas.addImage(image);
-			//PIC
+			//QR
+			BarcodeQRCode qrcode = new BarcodeQRCode("REF:#"+ticket.getEvent().getId()+""+ticket.getEvent().getTitle().trim(), 1, 1, null);
+	         Image qrcodeImage = qrcode.getImage();
+	         qrcodeImage.setAbsolutePosition(520,70);
+	         qrcodeImage.scalePercent(400);
+	         document.add(qrcodeImage);
+			//QR
+	         
+	         //Bar
+	         PdfContentByte cb = writer.getDirectContent();
+	         Barcode128 code128 = new Barcode128();
+	         
+	         BarcodeEAN codeEAN = new BarcodeEAN();
+	         codeEAN.setCode("REF:#"+ticket.getEvent().getId()+""+ticket.getEvent().getTitle().trim());
+	         codeEAN.setCodeType(BarcodeEAN.EAN13);
+	         Image codeEANImage = code128.createImageWithBarcode(cb, null, null);
+	         codeEANImage.setAbsolutePosition(10,10);
+	         codeEANImage.scalePercent(125);
+	         document.add(codeEANImage);
+	         //Bar
 			
-			
+	        document.close();
 			
 			
 			
@@ -82,7 +123,7 @@ public class TicketGenerator {
     }
         
     	
-    	return false;
+    	
     }
     
     
@@ -90,12 +131,14 @@ public class TicketGenerator {
     
     
     public static void main(String[] args) {
+    	
         try {
+    		Category category = new Category(EventCategory.Health.toString()); 
+        	Event e1 = new Event("Sa7tek bin Ydina", "Health for everyone",new Date(), new Date(), 12, 9, 1000, EventType.Conference, category, 10, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
+        	Ticket ticket = new Ticket( 50, "VIP I", 20.23f, "../../eventcover.jpg", e1);
         	
-        	
-        	
-        	
-        	
+        	GenerateTicket(ticket);
+        	/*
                 Document document = new Document();
                 PdfWriter.getInstance(document, new FileOutputStream(FILE));
                 document.open();
@@ -103,7 +146,7 @@ public class TicketGenerator {
                 addTitlePage(document);
                 addContent(document);
                 qr(document);
-                document.close();
+                document.close();*/
         } catch (Exception e) {
                 e.printStackTrace();
         }
@@ -166,7 +209,7 @@ public class TicketGenerator {
 
             preface.add(new Paragraph(
                             "This document is a preliminary version and not subject to your license agreement or any other agreement with vogella.com ;-).",
-                            redFont));
+                            greyFont));
 
             document.add(preface);
             // Start a new page

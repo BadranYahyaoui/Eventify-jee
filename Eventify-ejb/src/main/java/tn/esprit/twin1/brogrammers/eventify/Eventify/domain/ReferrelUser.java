@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.StateInvitation;
+
 /**
  * Entity implementation class for Entity: ReferrelUser
  *
@@ -16,16 +18,31 @@ public class ReferrelUser implements Serializable {
 	private User userReferred;
 	private User userReferral;
 	private Date dateInvitation;
-	private int stateInvitation;
+	private StateInvitation stateInvitation=StateInvitation.WAITING;
+	
 	
 
-	public ReferrelUser(ReferrelUserPK referrelUserPK, User userReferred, User userReferral, Date dateInvitation,
-			int stateInvitation) {
+
+	public ReferrelUser(User userReferred, User userReferral, StateInvitation stateInvitation) {
+		super();
+		this.userReferred = userReferred;
+		this.userReferral = userReferral;
+		this.stateInvitation = stateInvitation;
+	}
+
+	public ReferrelUser(ReferrelUserPK referrelUserPK, Date dateInvitation, StateInvitation stateInvitation) {
+		super();
+		this.referrelUserPK = referrelUserPK;
+		this.dateInvitation = dateInvitation;
+		this.stateInvitation = stateInvitation;
+	}
+
+	public ReferrelUser(ReferrelUserPK referrelUserPK, User userReferred, User userReferral,
+			StateInvitation stateInvitation) {
 		super();
 		this.referrelUserPK = referrelUserPK;
 		this.userReferred = userReferred;
 		this.userReferral = userReferral;
-		this.dateInvitation = dateInvitation;
 		this.stateInvitation = stateInvitation;
 	}
 
@@ -34,6 +51,8 @@ public class ReferrelUser implements Serializable {
 	public ReferrelUser() {
 		super();
 	}
+
+
 
 	@EmbeddedId
 	public ReferrelUserPK getReferrelUserPK() {
@@ -72,14 +91,15 @@ public class ReferrelUser implements Serializable {
 		this.dateInvitation = dateInvitation;
 	}
 
-	public int getStateInvitation() {
+	public StateInvitation getStateInvitation() {
 		return stateInvitation;
 	}
 
-	public void setStateInvitation(int stateInvitation) {
+	public void setStateInvitation(StateInvitation stateInvitation) {
 		this.stateInvitation = stateInvitation;
 	}
-	
+
+
 	
 	
 	

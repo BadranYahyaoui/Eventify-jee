@@ -1,6 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 
-//import javax.ejb.EJB;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,15 +14,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-//import tn.esprit.twin1.brogrammers.eventify.Eventify.business.TaskBusiness;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.business.TaskBusiness;
 
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+
+
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 
 @Path("Tasks")
 @RequestScoped
 public class TaskResource {
-/*	@EJB
+	@EJB
 	TaskBusiness taskBusniss;
 	
 	@PUT
@@ -56,10 +58,10 @@ public class TaskResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("TasksByEvent/{id}")
 	public Response getAllTasksByEventID(@PathParam("id") int id){
-		if(taskBusniss.getAllTasksByID(id)==null){
+		if(taskBusniss.getAllTasksByEventID(id)==null){
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return Response.status(Status.OK).entity(taskBusniss.getAllTasksByID(id)).build();
+		return Response.status(Status.OK).entity(taskBusniss.getAllTasksByEventID(id)).build();
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -71,20 +73,14 @@ public class TaskResource {
 		return Response.status(Status.OK).entity(taskBusniss.GetTasksByOrganizer(id)).build();
 	}
 	
-	@GET
-
-	@Path("cancelTask/{id1}/{id2}")
-	public Response cancelTask(@PathParam("id1")int taskId,@PathParam("id2") int idOrganizer){
-		taskBusniss.cancelTask(taskId, idOrganizer);
-		
-		return Response.status(Status.OK).build();
-	}
+	
+	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("taskStatusCompleted/{id1}/{id2}")
-	public Response SetTaskStatusCompleted(@PathParam("id1")int idOrgnizer,@PathParam("id2") int Taskid){
-		taskBusniss.taskStatusCompleted(idOrgnizer, Taskid);
+	@Path("taskStatusCompleted/{id}")
+	public Response SetTaskStatusCompleted(@PathParam("id") int Taskid){
+		taskBusniss.taskStatusCompleted(Taskid);
 		return Response.status(Status.OK).build();
 	}
 	@POST
@@ -98,7 +94,7 @@ public class TaskResource {
 	
 	
 	
-	*/
+	
 	
 	
 }

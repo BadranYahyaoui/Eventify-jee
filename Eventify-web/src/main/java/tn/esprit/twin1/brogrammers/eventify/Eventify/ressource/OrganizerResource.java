@@ -5,7 +5,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -32,7 +34,12 @@ public class OrganizerResource {
 		organizerBusiness.updateOrganizer(organizer);
 		return Response.status(Status.OK).build();
 	}
-	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response assignOrganizer(Organizer organizer){
+		organizerBusiness.assignOrganizer(organizer);
+		return Response.status(Status.OK).build();
+	}
 
 	
 	@GET
@@ -54,4 +61,44 @@ public class OrganizerResource {
 		}
 
 	}
+	
+	
+	@PUT
+	@Path("accept")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response AcceptOrganizerRole(@QueryParam(value="UserId")int UserId, @QueryParam(value="OrganizationId")int OrganizationId){
+		organizerBusiness.AcceptOrganizerRole(UserId, OrganizationId);
+		return Response.status(Status.OK).build();
+	}
+	
+	@PUT
+	@Path("refuse")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response RejectOrganizerRole(@QueryParam(value="UserId")int UserId, @QueryParam(value="OrganizationId")int OrganizationId){
+		organizerBusiness.RejectOrganizerRole(UserId, OrganizationId);
+		return Response.status(Status.OK).build();
+	}
+	@GET
+	@Path("test")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void  test(){
+        
+	 organizerBusiness.GetNbOrganizerByOrganization();
+				
+	}
+	
+	
+	
+	@DELETE
+	public Response deleteOrganizer(@QueryParam("UserId")int UserId,
+									@QueryParam("OrganizationId")int OrganizationId){
+		
+		if(organizerBusiness.deleteOrganizer(UserId, OrganizationId))
+			return Response.status(Status.OK).build();
+		else
+			return Response.status(Status.NOT_FOUND).build();
+	}
+	
+	
+	
 }

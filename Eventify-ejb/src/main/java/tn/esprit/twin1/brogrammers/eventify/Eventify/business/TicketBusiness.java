@@ -49,10 +49,7 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 		for (Ticket tickets : ticket) {
 
 			Event event = eventbusiness.findEventById(tickets.getEvent().getId());
-			tickets.setEvent(null); /*
-									 * A VERIFIER POUR GETALLEVENT WITHOUT
-									 * BLOCKING THE REST OF DISPLAY
-									 */
+			tickets.setEvent(null); 
 
 		}
 		return ticket;
@@ -112,10 +109,53 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 
 	@Override
 	public boolean UpdateNbTicket(int idTicket,int nbareser) {
-		Query query  = entityManager.createQuery("UPDATE Ticket SET nbTickets =:nbareser where id =:idTicket")
+		/*Query query  = entityManager.createQuery("UPDATE Ticket SET nbTickets =:nbareser where id =:idTicket")
 				.setParameter("idTicket", idTicket)
 				.setParameter("nbareser", nbareser);
 		query.executeUpdate();
-		return true;
+		*/return true;
 	}
+
+	@Override
+	public String TicketsPerCent(int eventId) {
+		/*
+		Query query  = entityManager.createQuery("SELECT NEW Ticket(t.typeTicket) FROM Ticket t where event.id =:idevent")
+				.setParameter("idevent", eventId);
+	List<Ticket> listticket = (List<Ticket>) query.getResultList();
+		
+		
+		
+		
+		
+		float Percentage=0;
+		String LabelPercentage=null;
+		List<Ticket> AccomplishTickets;
+		List<Ticket> AllTickets;
+		int NbrAllTasks=0;
+		int NbrAccomplishTasks=0;
+		String AccomplishTasksQuery="select t from Task t where t.taskpk.idProject=:id and t.state='Done'";
+		TypedQuery <Task> query = entityManager.createQuery(AccomplishTasksQuery, Task.class);
+		query.setParameter("id", idProject);
+		AccomplishTasks = query.getResultList();
+		
+		for(Task task:AccomplishTasks){
+	    	 NbrAccomplishTasks ++;
+	    	 
+	     }
+		
+		String AllTasksQuery="select t from Task t where t.taskpk.idProject=:id";
+		TypedQuery <Task> query2 = entityManager.createQuery(AllTasksQuery, Task.class);
+		query2.setParameter("id", idProject);
+		AllTasks = query2.getResultList();
+		
+		for(Task task:AllTasks){
+	    	 NbrAllTasks ++;
+	    	 
+	     }
+		
+		Percentage = (100*NbrAccomplishTasks)/NbrAllTasks;
+		return LabelPercentage = Percentage+"%";*/
+		return "";
+	}
+
 }

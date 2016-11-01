@@ -72,7 +72,7 @@ public class SampleJavaOne {
         String refreshToken = info.getRefreshToken();
         //*******************************************************
         
-        APIContext userAPIContext = new APIContext(clientId, clientSecret, "sandbox").setRefreshToken(info.getRefreshToken());
+        APIContext userAPIContext = new APIContext(clientId, clientSecret, "sandbox").setRefreshToken("EC-8RS159066G993145E");
 
         Userinfo userinfo=null;
 		try {

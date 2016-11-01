@@ -28,7 +28,7 @@ public class Organizer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
     private OrganizerPK  organizerPK;
-    private OrganizerState State=OrganizerState.REFUSED;
+    private OrganizerState State=OrganizerState.SENT;
 	private User user;
 	private Organization organization;
 	

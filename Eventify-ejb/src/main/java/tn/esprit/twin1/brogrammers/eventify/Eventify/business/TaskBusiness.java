@@ -1,4 +1,4 @@
-/*package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
+package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,14 +18,14 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;;
 /**
  * Session Bean implementation class TaskBusiness
  */
-/*
+
 @Stateless
 public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 
     /**
      * Default constructor. 
      */
-	/*@PersistenceContext(unitName = "Eventify-ejb")
+	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 	
     public TaskBusiness() {
@@ -53,7 +53,7 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 	}
 
 	@Override
-	public List<Task> getAllTasksByID(int idEvent) {
+	public List<Task> getAllTasksByEventID(int idEvent) {
 		Query query = entityManager
 	    		.createQuery("SELECT t FROM Task t WHERE t.event.id = :idEvent")
 	    		.setParameter("idEvent", idEvent);
@@ -63,54 +63,40 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 
 	@Override
 	public List<Task> GetTasksByOrganizer(int idOrganizer) {
-		Query query = entityManager
-	    		.createQuery("SELECT o.task FROM Organizer o WHERE o.id = :idOrganizer")
-	    		.setParameter("idOrganizer", idOrganizer);
-		return (List<Task>) query.getResultList();
+		Organizer o=entityManager.find(Organizer.class,idOrganizer);
+		
+		return (o.getTasks());
 	}
 
-	@Override
-	public void cancelTask(int idTask, int idOrganizer) {
-		Task t=entityManager.find(Task.class,idTask);
-      
-		List<Organizer> l =t.getOrganizers();
-        Iterator<Organizer> it = l.iterator();
-        while (it.hasNext()) {
-          Organizer organizer = it.next();
-          if (organizer.getTask().equals(t)) {
-            it.remove();
-          }
-        }
-          entityManager.getTransaction().begin();
-          t.setOrganizers(l);
-          entityManager.getTransaction().commit();
-          
-          
-        
-		
-	}
+	
+
 
 	@Override
 	public void assignTaskToOrgnizer(int idOrgnizer, int Taskid) {
 		Task t=entityManager.find(Task.class,Taskid);
 		Organizer o=entityManager.find(Organizer.class,idOrgnizer);
-		List<Organizer> l =t.getOrganizers();
-		l.add(o);
+		
 		entityManager.getTransaction().begin();
-        t.setOrganizers(l);
+		t.setOrganizer(o);
         entityManager.getTransaction().commit();
 		
 		
 	}
 
 	@Override
-	public void taskStatusCompleted(int idOrgnizer, int Taskid) {
-		Organizer o=entityManager.find(Organizer.class,idOrgnizer);
-		Task t =o.getTask();
-		t.setTaskStatus(2);
+	public void taskStatusCompleted(int Taskid) {
+		//Organizer o=entityManager.find(Organizer.class,idOrgnizer);
+		Task t =findTaskByID(Taskid);
+		
 		entityManager.getTransaction().begin();
-        o.setTask(t);
+		t.setTaskStatus(2);
         entityManager.getTransaction().commit();
+        
+   
+		
+        
+        
+        
 	}
 
 	@Override
@@ -133,4 +119,3 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 	
 
 }
-*/

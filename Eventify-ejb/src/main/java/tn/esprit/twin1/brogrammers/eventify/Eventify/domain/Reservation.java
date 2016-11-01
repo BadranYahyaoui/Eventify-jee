@@ -33,7 +33,18 @@ public class Reservation implements Serializable {
 	private Ticket ticket;
 	private TimerState timerState=TimerState.INPROGRESS;
 	private static final long serialVersionUID = 1L;
-
+	public Reservation(float amount, Date reservationDate,  ReservationState reservationState,PaymentMethod paymentMethod ,User user,
+			Ticket ticket, TimerState timerState) {
+		super();
+		
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.user = user;
+		this.reservationState = reservationState;
+		this.paymentMethod=paymentMethod;
+		this.ticket = ticket;
+		this.timerState = timerState;
+	}
 	
 	public Reservation(int id, float amount, Date reservationDate,  ReservationState reservationState,PaymentMethod paymentMethod ,User user,
 			Ticket ticket, TimerState timerState) {
@@ -63,6 +74,15 @@ public class Reservation implements Serializable {
 		this.reservationDate = reservationDate;
 		this.reservationState = reservationState;
 		this.paymentMethod=paymentMethod;
+	}
+	public Reservation(int id, float amount, Date reservationDate, ReservationState reservationState,PaymentMethod paymentMethod, Ticket ticket) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.reservationDate = reservationDate;
+		this.reservationState = reservationState;
+		this.paymentMethod=paymentMethod;
+		this.ticket = ticket;
 	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {

@@ -1,19 +1,21 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.management.Query;
+import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RefferUserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RefferUserBusinessRemote;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUser;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
+
 
 /**
  * Session Bean implementation class RefferUserBusiness
@@ -30,55 +32,98 @@ public class RefferUserBusiness implements RefferUserBusinessRemote, RefferUserB
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
 	
+	 @EJB
+     UserBusinessLocal userBusiness;
+
+
+	@Override
+	public void ChooseReferred(ReferrelUser Reffered) {
+		entityManager.persist(Reffered);
+		
+	}
+
+
+
+
+
+
+	@Override
+	public boolean RemoveReferred(int idReferred) {
+		entityManager.remove(entityManager.merge(FindReferralByIdReferred(idReferred)));
+		return true;
+	}
+
 	
-	@EJB
-	OrganizationBusinessLocal organizationBusiness;
-
-    public RefferUserBusiness() {
-        // TODO Auto-generated constructor stub
-    }
-
 	@Override
-	public User ChooseReferralUser(User userReferral) {
+	public List<ReferrelUser> FindAll() {
 		
-		User query = (User) entityManager.createQuery("SELECT u FROM User u WHERE u.Id=userReferral.Id");
-		return query;
+		Query query = entityManager.
+				createQuery("SELECT new ReferrelUser(r.referrelUserPK,r.dateInvitation,r.stateInvitation)"
+						+ " FROM ReferrelUser r");
+		
+		return query.getResultList();	
+	}
+	
+	
+	@Override
+	public List<User> FindAllReferrals() {
+		
+		
+		
+		List<ReferrelUser> RU = FindAll();
+		
+		List<User> users = new ArrayList<User>();
+		
+		for (ReferrelUser referrelUser : RU) {
+			
+			
+			users.add(userBusiness.findUserById(referrelUser.getReferrelUserPK().getIdUserReferral()));
+			
+		}
+		
+		
+		return users;
 	}
 
-	@Override
-	public User FindReferral(int Id) {
-		
-		
-		
-		return entityManager.find(User.class, Id);
-	}
-
-	@Override
-	public User FindRefered(User userReferral) {
-		
-		 return entityManager.find(User.class, userReferral.getId());
-	}
-
-	@Override
-	public void RemoveReferred(User userReferral) {
-		entityManager.remove(userReferral);
-		
-	}
-
-	@Override
-	public List<User> FindAllReferral() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void updateReffered(User Referred) {
-
-     entityManager.merge(Referred);
+		
+		entityManager.merge(Referred);
 		
 	}
-    
 
-    
 
+
+
+
+
+	@Override
+	public List<ReferrelUser> FindReferredsByIdReferral(int idReferral) 
+	{
+		try {
+			
+			Query query =  entityManager.
+					createQuery("SELECT new ReferrelUser(r.referrelUserPK,r.dateInvitation,r.stateInvitation)"
+							+ " FROM ReferrelUser r WHERE r.referrelUserPK.idUserReferral=:param")
+					.setParameter("param", idReferral);
+			System.out.println("ReferrelUser finded ");
+			 return query.getResultList();
+
+		} catch (Exception e) {
+			System.err.println("Cant Find ReferrelUser");
+			return new ArrayList<ReferrelUser>();
+		}
+	}
+
+
+
+	
+
+	@Override
+	public User FindReferralByIdReferred(int idReferred) 
+		{
+			return userBusiness.findUserById(idReferred);
+		}
+	
 }

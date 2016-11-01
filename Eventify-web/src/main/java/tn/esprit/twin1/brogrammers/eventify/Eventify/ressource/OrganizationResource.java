@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.business.OrganizationBusiness;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
@@ -133,7 +134,8 @@ public class OrganizationResource {
 				
 	}
 
-	/*@GET
+	@GET
+	@Path("/search")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response SearchForOrganizations(@QueryParam(value="search")String search,
 									@QueryParam(value="organizationName")String organizationName,
@@ -151,6 +153,36 @@ public class OrganizationResource {
 			{ liste= organizationBusiness.getAllOrganizations();
 			}
 		return Response.status(Status.OK).entity(liste).build();
-	}*/
+	}
+	
+	
+	
+	
+	@GET
+	@Path("physique")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String  GetNbOrganizationPhysiqueStatistics(){
+        
+		return organizationBusiness.GetNbOrganizationPhysiqueStatistics();
+				
+	}
+	@GET
+	@Path("morale")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String  GetNbOrganizationMoraleStatistics(){
+        
+		return organizationBusiness.GetNbOrganizationMoraleStatistics();
+				
+	}
+	
+	@GET
+	@Path("test")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void  test(){
+        
+	 organizationBusiness.GetNbOrganizerByOrganization();
+				
+	}
+	
 	
 }

@@ -100,7 +100,8 @@ public class Organization implements Serializable {
 
 	public void setOrganizationName(String organizationName) {
 		this.organizationName = organizationName;
-	}   
+	} 
+	@Enumerated(EnumType.STRING)
 	public OrganizationType getOrganizationType() {
 		return this.organizationType;
 	}
