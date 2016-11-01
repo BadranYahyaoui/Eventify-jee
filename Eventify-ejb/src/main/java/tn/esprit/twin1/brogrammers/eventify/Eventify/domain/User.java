@@ -31,6 +31,8 @@ public class User implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String username;
+	private String profileImage;
+	private String numTel;
 	private String email;
 	private String password;
 	private Date creationDate;
@@ -59,13 +61,15 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(int id, String firstName, String lastName, String username, String email, String password,
+	public User(int id, String firstName, String lastName, String username,String profileImage,String numTel, String email, String password,
 			Date creationDate, int loyaltyPoint, AccountState accountState, String confirmationToken) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
+		this.profileImage =profileImage;
+		this.numTel=numTel;
 		this.email = email;
 		this.password = password;
 		this.creationDate = creationDate;
@@ -75,12 +79,14 @@ public class User implements Serializable {
 
 	}
 
-	public User(String firstName, String lastName, String username, String email, String password, Date creationDate,
+	public User(String firstName, String lastName, String username,String profileImage,String numTel, String email, String password, Date creationDate,
 			int loyaltyPoint) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
+		this.profileImage =profileImage;
+		this.numTel=numTel;
 		this.email = email;
 		this.password = password;
 		this.creationDate = creationDate;
@@ -311,6 +317,26 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	@Column(nullable = true)
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
+	@Column(unique = true, nullable = true)
+	public String getNumTel() {
+		return numTel;
+	}
+
+	public void setNumTel(String numTel) {
+		this.numTel = numTel;
 	}
 
 	/*********************

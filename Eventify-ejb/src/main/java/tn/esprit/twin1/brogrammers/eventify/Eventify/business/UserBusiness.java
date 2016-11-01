@@ -13,6 +13,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.AccountState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.AuthJWT;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.FTPProvider;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.FaceCognitive;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.MD5Hash;
 
@@ -77,7 +78,7 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 	@Override
 	public User findUserById(int id) {
 		Query query = entityManager.createQuery(
-				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
 						+ "FROM User u WHERE u.id=:param");
 		return (User) query.setParameter("param", id).getSingleResult();
 	}
@@ -85,7 +86,7 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 	@Override
 	public List<User> findAllUsers() {
 		Query query = entityManager.createQuery(
-				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
 						+ "FROM User u");
 		return (List<User>) query.getResultList();
 	}
@@ -108,7 +109,7 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 	public String loginUser(String username, String pwd) {
 		String hashedPwd=MD5Hash.getMD5Hash(pwd);
 		Query query = entityManager.createQuery(
-				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
 						+ "FROM User u WHERE (u.username=:uname AND u.password=:upwd) ");
 		User userLogged =(User) query.setParameter("uname", username).setParameter("upwd", hashedPwd).getSingleResult();
 		
@@ -127,6 +128,22 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 		Query query = entityManager
 				.createQuery("SELECT new Wishlist(w.dateAdding) FROM User u JOIN u.wishlists w WHERE u.id=:param");
 		return query.setParameter("param", idUser).getResultList();
+	}
+
+	@Override
+	public boolean uploadProfileImage(String imgToUpload) {
+
+		if(FTPProvider.UploadImageToFTP(imgToUpload))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+		
+		
 	}
 
 }

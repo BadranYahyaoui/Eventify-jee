@@ -15,5 +15,6 @@ public interface AnswerBusinessLocal {
 	public boolean deleteAnswer(int id);
 	public List<Answer> getAnswerByUserId(int id);
 	public List<Answer> getAnswerByAttributId(int id);
+	public List<Answer> getAnswerByAttributIdAndUserId(int userId,int attributId);
 
 }
