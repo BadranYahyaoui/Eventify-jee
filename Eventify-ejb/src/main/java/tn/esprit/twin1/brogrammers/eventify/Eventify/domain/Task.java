@@ -26,11 +26,24 @@ public class Task implements Serializable {
 	//private List<Organizer> organizers;
 	private Organizer organizer;
 	private Event event;
+	
+	
 
+	public Task(int id, String taskTitle, String taskDescription, int taskStatus, Date createdAt) {
+		super();
+		this.id = id;
+		this.taskTitle = taskTitle;
+		this.taskDescription = taskDescription;
+		this.taskStatus = taskStatus;
+		this.createdAt = createdAt;
+	}
+	
+	
 	public Task() {
 		super();
 	} 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}

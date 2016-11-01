@@ -1,19 +1,19 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
-import java.util.Iterator;
 import java.util.List;
 
-import javax.ejb.LocalBean;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessRemote;
-
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.OrganizerState;;
 
 /**
  * Session Bean implementation class TaskBusiness
@@ -22,100 +22,100 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;;
 @Stateless
 public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 
-    /**
-     * Default constructor. 
-     */
+	/**
+	 * Default constructor.
+	 */
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
-	
-    public TaskBusiness() {
-        // TODO Auto-generated constructor stub
-    }
 
-	@Override
-	public void updateTask(Task task) {
-		
-		entityManager.merge(task);
-		
-		
+	@EJB
+	OrganizationBusinessLocal organizationBusiness;
+
+	public TaskBusiness() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void deleteTask(Task task) {
-		entityManager.remove(task);
-		
+	public void updateTask(Task task) {
+
+		entityManager.merge(task);
+
+	}
+
+	@Override
+	public void deleteTask(int id) {
+		Task t = findTaskByID(id);
+		entityManager.remove(entityManager.merge(t));
+
 	}
 
 	@Override
 	public Task findTaskByID(int id) {
-		
-		return entityManager.find(Task.class, id);
+		Query query = entityManager
+				.createQuery("SELECT new Task(t.id,t.taskTitle,t.taskDescription,t.taskStatus,t.createdAt) "
+						+ "FROM Task t WHERE t.id=:param");
+		return (Task) query.setParameter("param", id).getSingleResult();
+
 	}
 
+	// ok
 	@Override
 	public List<Task> getAllTasksByEventID(int idEvent) {
 		Query query = entityManager
-	    		.createQuery("SELECT t FROM Task t WHERE t.event.id = :idEvent")
-	    		.setParameter("idEvent", idEvent);
-	    return (List<Task>) query.getResultList();
-		
+				.createQuery(
+						"SELECT new Task(t.id,t.taskTitle,t.taskDescription,t.taskStatus,t.createdAt) FROM Task t WHERE t.event.id = :idEvent")
+				.setParameter("idEvent", idEvent);
+		return (List<Task>) query.getResultList();
+
 	}
 
 	@Override
 	public List<Task> GetTasksByOrganizer(int idOrganizer) {
-		Organizer o=entityManager.find(Organizer.class,idOrganizer);
-		
-		return (o.getTasks());
+		Query query = entityManager
+				.createQuery(
+						"SELECT new Task(t.id,t.taskTitle,t.taskDescription,t.taskStatus,t.createdAt) FROM Task t  JOIN  t.organizer o JOIN o.organizerPK opk  WHERE opk.idUser =:param")
+				.setParameter("param", idOrganizer);
+		return (List<Task>) query.getResultList();
 	}
-
-	
-
 
 	@Override
 	public void assignTaskToOrgnizer(int idOrgnizer, int Taskid) {
-		Task t=entityManager.find(Task.class,Taskid);
-		Organizer o=entityManager.find(Organizer.class,idOrgnizer);
-		
-		entityManager.getTransaction().begin();
+		Task t = findTaskByID(Taskid);
+		System.out.println("***************************"+t.getTaskTitle());
+
+		 Query query = entityManager.
+				createQuery("SELECT new Organizer(o.organizerPK) FROM Organizer o WHERE o.organizerPK.idUser=:param")
+				.setParameter("param", idOrgnizer);
+		 Organizer o = (Organizer) query.getSingleResult();
+		 
+		System.out.println("***************************"+o.getState().toString());
 		t.setOrganizer(o);
-        entityManager.getTransaction().commit();
-		
-		
+		entityManager.merge(t);
+
 	}
 
 	@Override
 	public void taskStatusCompleted(int Taskid) {
-		//Organizer o=entityManager.find(Organizer.class,idOrgnizer);
-		Task t =findTaskByID(Taskid);
+		// Organizer o=entityManager.find(Organizer.class,idOrgnizer);
+		Task t = findTaskByID(Taskid);
+
 		
-		entityManager.getTransaction().begin();
 		t.setTaskStatus(2);
-        entityManager.getTransaction().commit();
-        
-   
-		
-        
-        
-        
+		entityManager.merge(t);
+
 	}
 
 	@Override
 	public int getTaskStatus(int taskID) {
-		Task t=entityManager.find(Task.class,taskID);
-		
+		Task t = findTaskByID(taskID);
+
 		return t.getTaskStatus();
 	}
 
 	@Override
 	public void createTask(Task task) {
 		entityManager.persist(task);
-		
+
 	}
-	
-	
-	
-	
-	
-	
 
 }
