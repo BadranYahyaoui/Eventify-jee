@@ -12,6 +12,9 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AttributBusinessL
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.FavoriteBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
@@ -31,6 +34,9 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RatePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUser;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUserPK;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.WishlistPK;
@@ -38,9 +44,12 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventCat
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventType;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.OrganizationType;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.PaymentMethod;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionCategory;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.QuestionType;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.ReservationState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.StateInvitation;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.TimerState;
 
 @Singleton
 @Startup
@@ -76,6 +85,13 @@ public class DBPopulator {
 	
 	@EJB
 	RefferUserBusinessLocal ReferrelUserBusiness;
+	
+	@EJB
+	IReservationBusinessLocal reservationBusiness;
+	@EJB
+	ITransactionBusinessLocal transactionBusiness;
+	@EJB
+	ITicketBusinessLocal ticketBusiness;
 	
 	public DBPopulator() {
 	}
@@ -237,8 +253,24 @@ public class DBPopulator {
 		favoriteBusiness.addFavorite(f3);
 		
 		//Adding Favorites END
-
-
+		
+		
+		//Populate Ticket, Reservation and Transaction Classes
+		Ticket ticket1 = new Ticket(20, "VIP I", 40.23f , "" ,e1 );
+		Ticket ticket2 = new Ticket(20, "VIP I", 40.23f , "" ,e2 );
+		ticketBusiness.create(ticket1);
+		ticketBusiness.create(ticket2);
+		
+		Reservation reservation1 = new Reservation( 40.23f,  new Date(), ReservationState.NOTCONFIRMED, PaymentMethod.Paypal, u1, ticket1, TimerState.INPROGRESS);
+		Reservation reservation2 = new Reservation( 40.23f,  new Date(), ReservationState.NOTCONFIRMED, PaymentMethod.Paypal, u2, ticket2, TimerState.INPROGRESS);
+		reservationBusiness.create(reservation1);
+		reservationBusiness.create(reservation2);
+		
+		Transaction transaction1 = new Transaction("AFxccvF45hjg54fdf45q4f5FGJH", 40.23f, reservation1);
+		Transaction transaction2 = new Transaction("AFxccvF45hjg54fdf45q4f5FGJH", 48.23f, reservation2);
+		transactionBusiness.create(transaction1);
+		transactionBusiness.create(transaction2);
+		//END Populate Ticket, Reservation and Transaction Classes
 	}
 		
 

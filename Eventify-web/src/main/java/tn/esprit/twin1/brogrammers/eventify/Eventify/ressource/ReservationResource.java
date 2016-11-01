@@ -46,19 +46,9 @@ public class ReservationResource {
 	IReservationBusinessLocal reservationBusiness;
 	@EJB
 	ITicketBusinessLocal ticketBusiness;
-	PaymentWithPayPalServlet p = new PaymentWithPayPalServlet();
+	
 
-	@GET
-	@Path("paypal/pay")
-	public void pay(@Context HttpServletRequest servletRequest, @Context HttpServletResponse servletResponse)
-			throws ServletException, IOException {
-		System.out.println("firaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
-
-		p.createPayment(servletRequest, servletResponse);
-		RedirectUrls redirect = p.createPayment(servletRequest, servletResponse).getRedirectUrls();
-		System.out.println("Req:" + servletRequest.getParameter("redirectURL"));
-		System.out.println(redirect);
-	}
+	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

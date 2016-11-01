@@ -31,7 +31,13 @@ public class Transaction implements Serializable {
 		this.amount = amount;
 		this.reservation = reservation;
 	}
- 
+	public Transaction(String token, float amount, Reservation reservation) {
+		super();
+		
+		this.token = token;
+		this.amount = amount;
+		this.reservation = reservation;
+	}
 	
 	public Transaction(int id, String token, float amount) {
 		super();
