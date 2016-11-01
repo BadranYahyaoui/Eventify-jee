@@ -73,9 +73,33 @@ public class UserResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateUser(User user) {
-
+	public Response updateUser(User user) {
+		/*String imgToUpload=user.getProfileImage();
+		if(imgToUpload!=null)
+		{
+			if(userBusiness.uploadProfileImage(imgToUpload))
+			{
+				userBusiness.updateUser(user);
+				return  Response.status(Status.OK).entity(true).build();
+			}
+			else
+			{
+				userBusiness.updateUser(user);
+				return  Response.status(Status.FORBIDDEN).entity(false).build();
+			}
+		}*/
+		
 		userBusiness.updateUser(user);
+		return  Response.status(Status.OK)
+	            .header("Access-Control-Allow-Origin", "*")
+	            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+	            .header("Access-Control-Allow-Credentials", "true")
+	            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+	            .header("Access-Control-Max-Age", "1209600")
+				.entity("Problem not image changed").build();
+	
+
+	
 
 	}
 
@@ -94,6 +118,24 @@ public class UserResource {
 	{
 		return userBusiness.loginUser(username, pwd);
 	}
+	
+/*	@Path("UploadProfile")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response uploadImageToFTP(String uploadedImg) {
+
+		if(userBusiness.uploadProfileImage(uploadedImg))
+		{
+			return  Response.status(Status.OK).entity(true).build();
+		}
+		else
+		{
+			return  Response.status(Status.FORBIDDEN).entity(false).build();
+		}
+
+	}
+	*/
 	
 
 	// added by Ibra
