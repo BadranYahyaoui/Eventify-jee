@@ -17,7 +17,6 @@ public class Comment implements Serializable {
 
 	private int Reference;
 	private String Contain;
-	
 	private User user;
 	private Event event;
 	private CommentPK commentPK;

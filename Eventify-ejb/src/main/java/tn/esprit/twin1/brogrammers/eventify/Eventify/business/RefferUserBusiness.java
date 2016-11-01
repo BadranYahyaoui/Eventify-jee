@@ -43,10 +43,6 @@ public class RefferUserBusiness implements RefferUserBusinessRemote, RefferUserB
 	}
 
 
-
-
-
-
 	@Override
 	public boolean RemoveReferred(int idReferred) {
 		entityManager.remove(entityManager.merge(FindReferralByIdReferred(idReferred)));
@@ -125,5 +121,24 @@ public class RefferUserBusiness implements RefferUserBusinessRemote, RefferUserB
 		{
 			return userBusiness.findUserById(idReferred);
 		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

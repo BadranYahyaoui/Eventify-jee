@@ -74,7 +74,10 @@ public class ReservationResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response addReservation(Reservation reservation, @QueryParam("nbTicket") int nbTicket) {
-		if (reservation.getTicket().getNbTickets() > nbTicket) {
+		int idticket = reservation.getTicket().getId();
+		Ticket ticketcheck = ticketBusiness.findTicketById(idticket);
+		if (ticketcheck.getNbTickets() > nbTicket) {
+			System.out.println(reservation.getTicket().getNbTickets() +"////////"+ nbTicket);
 			reservationBusiness.create(reservation);
 			Ticket ticket = reservation.getTicket();
 			int oldNbTicket = ticket.getNbTickets();
@@ -88,10 +91,12 @@ public class ReservationResource {
 					System.out.println("timeeeeeeeeeeeeeeer1");
 					reservation.setTimerState(TimerState.FINISHED);
 					updateReservation(reservation);
+					if (reservation.getReservationState()!=ReservationState.CONFIRMED)
+					{
 					ticket.setNbTickets(oldNbTicket + nbTicket);
 					ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket);
 					System.out.println("Arja3 NbTick:" + ticket.getNbTickets());
-					System.out.println("timeeeeeeeeeeeeeeer2");
+					System.out.println("timeeeeeeeeeeeeeeer2");}
 
 				}
 			}, 10000);

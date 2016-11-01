@@ -24,5 +24,7 @@ public interface RateBusinessLocal {
 	
 	public Rate getRateByUserIdAndEventId(int UserId, int EventId);
 	
+	public Event BestEventRated();
+	
 
 }

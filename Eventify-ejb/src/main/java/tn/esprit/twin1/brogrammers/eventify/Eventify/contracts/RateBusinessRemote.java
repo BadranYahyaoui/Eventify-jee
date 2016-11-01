@@ -24,6 +24,6 @@ public void createRate(Rate rate);
 	
 	public Rate getRateByUserIdAndEventId(int UserId, int EventId);
 	
-
+	public Event BestEventRated();
 }
 	
