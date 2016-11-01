@@ -23,6 +23,8 @@ import javax.transaction.SystemException;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
@@ -55,9 +57,13 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 	ITicketBusinessLocal ticketbusiness;
 
 	@Override
-	public void create(Reservation reservation) {
-		entityManager.persist(reservation);
-		System.out.print(reservation);
+	public boolean create(Reservation reservation) {
+		try {entityManager.persist(reservation);
+		return true;}
+		catch (Exception e) {
+			System.err.println("Failed to Add");
+			return false;
+		}
 
 	}
 
@@ -86,9 +92,13 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 	}
 
 	@Override
-	public void updateReservation(Reservation reservation) {
+	public boolean updateReservation(Reservation reservation) {
 
-		entityManager.merge(reservation);
+		try {entityManager.merge(reservation);return true;}
+		catch (Exception e) {
+			System.err.println("Failed to Add");
+			return false;
+		}
 
 	}
 

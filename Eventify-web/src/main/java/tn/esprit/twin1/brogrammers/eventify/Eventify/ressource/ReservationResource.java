@@ -74,16 +74,18 @@ public class ReservationResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response addReservation(Reservation reservation, @QueryParam("nbTicket") int nbTicket) {
+		System.out.println("IDDDDDDDDDDDDDDDDDDDDDDDD:"+reservation.getTicket().getId());
 		int idticket = reservation.getTicket().getId();
 		Ticket ticketcheck = ticketBusiness.findTicketById(idticket);
+	
 		if (ticketcheck.getNbTickets() > nbTicket) {
-			System.out.println(reservation.getTicket().getNbTickets() +"////////"+ nbTicket);
+			System.out.println(ticketcheck.getNbTickets()+"////////"+ nbTicket);
 			reservationBusiness.create(reservation);
 			Ticket ticket = reservation.getTicket();
-			int oldNbTicket = ticket.getNbTickets();
-			ticket.setNbTickets(oldNbTicket - nbTicket);
-			System.out.println("New NbTick:" + ticket.getNbTickets());
-			ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket - nbTicket);
+			int oldNbTicket = ticketcheck.getNbTickets();
+			ticketcheck.setNbTickets(oldNbTicket - nbTicket);
+			System.out.println("New NbTick:" + ticketcheck.getNbTickets());
+			ticketBusiness.UpdateNbTicket(ticketcheck.getId(), oldNbTicket - nbTicket);
 
 			new Timer().schedule(new java.util.TimerTask() {
 				@Override
@@ -93,9 +95,9 @@ public class ReservationResource {
 					updateReservation(reservation);
 					if (reservation.getReservationState()!=ReservationState.CONFIRMED)
 					{
-					ticket.setNbTickets(oldNbTicket + nbTicket);
-					ticketBusiness.UpdateNbTicket(reservation.getTicket().getId(), oldNbTicket);
-					System.out.println("Arja3 NbTick:" + ticket.getNbTickets());
+						ticketcheck.setNbTickets(oldNbTicket + nbTicket);
+					ticketBusiness.UpdateNbTicket(ticketcheck.getId(), oldNbTicket);
+					System.out.println("Arja3 NbTick:" + ticketcheck.getNbTickets());
 					System.out.println("timeeeeeeeeeeeeeeer2");}
 
 				}
@@ -112,8 +114,9 @@ public class ReservationResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateReservation(Reservation reservation) {
 		reservation.setTimerState(TimerState.FINISHED);
-		reservationBusiness.updateReservation(reservation);
-		return Response.status(Status.OK).build();
+		if(reservationBusiness.updateReservation(reservation))
+			return  Response.status(Status.OK).build();
+		return Response.status(Status.BAD_REQUEST).build();
 	}
 
 	@DELETE

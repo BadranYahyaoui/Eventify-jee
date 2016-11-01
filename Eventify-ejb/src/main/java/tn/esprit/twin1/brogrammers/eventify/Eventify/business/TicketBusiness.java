@@ -30,12 +30,14 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	EventBusinessLocal eventbusiness;
 
 	@Override
-	public void create(Ticket ticket) {
+	public boolean create(Ticket ticket) {
 
 		try {
 			entityManager.persist(ticket);
+			return true;
 		} catch (Exception e) {
 			System.err.println("Can't add Ticket! :(");
+			return false;
 		}
 	}
 
@@ -56,19 +58,24 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 	}
 
 	@Override
-	public void updateTicket(Ticket ticket) {
+	public boolean updateTicket(Ticket ticket) {
 		try {
 			entityManager.merge(ticket);
-
+			return true;
 		} catch (Exception e) {
 			System.err.println("Can't modify Ticket! :(");
+			return false;
 		}
 	}
 
 	@Override
 	public boolean deleteTicketById(int id) {
-		entityManager.remove(entityManager.find(Ticket.class, id));
-		return true;
+		try {entityManager.remove(entityManager.find(Ticket.class, id));
+		return true;}
+		catch (Exception e) {
+			System.err.println("Can't delete Ticket! :(");
+			return false;
+		}
 	}
 
 	@Override
@@ -109,11 +116,15 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 
 	@Override
 	public boolean UpdateNbTicket(int idTicket,int nbareser) {
-		/*Query query  = entityManager.createQuery("UPDATE Ticket SET nbTickets =:nbareser where id =:idTicket")
+		try {Query query  = entityManager.createQuery("UPDATE Ticket SET nbTickets =:nbareser where id =:idTicket")
 				.setParameter("idTicket", idTicket)
 				.setParameter("nbareser", nbareser);
 		query.executeUpdate();
-		*/return true;
+		return true;}
+		catch (Exception e) {
+			System.err.println("Can't update! :(");
+			return false;
+		}
 	}
 
 	@Override
