@@ -13,6 +13,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.AccountState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.AuthJWT;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.FaceCognitive;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.MD5Hash;
 
 /**
@@ -56,6 +57,10 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 			if (u != null && u.getConfirmationToken().equals(confirmationToken)) {
 				User userTochange = findUserById(u.getId());
 				userTochange.setAccountState(AccountState.ACTIVATED);
+				String faceListName=userTochange.getUsername();
+				System.out.println("\n\n\n\n\n\n\n\n faceListName :  "+faceListName+"\n\n\n\n\n\n\n\n ");
+				FaceCognitive.CreateFaceList(faceListName);
+				FaceCognitive.AddFaceToList("http://s.plurielles.fr/mmdia/i/16/8/brad-pitt-2564168_2041.jpg", faceListName);//To change get Image with ftp
 				updateUser(userTochange);
 				return true;
 			} else {
