@@ -16,6 +16,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusin
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RefferUserBusinessLocal;
@@ -29,12 +30,14 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Favorite;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.FavoritePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RatePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUser;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.ReferrelUserPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
@@ -50,7 +53,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.Question
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.ReservationState;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.StateInvitation;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.TimerState;
-
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessLocal;
 @Singleton
 @Startup
 public class DBPopulator {
@@ -92,7 +95,10 @@ public class DBPopulator {
 	ITransactionBusinessLocal transactionBusiness;
 	@EJB
 	ITicketBusinessLocal ticketBusiness;
-	
+	@EJB
+	TaskBusinessLocal taskbuiness;
+	@EJB
+	OrganizerBusinessLocal organizerBusinessLocal;
 	public DBPopulator() {
 	}
 
@@ -271,6 +277,22 @@ public class DBPopulator {
 		transactionBusiness.create(transaction1);
 		transactionBusiness.create(transaction2);
 		//END Populate Ticket, Reservation and Transaction Classes
+		
+		Task t = new Task("Verifiying tickets", "Verifiying tickets on bbloc a", 1, new Date(),e1);
+		Task t2 = new Task("Verifiying tickets", "Verifiying tickets on bbloc c", 1, new Date(),e1);
+		Task t3 = new Task("Verifiying tickets", "Verifiying tickets on bbloc D", 1, new Date(),e2);
+		//t.setEvent(e1);
+		//t2.setEvent(e1);
+		taskbuiness.createTask(t);
+		taskbuiness.createTask(t2);
+		taskbuiness.createTask(t3);
+		
+		Organizer organizer=new Organizer(u1, o1);
+		Organizer organizer2=new Organizer(u2, o1);
+		organizerBusinessLocal.assignOrganizer(organizer);
+		organizerBusinessLocal.assignOrganizer(organizer2);
+		
+		
 	}
 		
 
