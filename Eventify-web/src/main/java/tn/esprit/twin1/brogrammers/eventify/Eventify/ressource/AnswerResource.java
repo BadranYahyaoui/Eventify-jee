@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -65,9 +66,10 @@ public class AnswerResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{id}")
-	public Response getAnswerByUserId(@PathParam("id")int id){
-		List answers = (List) answerBusiness.getAnswerByUserId(id);
+	public Response getAnswerByUserId(@QueryParam("userId")int userId,
+			@QueryParam("attributId")int attributId){
+		List answers = (List) answerBusiness.getAnswerByAttributIdAndUserId(userId, attributId);
+		System.out.println(answers.toString());
 		if(answers.size()!=0)
 			return Response.status(Status.OK).entity(answers).build();
 		else

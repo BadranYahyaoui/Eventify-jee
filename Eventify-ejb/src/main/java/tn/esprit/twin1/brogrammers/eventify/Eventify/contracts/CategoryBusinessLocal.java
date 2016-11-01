@@ -1,5 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.contracts;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
@@ -11,5 +13,6 @@ public interface CategoryBusinessLocal {
 	public void addCategory(Category category);
 	public void deleteCategory(int id);
 	public Category findById(int id);
+	public List<Category> getAllCategories();
 
 }

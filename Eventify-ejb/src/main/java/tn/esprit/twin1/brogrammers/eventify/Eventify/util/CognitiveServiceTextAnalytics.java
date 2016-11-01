@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 
 public class CognitiveServiceTextAnalytics {
 	
-	public static String GetSentimentAnalytics() {
+	public static String GetSentimentAnalytics(String comment) {
 		HttpClient httpclient = HttpClients.createDefault();
 
         try
@@ -28,7 +28,7 @@ public class CognitiveServiceTextAnalytics {
 			request.setHeader("Ocp-Apim-Subscription-Key", "eba8e6cfda0f4b3e98bb85debb8072c9");
 
 			// Request body
-			StringEntity reqEntity = new StringEntity("{'documents':[{'language':'en','id':'1','text':'It was a terrible night'}]}");
+			StringEntity reqEntity = new StringEntity("{'documents':[{'language':'en','id':'1','text':'"+comment+"'}]}");
             request.setEntity(reqEntity);
 
             HttpResponse response = httpclient.execute(request);
