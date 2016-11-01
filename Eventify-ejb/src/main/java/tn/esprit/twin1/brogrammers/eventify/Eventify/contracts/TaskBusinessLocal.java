@@ -15,7 +15,7 @@ public interface TaskBusinessLocal {
 	   public void updateTask(Task task);
 	   
 	   //DeleteTask
-	   public void deleteTask(Task task);
+	   public void deleteTask(int id);
 	 
 	//get a task by id
 	public Task findTaskByID(int id);
