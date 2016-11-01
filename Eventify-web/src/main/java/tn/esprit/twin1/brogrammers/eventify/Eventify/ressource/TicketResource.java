@@ -42,9 +42,10 @@ public class TicketResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Ticket> findAllUsers() {
-
-		return ticketBusiness.getAllTickets();
+	public Response findAllUsers() {
+		return Response.status(Status.FOUND).entity(ticketBusiness.getAllTickets()).build();
+		
+	
 	}
 
 	@GET
@@ -62,15 +63,17 @@ public class TicketResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addTicket(Ticket ticket) {
-		ticketBusiness.create(ticket);
+		if(ticketBusiness.create(ticket))
 		return Response.status(Status.CREATED).build();
+		return Response.status(Status.BAD_REQUEST).build();
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateTicket(Ticket ticket) {
-		ticketBusiness.updateTicket(ticket);
+		if(ticketBusiness.updateTicket(ticket))
 		return Response.status(Status.OK).build();
+		return Response.status(Status.BAD_REQUEST).build();
 	}
 
 	@DELETE
@@ -87,17 +90,19 @@ public class TicketResource {
 	@Path("eventwith/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Ticket> GetTicketsGroupedByype(@PathParam(value = "id") int idevent) {
+	public Response GetTicketsGroupedByype(@PathParam(value = "id") int idevent) {
 
-		return ticketBusiness.getAllTicketsEventGroupedByType(idevent);
+		
+		return Response.status(Status.FOUND).entity(ticketBusiness.getAllTicketsEventGroupedByType(idevent)).build();
 	}
 	
 	@Path("event/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Ticket> GetAvailableTicketsOrdred(@PathParam(value = "id") int idevent) {
+	public Response GetAvailableTicketsOrdred(@PathParam(value = "id") int idevent) {
 
-		return ticketBusiness.AvailableTicketsOrderByPrice(idevent);
+		 ticketBusiness.AvailableTicketsOrderByPrice(idevent);
+		 return Response.status(Status.FOUND).entity(ticketBusiness.AvailableTicketsOrderByPrice(idevent)).build();
 	}
 	
 	

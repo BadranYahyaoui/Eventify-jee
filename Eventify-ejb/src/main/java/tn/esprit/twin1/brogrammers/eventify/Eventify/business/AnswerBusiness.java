@@ -98,5 +98,25 @@ public class AnswerBusiness implements AnswerBusinessRemote, AnswerBusinessLocal
 	}
 
 
+	@Override
+	public List<Answer> getAnswerByAttributIdAndUserId(int userId, int attributId) {
+		try {
+			Query query = entityManager.
+					createQuery("SELECT new Answer(a.answerPK,a.answer,a.dateAnswer) "
+							+ "FROM Answer a "
+							+ "WHERE a.answerPK.idAttribut=:attributId AND "
+							+ "a.answerPK.idUser=:userId")
+					.setParameter("attributId", attributId)
+					.setParameter("userId", userId);
+			 return (List<Answer>) query.getResultList();
+
+		} catch (Exception e) {
+			System.err.println("Cant Find Answer");
+			return new ArrayList<Answer>();
+		}
+	
+	}
+
+
 
 }

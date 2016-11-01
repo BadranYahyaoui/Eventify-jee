@@ -19,8 +19,9 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.RateBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.SpellCheck;
 
 @Path("rates")
 @RequestScoped
@@ -81,7 +82,7 @@ public class RateResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllRatessByUserIdAndRatesId(@QueryParam(value="iduser")int idUser,@QueryParam(value="idevent")int idEvent)
+	public Response getAllRatesByUserIdAndRatesId(@QueryParam(value="iduser")int idUser,@QueryParam(value="idevent")int idEvent)
 	{
 		
 		if(idUser!=0 && idEvent==0){
@@ -122,6 +123,7 @@ public class RateResource {
 	public Response BestEvent()
 	{
 		Event BestEvent = RateBusiness.BestEventRated();
+		SpellCheck.checkWord("Bill Gatas");
 		
 		return Response.status(Status.OK).entity(BestEvent).build();
 		

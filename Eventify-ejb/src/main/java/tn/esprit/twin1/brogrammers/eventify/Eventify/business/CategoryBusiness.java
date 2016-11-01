@@ -1,5 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -57,6 +59,13 @@ public class CategoryBusiness implements CategoryBusinessLocal {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<Category> getAllCategories() {
+		Query query = entityManager.
+				createQuery("SELECT new Category(c.id,c.categoryName) FROM Category c ");
+		 return (List<Category>) query.getResultList();
 	}
 
 }

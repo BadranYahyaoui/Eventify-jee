@@ -10,10 +10,14 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Comment;
 @Remote
 public interface CommentBusinessRemote {
 	
-	public void AddComment(Comment comment);
+public void AddComment(Comment comment);
+	
+	public boolean DeleteComment(int idUser,int idEvent);
+	
 	public void updateComment(Comment comment);
-	public boolean DeleteComment(int ref);
-	public List<Comment> getCommentsByUserId(int id);
-	public Comment GetCommentByReference(int ref);
+	
+	public List<Comment> getCommentsByEvent(int id);
+	
+	public Comment GetCommentByUserIdAndEventId(int idUser,int idEvent);
 
 }

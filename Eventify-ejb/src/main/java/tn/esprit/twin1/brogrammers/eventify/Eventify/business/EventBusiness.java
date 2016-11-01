@@ -20,9 +20,11 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessL
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 
 /**
  * Session Bean implementation class EventBusiness
@@ -39,6 +41,8 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	@EJB
 	CategoryBusinessLocal categoryBusiness;
 
+	@EJB
+	QuestionBusinessLocal questionBusiness;
 	// ajout
 	@Override
 	public void create(Event event) {
@@ -247,7 +251,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 						+ "e.eventState,AVG(r.note),o,c) FROM Event e "
 						+ "JOIN e.organization o "
 						+ "JOIN e.category c "
-						+ "JOIN e.rate r "
+						+ "JOIN e.rates r "
 						+ "GROUP BY e.id" )
 				.getResultList();
 
@@ -289,6 +293,20 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		}
 
 		return events;
+	}
+
+	@Override
+	public List<Question> getMyQuestions(int id) {
+		List<Question> questions = (List<Question>) entityManager.createQuery
+				("SELECT new Question(q.id,q.questionDescription,q.questionType,"
+						+ "q.questionCategory,q.status,q.questionDate,q.order) FROM Event e "
+						+ "JOIN e.questions q WHERE e.id=:param")
+				.setParameter("param", id).getResultList();
+		
+
+		return questions;
+		
+		
 	}
 
 }

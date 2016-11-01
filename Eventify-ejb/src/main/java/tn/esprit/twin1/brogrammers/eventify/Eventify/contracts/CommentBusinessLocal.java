@@ -12,12 +12,12 @@ public interface CommentBusinessLocal {
 	
 	public void AddComment(Comment comment);
 	
+	public boolean DeleteComment(int idUser,int idEvent);
+	
 	public void updateComment(Comment comment);
 	
-	public boolean DeleteComment(int ref);
+	public List<Comment> getCommentsByEvent(int id);
 	
-	public List<Comment> getCommentsByUserId(int id);
-	
-	public Comment GetCommentByReference(int ref);
+	public Comment GetCommentByUserIdAndEventId(int idUser,int idEvent);
 	
 }

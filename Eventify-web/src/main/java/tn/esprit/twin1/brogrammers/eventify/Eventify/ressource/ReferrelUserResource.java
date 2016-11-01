@@ -3,7 +3,10 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.ressource;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,17 +26,34 @@ public class ReferrelUserResource {
 	@EJB
 	RefferUserBusinessLocal refferUserBusiness;
 	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response AddReferrel(ReferrelUser referrelUser){
+		
+		try {
+			refferUserBusiness.ChooseReferred(referrelUser);
+			return Response.status(Status.CREATED).build();
+		} catch (Exception e) {
+			return Response.status(Status.NOT_ACCEPTABLE).build();
+		}
+	}
+
+	
+
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 public Response FindReferrds(@PathParam("id") int idReferral) 
 	{
+		try {
+			List<ReferrelUser> liste=refferUserBusiness.FindReferredsByIdReferral(idReferral);
+			
+			return Response.status(Status.OK).entity(liste).build();
+		} catch (Exception e) {
+			return Response.status(Status.NOT_ACCEPTABLE).build();
+		}
 		
-	
-		List<ReferrelUser> liste=refferUserBusiness.FindReferredsByIdReferral(idReferral);
-		
-		return Response.status(Status.OK).entity(liste).build();
 
     }
 
@@ -55,10 +75,16 @@ public Response FindReferrds(@PathParam("id") int idReferral)
 @Path("/allusers")
 	public Response FindAllReferralsUsers()
 	{
-		
-		 List<User> users = refferUserBusiness.FindAllReferrals();
+	
+	try {
+ List<User> users = refferUserBusiness.FindAllReferrals();
 		 
 		 return Response.status(Status.OK).entity(users).build();
+	} catch (Exception e) {
+		return Response.status(Status.BAD_REQUEST).build();
+	}
+		
+		
 		 
 	}
 
@@ -70,11 +96,28 @@ public Response FindReferrds(@PathParam("id") int idReferral)
 	{
 		
 		 List<ReferrelUser> referrels = refferUserBusiness.FindAll();
-		 
 		 return Response.status(Status.OK).entity(referrels).build();
 		 
 	}
-
-
 	
+   
+  
+
+@PUT
+@Consumes(MediaType.APPLICATION_JSON)
+public Response updateRef(ReferrelUser ref)
+{
+	try {
+		refferUserBusiness.updateReffered(ref);
+		return Response.status(Status.OK).build();
+	} catch (Exception e) {
+		return Response.status(Status.NOT_MODIFIED).build();
+	}
+
+}
+
+
+
+
+
 }

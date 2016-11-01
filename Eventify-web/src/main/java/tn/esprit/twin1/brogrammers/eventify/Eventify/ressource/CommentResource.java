@@ -10,30 +10,40 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.AnswerBusinessLocal;
-import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Answer;
 
-@Path("answers")
+
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CommentBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Comment;
+
+
+
+@Path("comments")
 @RequestScoped
-public class AnswerResource {
-	@EJB
-	AnswerBusinessLocal answerBusiness;
+public class CommentResource {
 	
+	
+	
+	@EJB
+	CommentBusinessLocal CommentBusiness ;
+	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addAnswer(Answer answer){
+	public Response addRate(Comment comment)
+	{
 		
 		try {
-			answerBusiness.createAnswer(answer);
+			CommentBusiness.AddComment(comment);
 			return Response.status(Status.CREATED).build();
-		} catch (Exception e) {
+		    } 
+		catch (Exception e)
+		{
 			return Response.status(Status.NOT_ACCEPTABLE).build();
 		}
 	}
@@ -41,42 +51,43 @@ public class AnswerResource {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAnswer(Answer answer){
+	public Response updateRate(Comment comment){
 		try {
-			answerBusiness.updateAnswer(answer);
+			CommentBusiness.updateComment(comment);
 			return Response.status(Status.OK).build();
 		} catch (Exception e) {
 			return Response.status(Status.NOT_MODIFIED).build();
 		}
-
 	}
 	
-	
+
 	@DELETE
-	@Path("{id}")
-	public Response deleteAnswer(@PathParam(value="id")int id){
+	public Response deleteRate(@QueryParam(value="iduser")int idUser,@QueryParam(value="idevent")int idEvent)
+	{
 		
-		boolean b = answerBusiness.deleteAnswer(id);
-		if(b)
+		
+		if(CommentBusiness.DeleteComment(idUser, idEvent))
+			{
+			System.out.println("deleted");
 			return Response.status(Status.OK).build();
+			}
+		
 		else
+			{
+			System.out.println("not deleted");
 			return Response.status(Status.NOT_FOUND).build();
-
+			}
 	}
+	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnswerByUserId(@QueryParam("userId")int userId,
-			@QueryParam("attributId")int attributId){
-		List answers = (List) answerBusiness.getAnswerByAttributIdAndUserId(userId, attributId);
-		System.out.println(answers.toString());
-		if(answers.size()!=0)
-			return Response.status(Status.OK).entity(answers).build();
-		else
-			return Response.status(Status.NOT_FOUND).build();
-
+	public Response getCommentsByEvent(@QueryParam(value="idevent")int idEvent)
+	{
+		
+		List<Comment> comments=  CommentBusiness.getCommentsByEvent(idEvent);
+		return Response.status(Status.OK).entity(comments).build();
 	}
-
 	
 
 }

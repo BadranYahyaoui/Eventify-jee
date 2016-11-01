@@ -154,7 +154,7 @@ System.out.println("l3omlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+String.valueOf(reser
 					+ req.getContextPath() + "/rest/transaction/paypalredirectcancled"+"?guid=" + guid);
 			redirectUrls.setReturnUrl(req.getScheme() + "://"
 					+ req.getServerName() + ":" + req.getServerPort()
-					+ req.getContextPath() + "/rest/transaction/paypalredirect"+"?guid=" + guid);
+					+ req.getContextPath() + "/rest/transaction/paypalredirect"+"?reservationid=" + reservation.getId()+"?guid=" + guid);
 			payment.setRedirectUrls(redirectUrls);
 
 			System.out.println(req.getScheme() + "://"+ req.getServerName() + ":" + req.getServerPort()+ req.getContextPath() + "/paymentwithpaypal?guid=" + guid);

@@ -73,9 +73,28 @@ public class UserResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateUser(User user) {
-
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updateUser(User user) {
+		String imgToUpload=user.getProfileImage();
+		if(imgToUpload!=null)
+		{
+			if(userBusiness.uploadProfileImage(imgToUpload))
+			{
+				userBusiness.updateUser(user);
+				return  Response.status(Status.OK).entity(true).build();
+			}
+			else
+			{
+				userBusiness.updateUser(user);
+				return  Response.status(Status.FORBIDDEN).entity(false).build();
+			}
+		}
+		
 		userBusiness.updateUser(user);
+		return  Response.status(Status.OK).entity("Problem not image changed").build();
+	
+
+	
 
 	}
 
@@ -94,6 +113,24 @@ public class UserResource {
 	{
 		return userBusiness.loginUser(username, pwd);
 	}
+	
+/*	@Path("UploadProfile")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response uploadImageToFTP(String uploadedImg) {
+
+		if(userBusiness.uploadProfileImage(uploadedImg))
+		{
+			return  Response.status(Status.OK).entity(true).build();
+		}
+		else
+		{
+			return  Response.status(Status.FORBIDDEN).entity(false).build();
+		}
+
+	}
+	*/
 	
 
 	// added by Ibra

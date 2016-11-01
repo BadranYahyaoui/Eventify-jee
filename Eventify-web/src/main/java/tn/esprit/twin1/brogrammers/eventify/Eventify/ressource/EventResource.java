@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.CognitiveServiceTextAnalytics;
 
 @Path("events")
@@ -128,6 +129,14 @@ public class EventResource {
 
 		return Response.status(Status.OK).entity(liste).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{id}/questions")
+	public Response getMyQuetions(@PathParam("id")int id){
+		return Response.status(Status.OK).entity(eventBusiness.getMyQuestions(id)).build();
+	}
+
 	
 	
 	

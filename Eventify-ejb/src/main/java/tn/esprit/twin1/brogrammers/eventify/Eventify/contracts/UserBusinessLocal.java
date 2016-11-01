@@ -18,6 +18,7 @@ public interface UserBusinessLocal {
 	public void deleteUser(int id);
 	public List<Wishlist> getMyWishlist(int idUser); //added by Ibra
 	public String loginUser(String username, String pwd);
+	public boolean uploadProfileImage(String imgToUpload);
 	
 
 }

@@ -21,7 +21,7 @@ public interface RefferUserBusinessLocal {
 	
 	public List<User> FindAllReferrals();
 	
-	public void updateReffered(User Referred);
+	public void updateReffered(ReferrelUser Referred);
 	
 	public List<ReferrelUser> FindAll();
 
