@@ -8,9 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Iterator;
+
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
@@ -26,6 +29,9 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	
 	@EJB
 	UserBusinessLocal userbusiness;
+	
+	@EJB
+	CategoryBusinessLocal categoryBusiness;
     /**
      * Default constructor. 
      */
@@ -98,10 +104,21 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	}
 	
 	public List<Event> getMyEvents(int id){
-		 Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,e.eventCategory,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) FROM Organization o JOIN o.events e WHERE o.id=:param");
-		    return (List<Event>) query.setParameter("param", id).getResultList();
+		List<Event> events = (List<Event>)entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) "
+						+ "FROM Organization o "
+						+ "JOIN o.events e "
+						+ "JOIN e.category c "
+						+ "WHERE o.id=:param")
+				.setParameter("param", id).getResultList();
+		 
+		for (Event event : events) {
+			Category category = categoryBusiness.findById(event.getCategory().getId());
+			event.setCategory(category);
+		}
+
+		    return events;
 	}
 
 	@Override

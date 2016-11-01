@@ -20,7 +20,7 @@ public class CognitiveServiceTextAnalytics {
         {
             URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment");
 
-            builder.setParameter("numberOfLanguagesToDetect", "1");
+            //builder.setParameter("numberOfLanguagesToDetect", "1");
 
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
@@ -28,7 +28,7 @@ public class CognitiveServiceTextAnalytics {
 			request.setHeader("Ocp-Apim-Subscription-Key", "eba8e6cfda0f4b3e98bb85debb8072c9");
 
 			// Request body
-			StringEntity reqEntity = new StringEntity("{'documents':[{'id':'1','text':'It was a terrible night'}]}");
+			StringEntity reqEntity = new StringEntity("{'documents':[{'language':'en','id':'1','text':'It was a terrible night'}]}");
             request.setEntity(reqEntity);
 
             HttpResponse response = httpclient.execute(request);
@@ -36,7 +36,7 @@ public class CognitiveServiceTextAnalytics {
             
             if (entity != null) 
             {
-                System.out.println(EntityUtils.toString(entity));
+                //System.out.println(EntityUtils.toString(entity));
                 return EntityUtils.toString(entity);
             }
         }

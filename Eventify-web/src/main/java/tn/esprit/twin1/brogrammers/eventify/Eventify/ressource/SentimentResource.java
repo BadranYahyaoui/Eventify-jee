@@ -21,6 +21,9 @@ public class SentimentResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getScore(){
 		String t = CognitiveServiceTextAnalytics.GetSentimentAnalytics();
+		System.out.println("**********************");
+		System.out.println("********* "+ t +"*************");
+		System.out.println("**********************");
 		return t;
 
 	}

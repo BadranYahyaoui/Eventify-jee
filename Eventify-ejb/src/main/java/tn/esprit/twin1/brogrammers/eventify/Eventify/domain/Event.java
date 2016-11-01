@@ -34,6 +34,7 @@ public class Event implements Serializable {
 	private String facebookLink;
 	private String twitterLink;
 	private EventState eventState;
+	private double rateAvg;
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -139,10 +140,37 @@ public class Event implements Serializable {
 
 
 
+	//constructeur Rate
+	
 
 
 
 
+
+
+
+	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
+			int placeNumber, EventType eventType, int nbViews, Date createdAt, String facebookLink, String twitterLink,
+			EventState eventState, double rateAvg, Organization organization, Category category) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.theme = theme;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.placeNumber = placeNumber;
+		this.eventType = eventType;
+		this.nbViews = nbViews;
+		this.createdAt = createdAt;
+		this.facebookLink = facebookLink;
+		this.twitterLink = twitterLink;
+		this.eventState = eventState;
+		this.rateAvg = rateAvg;
+		this.organization = organization;
+		this.category = category;
+	}
 
 
 	@Id
@@ -150,6 +178,7 @@ public class Event implements Serializable {
 	public int getId() {
 		return this.id;
 	}
+
 
 	public void setId(int id) {
 		this.id = id;
@@ -265,6 +294,16 @@ public class Event implements Serializable {
 	public void setTwitterLink(String twitterLink) {
 		this.twitterLink = twitterLink;
 	}
+	
+	@Transient
+	public double getRateAvg() {
+		return rateAvg;
+	}
+
+	public void setRateAvg(double rateAvg) {
+		this.rateAvg = rateAvg;
+	}
+
 
 
 	@Enumerated(EnumType.STRING)

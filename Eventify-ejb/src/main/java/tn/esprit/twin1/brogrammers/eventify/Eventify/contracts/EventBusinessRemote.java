@@ -2,6 +2,7 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.contracts;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Remote;
 import javax.swing.event.DocumentEvent.EventType;

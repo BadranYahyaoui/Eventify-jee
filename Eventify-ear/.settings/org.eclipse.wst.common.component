@@ -68,5 +68,11 @@
         <dependent-module archiveName="httpcore.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/org/apache/httpcomponents/httpcore/4.4.5/httpcore-4.4.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="cors-filter.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/com/thetransactioncompany/cors-filter/2.1/cors-filter-2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="java-property-utils.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/com/thetransactioncompany/java-property-utils/1.9.1/java-property-utils-1.9.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>
