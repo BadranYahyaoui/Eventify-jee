@@ -20,6 +20,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.Filters.Secured;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Wishlist;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.FaceCognitive;
 
 /*
  *  PS : DON'T FUCKING TOUCH THIS LOVELY BY HAKIM
@@ -59,7 +60,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public User findUserById(@PathParam("id") int id) {
-
+	
 		return userBusiness.findUserById(id);
 	}
 
