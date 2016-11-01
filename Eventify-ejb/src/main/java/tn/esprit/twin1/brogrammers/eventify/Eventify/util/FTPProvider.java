@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.apache.commons.net.ftp.FTPClient;
 
 public class FTPProvider {
-	public static final String IMAGE = "../../img.png";
+	public static final String IMAGE = "../../img1.png";
 	public static boolean UploadImageToFTP(String imgToUpload) {
 		
 		FTPClient client = new FTPClient();
