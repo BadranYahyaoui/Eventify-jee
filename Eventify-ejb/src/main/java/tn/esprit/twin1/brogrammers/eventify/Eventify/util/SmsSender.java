@@ -17,7 +17,7 @@ public class SmsSender {
     public static final String ACCOUNT_SID = "AC148a7d9c0de70c787999c2410540fc0d";
     public static final String AUTH_TOKEN = "d2ed89755c588f4c32bbdc82aaaad732";
 
-	public static String SendSMS(String numero) {
+	public static String SendSMS(String numero,String body) {
     	TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
 
         
@@ -26,7 +26,7 @@ public class SmsSender {
         List params = new ArrayList();
         params.add(new BasicNameValuePair("To", numero));
         params.add(new BasicNameValuePair("From", "(617) 606-4593"));
-        params.add(new BasicNameValuePair("Body", "Bonjour Firas Ya Ghoul"));
+        params.add(new BasicNameValuePair("Body", body));
 
         MessageFactory messageFactory = client.getAccount().getMessageFactory();
         Message message;
@@ -36,7 +36,7 @@ public class SmsSender {
 	        return message.getSid();
 
 		} catch (TwilioRestException e) {
-			e.printStackTrace();
+			System.err.println("errooooooot" + e);
 	        return null;
 		}
         

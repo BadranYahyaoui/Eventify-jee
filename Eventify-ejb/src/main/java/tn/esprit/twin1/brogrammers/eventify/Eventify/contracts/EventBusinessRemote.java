@@ -10,6 +10,7 @@ import javax.swing.event.DocumentEvent.EventType;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 @Remote
 public interface EventBusinessRemote {
@@ -27,6 +28,7 @@ public interface EventBusinessRemote {
 	public List<Event> getPopularEvents();
 	public List<Event> getFavoriteEventByUser(int idUser);
 	public List<Question> getMyQuestions(int id);
+	public List<User> NotifyUsersForSoonEvent();
 
 
 }

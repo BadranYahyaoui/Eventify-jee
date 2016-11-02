@@ -30,6 +30,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Favorite;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.FavoritePK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.OrganizerPK;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Rate;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.RatePK;
@@ -105,7 +106,7 @@ public class DBPopulator {
 	public void init() {
 
 		String img="http://img.wennermedia.com/article-leads-vertical-300/1250530894_brad_pitt_290x402.jpg";
-		User u1 = new User("Hakim", "Mliki", "kimo",img,"+21621411391", "hakim.mliki@esprit.tn", "123456", new Date(), 1);
+		User u1 = new User("Hakim", "Mliki", "kimo",img,"+21623924185", "hakim.mliki@esprit.tn", "123456", new Date(), 1);
 		User u2 = new User("Hakimm", "Mlikii", "kimoo",img,"+21621411392", "hakim.mliki02@esprit.tn", "123456", new Date(), 2);
 		User u3 = new User("Hakimmm", "Mlikiii", "kimooo",img,"+21621411393", "hakim.mliki03@esprit.tn", "123456", new Date(), 3);
 
@@ -288,6 +289,15 @@ public class DBPopulator {
 		
 		Organizer organizer=new Organizer(u1, o1);
 		Organizer organizer2=new Organizer(u2, o1);
+		organizer.setOrganizerPK(new OrganizerPK());
+		organizer.getOrganizerPK().setIdOrganization(o1.getId());
+		organizer.getOrganizerPK().setIdUser(u1.getId());
+
+		organizer2.setOrganizerPK(new OrganizerPK());
+		organizer2.getOrganizerPK().setIdOrganization(o1.getId());
+		organizer2.getOrganizerPK().setIdUser(u2.getId());
+
+		
 		organizerBusinessLocal.assignOrganizer(organizer);
 		organizerBusinessLocal.assignOrganizer(organizer2);
 		

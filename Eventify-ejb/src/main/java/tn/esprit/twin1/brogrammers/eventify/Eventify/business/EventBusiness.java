@@ -1,6 +1,7 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -16,15 +17,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.swing.event.DocumentEvent.EventType;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.QuestionBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
  * Session Bean implementation class EventBusiness
@@ -39,10 +46,17 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	OrganizationBusinessLocal organizationBusiness;
 
 	@EJB
+	OrganizerBusinessLocal organizerBusiness;
+
+	@EJB
 	CategoryBusinessLocal categoryBusiness;
 
 	@EJB
 	QuestionBusinessLocal questionBusiness;
+	
+	@EJB
+	UserBusinessLocal userBusiness;
+	
 	// ajout
 	@Override
 	public void create(Event event) {
@@ -84,7 +98,25 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	@Override
 	public void updateEvent(Event event) {
 		try {
-			entityManager.merge(event);
+			
+			if(findEventById(event.getId()).getEventState().toString().equals("UNPUBLISHED") && event.getEventState().toString().equals("PUBLISHED"))
+			{
+				List<Organizer> organizers = (List<Organizer>)entityManager.createQuery
+						("SELECT new Organizer(o.organizerPK) FROM Organizer o "
+								+ "WHERE o.organizerPK.idOrganization=:param")
+								.setParameter("param", event.getOrganization().getId()).getResultList();
+				System.out.println("*******Organizers************");
+				for (Organizer organizer : organizers) {
+					System.out.println("*********ID User********");
+					System.out.println(organizer.getOrganizerPK().getIdUser());
+					User u = userBusiness.findUserById(organizer.getOrganizerPK().getIdUser());
+					//String s = SmsSender.SendSMS(u.getNumTel(), "Get Ready for work , Event : "+event.getTitle()+" is Published");
+					System.out.println("************SMS ID*******");
+					//System.out.println(s);
+				}
+			}
+				
+				entityManager.merge(event);
 
 		} catch (Exception e) {
 			System.err.println("Failed to Modify");
@@ -114,10 +146,13 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		try {
 			Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 					+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
-					+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) "
-					+ "FROM Event e JOIN e.category c " + "WHERE e.id=:param").setParameter("param", idEvent);
+					+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+					+ "FROM Event e JOIN e.category c JOIN e.organization o WHERE e.id=:param").setParameter("param", idEvent);
 			Event e = (Event) query.getSingleResult();
 
+			
+			Organization organization = organizationBusiness.findOrganizationById(e.getOrganization().getId());
+			e.setOrganization(organization);
 			Category category = categoryBusiness.findById(e.getCategory().getId());
 			e.setCategory(category);
 			return e;
@@ -306,7 +341,12 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 
 		return questions;
 		
-		
+	}
+	
+	@Override
+	public List<User> NotifyUsersForSoonEvent(){
+			
+		return null;
 	}
 
 }
