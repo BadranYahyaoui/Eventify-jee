@@ -41,7 +41,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventTyp
 
 public class TicketGenerator {
 
-	private static String FILE = "../../FirstPdf.pdf";
+	private static String FILE = "../../../../../FirstPdf.pdf";
 	private static Font bigFont = new Font(Font.FontFamily.TIMES_ROMAN, 25,
             Font.BOLD,BaseColor.WHITE);
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
@@ -52,7 +52,7 @@ public class TicketGenerator {
                     Font.BOLD,BaseColor.WHITE);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
                     Font.BOLD,BaseColor.WHITE);
-    public static final String IMAGE = "../../sticket.jpg";
+    public static final String IMAGE = "../../../../../sticket.jpg";
 
     
     

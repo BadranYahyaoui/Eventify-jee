@@ -89,6 +89,12 @@ public class Reservation implements Serializable {
 		this.ticket = ticket;
 	}
 
+	public Reservation(int id, Ticket ticket) {
+		super();
+		this.id = id;
+		this.ticket = ticket;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	public User getUser() {
 		return user;

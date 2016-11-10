@@ -44,7 +44,7 @@
         <dependent-module archiveName="jackson-core.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/com/fasterxml/jackson/core/jackson-core/2.8.2/jackson-core-2.8.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="rest-api-sdk.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/com/paypal/sdk/rest-api-sdk/1.11.0/rest-api-sdk-1.11.0.jar">
+        <dependent-module archiveName="rest-api-sdk.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/com/paypal/sdk/rest-api-sdk/1.13.0/rest-api-sdk-1.13.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="gson.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar">

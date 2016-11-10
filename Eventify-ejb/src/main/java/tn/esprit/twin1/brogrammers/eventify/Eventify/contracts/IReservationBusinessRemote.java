@@ -28,6 +28,9 @@ public interface IReservationBusinessRemote {
 	public List<Reservation> getAllReservationGroupByPaymentMethod(int idEvent);
 	public Double getSumOfAmountForOneEvent(int idEvent);
 	public Map<String,Long> getAmountOrderByYear();
+	boolean UpdateReservationState(int idReservation);
+	public int getIDTicketByReservationId(int reservationId);
+
 
 	/*MET*/
 }

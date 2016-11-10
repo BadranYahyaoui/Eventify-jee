@@ -48,14 +48,21 @@ public class TransactionBusiness implements ITransactionBusinessRemote, ITransac
 	}
 
 	@Override
-	public void create(Transaction transaction) {
+	public boolean create(Transaction transaction) {
 		entityManager.persist(transaction);
+		return true;
+		
 
 	}
 
 	@Override
-	public void updateTransaction(Transaction transaction) {
-		entityManager.merge(transaction);
+	public boolean updateTransaction(Transaction transaction) {
+		try {entityManager.merge(transaction);
+		return true;}
+		catch (Exception e) {
+			System.err.println("Failed to Add");
+			return false;
+		}
 
 	}
 

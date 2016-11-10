@@ -15,7 +15,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.EventTyp
  *
  */
 @Entity
-
+@Table(name="MyEvent")
 public class Event implements Serializable {
 
 	private int id;
