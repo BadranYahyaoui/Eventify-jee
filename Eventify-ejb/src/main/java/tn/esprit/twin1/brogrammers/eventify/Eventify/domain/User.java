@@ -53,6 +53,7 @@ public class User implements Serializable {
 	private List<Answer> answers;
 	private List<Rate> rates;
 	private List<Comment> comments;
+	private List<Message>messages;
 
 	/*********************************
 	 * Constructors
@@ -229,12 +230,22 @@ public class User implements Serializable {
 		this.comments = comments;
 	}
 	
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
+	
 	
 	/*********************
 	 * End of Navigation Attributes
 	 ******************************/
 
 	
+
 
 	/**************************************
 	 * Simple Attributes
