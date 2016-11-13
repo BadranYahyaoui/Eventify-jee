@@ -1,6 +1,8 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.domain;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 
 /**
@@ -18,7 +20,8 @@ public class Report implements Serializable {
 	private int state;
 	private Event event;
 	private User user;
-	
+	private Date reportDate;
+	private User userWhoReport;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -26,14 +29,21 @@ public class Report implements Serializable {
 		super();
 	}
 
-	public Report(String subject, String content, int state, Event event, User user) {
+
+	public Report(int id, String subject, String content, int state, Event event, User user, Date reportDate,
+			User userWhoReport) {
 		super();
+		this.id = id;
 		this.subject = subject;
 		this.content = content;
 		this.state = state;
 		this.event = event;
 		this.user = user;
+		this.reportDate = reportDate;
+		this.userWhoReport = userWhoReport;
 	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +95,27 @@ public class Report implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+
+	public Date getReportDate() {
+		return reportDate;
+	}
+
+
+	public void setReportDate(Date reportDate) {
+		this.reportDate = reportDate;
+	}
+
+
+	@ManyToOne
+	public User getUserWhoReport() {
+		return userWhoReport;
+	}
+
+
+	public void setUserWhoReport(User userWhoReport) {
+		this.userWhoReport = userWhoReport;
 	}
    
 	

@@ -57,6 +57,7 @@ public class User implements Serializable {
 	
 	private List<Report> reports;
 	
+	private List<Report> iReported;
 
 	/*********************************
 	 * Constructors
@@ -373,5 +374,16 @@ public class User implements Serializable {
 			o.setUser(this);
 		}
 	}
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+	public List<Report> getiReported() {
+		return iReported;
+	}
+
+	public void setiReported(List<Report> iReported) {
+		this.iReported = iReported;
+	}
+	
+	
 
 }
