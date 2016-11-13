@@ -39,7 +39,7 @@ public class User implements Serializable {
 	private int loyaltyPoint;
 	private AccountState accountState;// Enumeration
 	private String confirmationToken;
-
+	private int banState;
 	private static final long serialVersionUID = 1L;
 
 	private List<Wishlist> wishlists;
@@ -382,6 +382,14 @@ public class User implements Serializable {
 
 	public void setiReported(List<Report> iReported) {
 		this.iReported = iReported;
+	}
+
+	public int getBanState() {
+		return banState;
+	}
+
+	public void setBanState(int banState) {
+		this.banState = banState;
 	}
 	
 	
