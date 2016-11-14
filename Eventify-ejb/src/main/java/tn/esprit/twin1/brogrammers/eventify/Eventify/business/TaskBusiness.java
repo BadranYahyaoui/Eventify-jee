@@ -94,7 +94,7 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 
 	}
 
-	@Override
+	
 	public void taskStatusCompleted(int Taskid) {
 		// Organizer o=entityManager.find(Organizer.class,idOrgnizer);
 		Task t = findTaskByID(Taskid);
