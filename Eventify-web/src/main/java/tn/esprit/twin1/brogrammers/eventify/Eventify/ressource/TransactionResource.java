@@ -26,9 +26,13 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.AccessToken;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.IReservationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITicketBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.ITransactionBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Reservation;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.enumeration.ReservationState;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.util.TicketGenerator;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Paypal.PaymentWithPayPalServlet;
 
 @Path("transaction")
@@ -36,11 +40,16 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.util.Paypal.PaymentWithPayP
 public class TransactionResource {
 	@Context
 	UriInfo uri;
+
 	@EJB
 	ITransactionBusinessLocal transactionBusiness;
+
 	PaymentWithPayPalServlet p = new PaymentWithPayPalServlet();
+
 	@EJB
 	IReservationBusinessLocal reservationBusiness;
+	@EJB
+	ITicketBusinessLocal ticketBusiness;
 
 	// lena ajout transaction
 	@GET
@@ -48,14 +57,14 @@ public class TransactionResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response pay(@Context HttpServletRequest servletRequest, @Context HttpServletResponse servletResponse,
 			@PathParam("idReservation") int idReservation) throws ServletException, IOException {
-		System.out.println("firaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
-		Reservation reservation = reservationBusiness.findReservationById(idReservation);
-		System.out.println(reservation);
-		Payment pp = p.createPayment(servletRequest, servletResponse, reservation);
+		//System.out.println("firaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
+		//System.out.println(reservation);
+		//Payment pp = p.createPayment(servletRequest, servletResponse, reservation);
 		// System.out.println(Payment.getOAuthTokenCredential());
-		Transaction tr = new Transaction("", reservation.getAmount() + reservation.getAmount() * (7 / 100),
-				reservation);
+		//Transaction tr = new Transaction("", reservation.getAmount() + reservation.getAmount() * (7 / 100),
+		//		reservation);
 		// transactionBusiness.create(tr);
+		Reservation reservation = reservationBusiness.findReservationById(idReservation);
 		return Response.status(Status.FOUND).entity(p.createPayment(servletRequest, servletResponse, reservation))
 				.build();
 	}
@@ -84,15 +93,17 @@ public class TransactionResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addTransaction(Transaction transaction) {
-		transactionBusiness.create(transaction);
-		return Response.status(Status.CREATED).build();
+		if (transactionBusiness.create(transaction))
+			return Response.status(Status.CREATED).build();
+		return Response.status(Status.BAD_REQUEST).build();
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateTransaction(Transaction transaction) {
-		transactionBusiness.updateTransaction(transaction);
-		return Response.status(Status.OK).build();
+		if (transactionBusiness.updateTransaction(transaction))
+			return Response.status(Status.OK).build();
+		return Response.status(Status.BAD_GATEWAY).build();
 	}
 
 	@DELETE
@@ -110,7 +121,7 @@ public class TransactionResource {
 	@Path("paypalredirectcancled")
 	public Response PaypalCancled() {
 
-		return Response.status(Status.OK).build();
+		return Response.status(Status.BAD_REQUEST).build();
 	}
 
 	@GET
@@ -127,11 +138,11 @@ public class TransactionResource {
 		}
 		AccessToken ak = new AccessToken(resulturl, 5000000);
 
-		System.out.println("ahawaaaaaaaa" + myUri);
-		System.out.println("Mellekhr: " + resulturl);
-		
+		//System.out.println("ahawaaaaaaaa" + myUri);
+		//System.out.println("Mellekhr: " + resulturl);
+
 		String urlidres = myUri.substring(myUri.lastIndexOf("id=[") + 1);
-		System.out.println("eff:"+urlidres);
+		System.out.println("eff:" + urlidres);
 		String resulreservation = "";
 		for (int i = 3; i < 4; i++) {
 			resulreservation = resulreservation + urlidres.charAt(i);
@@ -140,15 +151,23 @@ public class TransactionResource {
 		System.out.println(resulreservation);
 		int idreservationintegere = Integer.valueOf(resulreservation);
 		// or
-		Reservation reservation = reservationBusiness.findReservationById(idreservationintegere);
+		Reservation reservation = reservationBusiness.findReservationById(1);
 		System.out.println(reservation);
 		Transaction transaction = new Transaction(resulturl, reservation.getAmount(), reservation);
+		System.out.println(transaction);
 		transactionBusiness.create(transaction);
-		
-		
-		return Response.status(Status.OK).build();
+		reservationBusiness.UpdateReservationState(reservation.getId());
+		//reservationBusiness.updateReservation(reservation);
+		TicketGenerator ticketgenerator = new TicketGenerator();
+		System.out.println("tiki: " + ticketgenerator);
+		System.out.println(reservation.getTicket());
+		int idtickettogenerate = reservationBusiness.getIDTicketByReservationId(reservation.getId());
+		System.out.println("Reser: " + reservation.getId());
+		Ticket tickettoGenerate = ticketBusiness.TikcetWithEventRelation(idtickettogenerate);
+		System.out.println("Ticket To Generate: " + tickettoGenerate);
+		ticketgenerator.GenerateTicket(tickettoGenerate);
 
-	
+		return Response.status(Status.OK).build();
 
 	}
 

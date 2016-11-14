@@ -10,9 +10,9 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Transaction;
 public interface ITransactionBusinessRemote {
 	List<Transaction> getAllTransactions();
 
-	public void create(Transaction transaction);
+	public boolean create(Transaction transaction);
 
-	public void updateTransaction(Transaction transaction);
+	public boolean updateTransaction(Transaction transaction);
 
 	public boolean deleteTransactionById(int id);
 

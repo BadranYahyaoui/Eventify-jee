@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CategoryBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Category;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 
@@ -17,7 +18,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
  */
 @Stateless
 @LocalBean
-public class CategoryBusiness implements CategoryBusinessLocal {
+public class CategoryBusiness implements CategoryBusinessLocal,CategoryBusinessRemote {
 
 	
 	

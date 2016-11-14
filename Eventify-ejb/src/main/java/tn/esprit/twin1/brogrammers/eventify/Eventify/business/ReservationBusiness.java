@@ -58,22 +58,23 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	@Override
 	public boolean create(Reservation reservation) {
-		try {entityManager.persist(reservation);
-		return true;}
-		catch (Exception e) {
+		try {
+			entityManager.persist(reservation);
+			return true;
+		} catch (Exception e) {
 			System.err.println("Failed to Add");
 			return false;
 		}
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Reservation> getAllReservations() {
 		List<Reservation> reservation = (List<Reservation>) entityManager
 				.createQuery(
 						"SELECT new Reservation(r.id,r.amount,r.reservationDate,r.reservationState,r.paymentMethod , user,ticket,r.timerState) "
-								+ "FROM Reservation r" + " JOIN r.user user" + " JOIN r.ticket ticket  ")
+								+ "FROM Reservation r" + " JOIN r.user user" + " JOIN r.ticket ticket  ",Reservation.class)
 				.getResultList();
 
 		for (Reservation reservations : reservation) {
@@ -94,8 +95,10 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 	@Override
 	public boolean updateReservation(Reservation reservation) {
 
-		try {entityManager.merge(reservation);return true;}
-		catch (Exception e) {
+		try {
+			entityManager.merge(reservation);
+			return true;
+		} catch (Exception e) {
 			System.err.println("Failed to Add");
 			return false;
 		}
@@ -185,8 +188,11 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	@Override
 	public Double getSumOfAmountForOneEvent(int idEvent) {
-		Query query1 = entityManager.createQuery("Select SUM(r.amount) from Reservation r JOIN r.ticket t JOIN t.event e WHERE e.id = :idEvent")
-				.setParameter("idEvent", idEvent);;
+		Query query1 = entityManager
+				.createQuery(
+						"Select SUM(r.amount) from Reservation r JOIN r.ticket t JOIN t.event e WHERE e.id = :idEvent")
+				.setParameter("idEvent", idEvent);
+		;
 		Double result = (Double) query1.getSingleResult();
 		System.out.println("Max Employee Salary :" + result);
 		return result;
@@ -194,24 +200,46 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	@Override
 	public Map<String, Long> getAmountOrderByYear() {
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		TypedQuery<Object[]> q = entityManager.createQuery(
-			    "SELECT r.id, count(r.amount) " +
-			    "FROM Reservation r  " +
-			    "GROUP BY r.paymentMethod,r.id", Object[].class);
+				"SELECT r.id, count(r.amount) " + "FROM Reservation r  " + "GROUP BY r.paymentMethod,r.id",
+				Object[].class);
 
-			List<Object[]> resultList = q.getResultList();
-			Map<String, Long> resultMap = new HashMap<String, Long>(resultList.size());
-			for (Object[] result : resultList)
-			{System.out.println((String)result[0] + " " + (Long)result[1]);  
-			  resultMap.put((String)result[0], (Long)result[1]);
-			}
-			
+		List<Object[]> resultList = q.getResultList();
+		Map<String, Long> resultMap = new HashMap<String, Long>(resultList.size());
+		for (Object[] result : resultList) {
+			System.out.println((String) result[0] + " " + (Long) result[1]);
+			resultMap.put((String) result[0], (Long) result[1]);
+		}
 
-
-	
-		
 		return null;
+	}
+
+	@Override
+	public boolean UpdateReservationState(int idReservation) {
+		try {
+			Query query = entityManager
+					.createQuery("UPDATE Reservation SET reservationState = 'CONFIRMED' where id =:idReservation")
+					.setParameter("idReservation", idReservation);
+			query.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.err.println("Can't update! :(");
+			return false;
+		}
+	}
+
+	@Override
+	public int getIDTicketByReservationId(int reservationId) {
+
+		Query query = entityManager
+				.createQuery("SELECT new Reservation(r.id,ticket) " + "FROM Reservation r"
+						+ " JOIN r.ticket ticket WHERE r.id=:reservationId")
+				.setParameter("reservationId", reservationId);
+
+		Reservation reservation = (Reservation) query.getSingleResult();
+		System.out.println("afichiii:" + reservation);
+		return reservation.getTicket().getId();
 	}
 
 	/* MET */

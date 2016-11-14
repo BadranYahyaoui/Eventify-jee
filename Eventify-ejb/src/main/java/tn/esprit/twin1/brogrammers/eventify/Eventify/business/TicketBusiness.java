@@ -169,4 +169,11 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 		return "";
 	}
 
+	@Override
+	public Ticket TikcetWithEventRelation(int idTicket) {
+		
+		return entityManager.find(Ticket.class, idTicket);
+	}
+
+
 }

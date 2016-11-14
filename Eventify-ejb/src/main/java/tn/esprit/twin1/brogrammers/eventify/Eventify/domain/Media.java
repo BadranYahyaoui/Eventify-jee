@@ -10,7 +10,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@Table(name="MyMedia")
 public class Media implements Serializable {
 
 	   

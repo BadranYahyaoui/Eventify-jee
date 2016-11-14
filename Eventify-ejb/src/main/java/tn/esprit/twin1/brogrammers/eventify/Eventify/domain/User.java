@@ -39,7 +39,7 @@ public class User implements Serializable {
 	private int loyaltyPoint;
 	private AccountState accountState;// Enumeration
 	private String confirmationToken;
-
+	private int banState;
 	private static final long serialVersionUID = 1L;
 
 	private List<Wishlist> wishlists;
@@ -53,6 +53,11 @@ public class User implements Serializable {
 	private List<Answer> answers;
 	private List<Rate> rates;
 	private List<Comment> comments;
+	private List<Message>messages;
+	
+	private List<Report> reports;
+	
+	private List<Report> iReported;
 
 	/*********************************
 	 * Constructors
@@ -229,12 +234,22 @@ public class User implements Serializable {
 		this.comments = comments;
 	}
 	
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
+	
 	
 	/*********************
 	 * End of Navigation Attributes
 	 ******************************/
 
 	
+
 
 	/**************************************
 	 * Simple Attributes
@@ -338,6 +353,16 @@ public class User implements Serializable {
 	public void setNumTel(String numTel) {
 		this.numTel = numTel;
 	}
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+	public List<Report> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
+	}
 
 	/*********************
 	 * End of Simple Attributes
@@ -349,5 +374,24 @@ public class User implements Serializable {
 			o.setUser(this);
 		}
 	}
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+	public List<Report> getiReported() {
+		return iReported;
+	}
+
+	public void setiReported(List<Report> iReported) {
+		this.iReported = iReported;
+	}
+
+	public int getBanState() {
+		return banState;
+	}
+
+	public void setBanState(int banState) {
+		this.banState = banState;
+	}
+	
+	
 
 }

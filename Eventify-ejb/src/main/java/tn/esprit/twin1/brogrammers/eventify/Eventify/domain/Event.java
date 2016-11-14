@@ -36,6 +36,7 @@ public class Event implements Serializable {
 	private EventState eventState;
 	private double rateAvg;
 	
+	private List<Report> reports;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -397,6 +398,17 @@ public class Event implements Serializable {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "event", fetch = FetchType.LAZY)
+	public List<Report> getReports() {
+		return reports;
+	}
+
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
 	}
 	
 	
