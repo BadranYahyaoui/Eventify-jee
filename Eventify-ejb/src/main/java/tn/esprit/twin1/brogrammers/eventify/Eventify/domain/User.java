@@ -40,6 +40,7 @@ public class User implements Serializable {
 	private AccountState accountState;// Enumeration
 	private String confirmationToken;
 	private int banState;
+	private String country;
 	private static final long serialVersionUID = 1L;
 
 	private List<Wishlist> wishlists;
@@ -390,6 +391,14 @@ public class User implements Serializable {
 
 	public void setBanState(int banState) {
 		this.banState = banState;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 	
 	
