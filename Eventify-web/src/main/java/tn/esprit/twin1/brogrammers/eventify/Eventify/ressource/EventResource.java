@@ -78,7 +78,8 @@ public class EventResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateEvent(Event event){
+	@Path("{id}")
+	public Response updateEvent(Event event,@PathParam("id")int id){
 		eventBusiness.updateEvent(event);
 		return Response.status(Status.OK).build();
 	}

@@ -38,8 +38,9 @@ public class AttributResource {
 	
 	
 	@PUT
+	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAttribut(Attribut attribut){
+	public Response updateAttribut(Attribut attribut,@PathParam(value="id")int id){
 		try {
 			attributBusiness.updateAttribut(attribut);
 			return Response.status(Status.OK).build();

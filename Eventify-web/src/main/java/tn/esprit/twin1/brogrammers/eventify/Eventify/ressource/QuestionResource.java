@@ -55,7 +55,8 @@ public class QuestionResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateQuestion(Question questions){
+	@Path("{id}")
+	public Response updateQuestion(Question questions,@PathParam(value="id")int id){
 		if(questionBusiness.updateQuestion(questions))
 			return Response.status(Status.OK).build();
 		else

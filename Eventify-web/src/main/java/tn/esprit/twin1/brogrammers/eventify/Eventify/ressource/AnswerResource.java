@@ -41,7 +41,8 @@ public class AnswerResource {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAnswer(Answer answer){
+	@Path("{id}")
+	public Response updateAnswer(Answer answer,@PathParam(value="id")int id){
 		try {
 			answerBusiness.updateAnswer(answer);
 			return Response.status(Status.OK).build();
