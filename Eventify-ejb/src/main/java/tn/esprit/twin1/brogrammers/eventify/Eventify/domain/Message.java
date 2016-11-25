@@ -18,7 +18,7 @@ public class Message implements Serializable {
 	private Date date;
 	private boolean isSended;
 	private boolean isClaim;
-	
+	private String email;
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -71,6 +71,16 @@ public class Message implements Serializable {
 	public void setClaim(boolean isClaim) {
 		this.isClaim = isClaim;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
 
 	
 	
