@@ -72,19 +72,28 @@ public class UserResource {
 	}
 
 	@PUT
+	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response updateUser(User user) {
+	public Response updateUser(User user , @PathParam(value="id")int id) {
 		String imgToUpload=user.getProfileImage();
 		if(imgToUpload!=null)
 		{
 			if(userBusiness.uploadProfileImage(imgToUpload))
 			{
+				if(user.getId()==0)
+				{
+					user.setId(id);
+				}
 				userBusiness.updateUser(user);
 				return  Response.status(Status.OK).entity(true).build();
 			}
 			else
 			{
+				if(user.getId()==0)
+				{
+					user.setId(id);
+				}
 				userBusiness.updateUser(user);
 				return  Response.status(Status.FORBIDDEN).entity(false).build();
 			}
