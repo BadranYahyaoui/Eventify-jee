@@ -112,7 +112,8 @@ public class ReservationResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateReservation(Reservation reservation) {
+	@Path("{id}")
+	public Response updateReservation(Reservation reservation,@PathParam("id")int id) {
 		reservation.setTimerState(TimerState.FINISHED);
 		if(reservationBusiness.updateReservation(reservation))
 			return  Response.status(Status.OK).build();
