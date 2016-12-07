@@ -94,11 +94,11 @@ public class Attribut implements Serializable {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	public Question getQuestions() {
+	public Question getQuestion() {
 		return question;
 	}
 
-	public void setQuestions(Question question) {
+	public void setQuestion(Question question) {
 		this.question = question;
 	}
    
