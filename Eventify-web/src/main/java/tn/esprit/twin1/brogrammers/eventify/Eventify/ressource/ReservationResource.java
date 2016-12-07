@@ -92,7 +92,7 @@ public class ReservationResource {
 				public void run() {
 					System.out.println("timeeeeeeeeeeeeeeer1");
 					reservation.setTimerState(TimerState.FINISHED);
-					updateReservation(reservation);
+					updateReservation(reservation,0);
 					if (reservation.getReservationState()!=ReservationState.CONFIRMED)
 					{
 						ticketcheck.setNbTickets(oldNbTicket + nbTicket);
