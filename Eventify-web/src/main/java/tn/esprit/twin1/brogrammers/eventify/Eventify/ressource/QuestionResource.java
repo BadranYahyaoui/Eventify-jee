@@ -78,7 +78,7 @@ public class QuestionResource {
 	@Path("{id}/attributs")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMyAttributs(@PathParam("id") int id){
-		return Response.status(Status.FOUND).entity(questionBusiness.getMyAttributs(id)).build();
+		return Response.status(Status.OK).entity(questionBusiness.getMyAttributs(id)).build();
 
 	}
 

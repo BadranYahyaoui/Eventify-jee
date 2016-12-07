@@ -43,7 +43,7 @@ public class CategoryBusiness {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllCategories(){
 		
-		return Response.status(Status.FOUND).entity(categoryBusiness.getAllCategories()).build();
+		return Response.status(Status.OK).entity(categoryBusiness.getAllCategories()).build();
 	}
 
 
