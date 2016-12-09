@@ -36,7 +36,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         try {
 
             // Validate the token
-        	System.out.println(   AuthJWT.VerifyJWT(token));
+        	if(AuthJWT.VerifyJWT(token).isEmpty())
+        	{
+        		 throw new NotAuthorizedException("Authorization Bad token");
+        	}
+        	
 
         } catch (Exception e) {
             requestContext.abortWith(

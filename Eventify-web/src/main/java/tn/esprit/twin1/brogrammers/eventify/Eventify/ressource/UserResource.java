@@ -115,6 +115,7 @@ public class UserResource {
 
 	}
 	
+	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("{username}/{pwd}")
