@@ -26,7 +26,6 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.util.FaceCognitive;
  *  PS : DON'T FUCKING TOUCH THIS LOVELY BY HAKIM
  */
 
-
 @Path("users")
 @RequestScoped
 public class UserResource {
@@ -54,16 +53,17 @@ public class UserResource {
 		}
 
 	}
-	
+
 	@Secured
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public User findUserById(@PathParam("id") int id) {
-	
+
 		return userBusiness.findUserById(id);
 	}
 
+	@Secured
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> findAllUsers() {
@@ -75,35 +75,26 @@ public class UserResource {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response updateUser(User user , @PathParam(value="id")int id) {
-		String imgToUpload=user.getProfileImage();
-		if(imgToUpload!=null)
-		{
-			if(userBusiness.uploadProfileImage(imgToUpload))
-			{
-				if(user.getId()==0)
-				{
+	public Response updateUser(User user, @PathParam(value = "id") int id) {
+		String imgToUpload = user.getProfileImage();
+		if (imgToUpload != null) {
+			if (userBusiness.uploadProfileImage(imgToUpload)) {
+				if (user.getId() == 0) {
 					user.setId(id);
 				}
 				userBusiness.updateUser(user);
-				return  Response.status(Status.OK).entity(true).build();
-			}
-			else
-			{
-				if(user.getId()==0)
-				{
+				return Response.status(Status.OK).entity(true).build();
+			} else {
+				if (user.getId() == 0) {
 					user.setId(id);
 				}
 				userBusiness.updateUser(user);
-				return  Response.status(Status.FORBIDDEN).entity(false).build();
+				return Response.status(Status.FORBIDDEN).entity(false).build();
 			}
 		}
-		
-		userBusiness.updateUser(user);
-		return  Response.status(Status.OK).entity("Problem not image changed").build();
-	
 
-	
+		userBusiness.updateUser(user);
+		return Response.status(Status.OK).entity("Problem not image changed").build();
 
 	}
 
@@ -114,34 +105,28 @@ public class UserResource {
 		userBusiness.deleteUser(id);
 
 	}
-	
-	
+
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("{username}/{pwd}")
-	public String loginUser(@PathParam("username") String username, @PathParam("pwd") String pwd)
-	{
+	public String loginUser(@PathParam("username") String username, @PathParam("pwd") String pwd) {
 		return userBusiness.loginUser(username, pwd);
 	}
 	
-/*	@Path("UploadProfile")
-	@POST
+	@Secured
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response uploadImageToFTP(String uploadedImg) {
-
-		if(userBusiness.uploadProfileImage(uploadedImg))
-		{
-			return  Response.status(Status.OK).entity(true).build();
-		}
+	@Path("{oldPwd}/{newPwd}")
+	public Response changePwd(User user,@PathParam("oldPwd") String oldPwd, @PathParam("newPwd") String newPwd) {
+		if(userBusiness.changePwd(user,oldPwd, newPwd))
+		return Response.status(Status.OK).entity(true).build();
 		else
 		{
-			return  Response.status(Status.FORBIDDEN).entity(false).build();
+			return Response.status(Status.FORBIDDEN).entity(false).build();
 		}
-
 	}
-	*/
-	
+
 
 	// added by Ibra
 	@GET
@@ -150,7 +135,5 @@ public class UserResource {
 	public List<Wishlist> getMyWishlist(@PathParam("id") int id) {
 		return userBusiness.getMyWishlist(id);
 	}
-	
-	
 
 }

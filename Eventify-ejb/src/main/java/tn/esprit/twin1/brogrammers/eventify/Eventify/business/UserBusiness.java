@@ -60,10 +60,11 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 			if (u != null && u.getConfirmationToken().equals(confirmationToken)) {
 				User userTochange = findUserById(u.getId());
 				userTochange.setAccountState(AccountState.ACTIVATED);
-				String faceListName=userTochange.getUsername();
-				System.out.println("\n\n\n\n\n\n\n\n faceListName :  "+faceListName+"\n\n\n\n\n\n\n\n ");
+				String faceListName = userTochange.getUsername();
+				System.out.println("\n\n\n\n\n\n\n\n faceListName :  " + faceListName + "\n\n\n\n\n\n\n\n ");
 				FaceCognitive.CreateFaceList(faceListName);
-				FaceCognitive.AddFaceToList("http://s.plurielles.fr/mmdia/i/16/8/brad-pitt-2564168_2041.jpg", faceListName);//To change get Image with ftp
+				FaceCognitive.AddFaceToList("http://s.plurielles.fr/mmdia/i/16/8/brad-pitt-2564168_2041.jpg",
+						faceListName);// To change get Image with ftp
 				updateUser(userTochange);
 				return true;
 			} else {
@@ -109,21 +110,25 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 
 	@Override
 	public String loginUser(String username, String pwd) {
-		String hashedPwd=MD5Hash.getMD5Hash(pwd);
-		Query query = entityManager.createQuery(
-				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
-						+ "FROM User u WHERE ( (u.username=:uname OR u.email=:uname) AND u.password=:upwd) ");
-		User userLogged =(User) query.setParameter("uname", username).setParameter("upwd", hashedPwd).getSingleResult();
+
+			String hashedPwd = MD5Hash.getMD5Hash(pwd);
+			Query query = entityManager.createQuery(
+					"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+							+ "FROM User u WHERE ( (u.username=:uname OR u.email=:uname) AND u.password=:upwd) ");
+			User userLogged = (User) query.setParameter("uname", username).setParameter("upwd", hashedPwd)
+					.getSingleResult();
+
+			String vf = AuthJWT.SignJWT("User", userLogged);
+			// AuthJWT.VerifyJWT(vf);
+
+			return vf;
 		
-		
-		String vf = AuthJWT.SignJWT("User",userLogged);
-		//AuthJWT.VerifyJWT(vf);
-		
-		
-		
-		return vf;
+
+
 
 	}
+
+
 
 	@Override
 	public List<Wishlist> getMyWishlist(int idUser) {
@@ -135,17 +140,28 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 	@Override
 	public boolean uploadProfileImage(String imgToUpload) {
 
-		if(FTPProvider.UploadImageToFTP(imgToUpload))
-		{
+		if (FTPProvider.UploadImageToFTP(imgToUpload)) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
-		
-		
-		
+
+	}
+
+	@Override
+	public boolean changePwd(User user, String oldPwd, String newPwd) {
+		System.out.println("\n\n\n\n\n\n\n\n u : "+user.getId()+"\n\n\n\n\n\n\n\n\n");
+		Query query = entityManager.createQuery(
+				"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+						+ "FROM User u WHERE  (u.id=:uid)");
+		User userToChnage = (User) query.setParameter("uid", user.getId()).getSingleResult();
+		if (user.getPassword().equals(MD5Hash.getMD5Hash(oldPwd))) {
+			user.setPassword(MD5Hash.getMD5Hash(newPwd));
+			entityManager.merge(user);
+			return true;
+		}
+		return false;
+
 	}
 
 }
