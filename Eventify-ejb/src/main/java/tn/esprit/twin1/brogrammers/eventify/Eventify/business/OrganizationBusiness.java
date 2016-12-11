@@ -106,7 +106,7 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	public List<Event> getMyEvents(int id){
 		List<Event> events = (List<Event>)entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState) "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone) "
 						+ "FROM Organization o "
 						+ "JOIN o.events e "
 						+ "JOIN e.category c "

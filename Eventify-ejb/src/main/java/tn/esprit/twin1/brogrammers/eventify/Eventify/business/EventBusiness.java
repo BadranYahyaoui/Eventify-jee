@@ -77,7 +77,8 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType," + "c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) " + "FROM Event e "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,"
+						+ "e.eventState,e.backgroundImage,e.email,e.phone,o) " + "FROM Event e "
 						+ "JOIN e.organization o JOIN e.category c")
 				.getResultList();
 
@@ -146,7 +147,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		try {
 			Query query = entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 					+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
-					+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+					+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o) "
 					+ "FROM Event e JOIN e.category c JOIN e.organization o WHERE e.id=:param").setParameter("param", idEvent);
 			Event e = (Event) query.getSingleResult();
 
@@ -168,7 +169,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType," + "c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o) "
 						+ "FROM Event e JOIN e.organization o JOIN e.category c " + "WHERE e.eventType LIKE :type")
 				.setParameter("type", type).getResultList();
 
@@ -190,7 +191,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType," + "c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) " + "FROM Event e "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o) " + "FROM Event e "
 						+ "JOIN e.organization o " + "JOIN e.category c " + "WHERE c.categoryName LIKE :category")
 				.setParameter("category", categoryName).getResultList();
 
@@ -212,7 +213,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType," + "c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o) "
 						+ "FROM Event e JOIN e.organization o JOIN e.category c "
 						+ "WHERE e.startTime = :startTime AND e.endTime = :endTime")
 				.setParameter("startTime", startTime).setParameter("endTime", endTime).getResultList();
@@ -234,7 +235,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType," + "c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o) "
 						+ "FROM Event e JOIN e.organization o JOIN e.category c "
 						+ "WHERE :date BETWEEN e.startTime AND e.endTime ")
 				.setParameter("date", date).getResultList();
@@ -256,7 +257,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o) "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o) "
 						+ "FROM Event e JOIN e.organization o JOIN e.category c "
 						+ "WHERE e.title LIKE :search OR e.theme LIKE :search1 ")
 				.setParameter("search", '%' + search + '%').setParameter("search1", '%' + search + '%').getResultList();
@@ -283,7 +284,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 						+ "e.startTime,e.endTime,e.longitude,e.latitude,"
 						+ "e.placeNumber,e.eventType,e.nbViews,e.createdAt,"
 						+ "e.facebookLink,e.twitterLink,"
-						+ "e.eventState,AVG(r.note),o,c) FROM Event e "
+						+ "e.eventState,e.backgroundImage,e.email,e.phone,AVG(r.note),o,c) FROM Event e "
 						+ "JOIN e.organization o "
 						+ "JOIN e.category c "
 						+ "JOIN e.rates r "
@@ -312,7 +313,7 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		List<Event> events = (List<Event>) entityManager
 				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
-						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,o)" + "FROM Event e "
+						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone,o)" + "FROM Event e "
 						+ "JOIN e.organization o JOIN e.category c "
 						+ "JOIN c.favorites f "
 						+ "WHERE f.favoritePK.userId = :userId " + "ORDER BY f.priority")

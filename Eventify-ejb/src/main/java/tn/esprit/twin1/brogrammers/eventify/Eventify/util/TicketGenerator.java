@@ -134,7 +134,7 @@ public class TicketGenerator {
     	
         try {
     		Category category = new Category(EventCategory.Health.toString()); 
-        	Event e1 = new Event("Sa7tek bin Ydina", "Health for everyone",new Date(), new Date(), 12, 9, 1000, EventType.Conference, category, 10, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
+        	Event e1 = new Event("Your Health is ours", "Health for everyone",new Date(), new Date(), 12, 9, 1000, EventType.Conference, category, 10, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED,"http://il2.picdn.net/shutterstock/videos/762418/thumb/4.jpg","health@email.com","+214264777");
         	Ticket ticket = new Ticket( 50, "VIP I", 20.23f, "../../eventcover.jpg", e1);
         	
         	GenerateTicket(ticket);

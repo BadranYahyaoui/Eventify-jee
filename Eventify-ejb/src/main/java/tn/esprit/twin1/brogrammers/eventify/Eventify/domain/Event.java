@@ -34,6 +34,9 @@ public class Event implements Serializable {
 	private String facebookLink;
 	private String twitterLink;
 	private EventState eventState;
+	private String backgroundImage;
+	private String email;
+	private String phone;
 	private double rateAvg;
 	
 	private List<Report> reports;
@@ -73,7 +76,8 @@ public class Event implements Serializable {
 
 	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, Category category, int nbViews, Date createdAt,
-			String facebookLink, String twitterLink, EventState eventState, Organization organization) {
+			String facebookLink, String twitterLink, EventState eventState,
+			String backgroundImage,String email,String phone, Organization organization) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -90,6 +94,10 @@ public class Event implements Serializable {
 		this.facebookLink = facebookLink;
 		this.twitterLink = twitterLink;
 		this.eventState = eventState;
+		this.backgroundImage = backgroundImage;
+		this.email = email;
+		this.phone = phone;
+
 		this.organization = organization;
 	}
 
@@ -99,7 +107,8 @@ public class Event implements Serializable {
 
 	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, Category category, int nbViews, Date createdAt,
-			String facebookLink, String twitterLink, EventState eventState) {
+			String facebookLink, String twitterLink, EventState eventState,
+			String backgroundImage,String email,String phone) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -116,13 +125,19 @@ public class Event implements Serializable {
 		this.facebookLink = facebookLink;
 		this.twitterLink = twitterLink;
 		this.eventState = eventState;
+		this.backgroundImage = backgroundImage;
+		this.email = email;
+		this.phone = phone;
+
+
 	}
 
 
 
 	public Event(String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, Category category, int nbViews, Date createdAt,
-			String facebookLink, String twitterLink, EventState eventState) {
+			String facebookLink, String twitterLink, EventState eventState,
+			String backgroundImage,String email,String phone) {
 		super();
 		this.title = title;
 		this.theme = theme;
@@ -138,6 +153,11 @@ public class Event implements Serializable {
 		this.facebookLink = facebookLink;
 		this.twitterLink = twitterLink;
 		this.eventState = eventState;
+		this.backgroundImage = backgroundImage;
+		this.email = email;
+		this.phone = phone;
+
+
 	}
 
 
@@ -153,7 +173,10 @@ public class Event implements Serializable {
 
 	public Event(int id, String title, String theme, Date startTime, Date endTime, double longitude, double latitude,
 			int placeNumber, EventType eventType, int nbViews, Date createdAt, String facebookLink, String twitterLink,
-			EventState eventState, double rateAvg, Organization organization, Category category) {
+			EventState eventState,
+			String backgroundImage,String email,String phone,double rateAvg,
+			Organization organization,
+			Category category) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -169,6 +192,9 @@ public class Event implements Serializable {
 		this.facebookLink = facebookLink;
 		this.twitterLink = twitterLink;
 		this.eventState = eventState;
+		this.backgroundImage = backgroundImage;
+		this.email = email;
+		this.phone = phone;
 		this.rateAvg = rateAvg;
 		this.organization = organization;
 		this.category = category;
@@ -252,7 +278,36 @@ public class Event implements Serializable {
 
 	public void setEventType(EventType eventType) {
 		this.eventType = eventType;
-	}   
+	}
+	
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+
+
+
+
+
+
+
 	/*
 	@Enumerated(EnumType.STRING)
 	public EventCategory getEventCategory() {
@@ -297,6 +352,25 @@ public class Event implements Serializable {
 		this.twitterLink = twitterLink;
 	}
 	
+	
+	
+	public String getBackgroundImage() {
+		return backgroundImage;
+	}
+
+
+	public void setBackgroundImage(String backgroundImage) {
+		this.backgroundImage = backgroundImage;
+	}
+
+
+
+
+
+
+
+
+
 	@Transient
 	public double getRateAvg() {
 		return rateAvg;
@@ -410,6 +484,8 @@ public class Event implements Serializable {
 	public void setReports(List<Report> reports) {
 		this.reports = reports;
 	}
+	
+	
 	
 	
 	

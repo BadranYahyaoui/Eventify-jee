@@ -129,12 +129,16 @@ public class DBPopulator {
 		organizationBusiness.create(o1);
 		organizationBusiness.create(o2);
 		
-		Event e1 = new Event("Sa7tek bin Ydina", "Health for everyone",new Date(), new Date(), 12, 9, 1000, EventType.Conference, category, 10, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
+		Event e1 = new Event("Laugh it Off: Improv for Wellness!", "Health for everyone",new Date(), new Date(), 10.183385,36.846046, 1000, EventType.Conference,
+				category, 10, new Date(),"FbLink","TwitterLink",
+				EventState.UNPUBLISHED,"http://il9.picdn.net/shutterstock/videos/2062556/thumb/1.jpg","health@email.com","+214264777");
 		e1.setOrganization(o1);
-		Event e2 = new Event("Angular Course From Scratch", "Angular Course ",new Date(), new Date(), 12, 9, 1000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",EventState.UNPUBLISHED);
+		Event e2 = new Event("Angular Course From Scratch", "Angular Course ",new Date(), new Date(), 10.183385,36.846046, 1000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",
+				EventState.UNPUBLISHED,"http://cdn.tutorialzine.com/wp-content/uploads/2013/08/featured.jpg","angular@email.com","+214264777");
 		e2.setOrganization(o2);
 
-		Event e3 = new Event("React From zero to hero", "React Course ",new Date(), new Date(), 12, 9, 50000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",EventState.PUBLISHED);
+		Event e3 = new Event("React From zero to hero", "React Course ",new Date(), new Date(), 10.183385,36.846046, 50000, EventType.Class_Workshop, category1, 25, new Date(),"FbLink","TwitterLink",
+				EventState.PUBLISHED,"https://scotch.io/wp-content/uploads/2014/10/learning-react-getting-started.png","react@email.com","+214264777");
 		e3.setOrganization(o1);
 
 		eventBusiness.create(e1);

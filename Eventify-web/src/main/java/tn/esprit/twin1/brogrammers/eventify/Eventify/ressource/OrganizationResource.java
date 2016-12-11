@@ -130,7 +130,7 @@ public class OrganizationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMyEvents(@PathParam("id") int id){
 
-		return Response.status(Status.FOUND).entity(organizationBusiness.getMyEvents(id)).build();
+		return Response.status(Status.OK).entity(organizationBusiness.getMyEvents(id)).build();
 				
 	}
 

@@ -59,9 +59,15 @@ public class WishlistResource {
 			List<Wishlist> liste=wishlistBusiness.getWishlistByUserId(userId);
 			return Response.status(Status.OK).entity(liste).build();
 		}
-		else {
+		else if(userId==0&&eventId!=0){
 			List<Wishlist> liste=wishlistBusiness.getWishlistByEventId(eventId);
 			return Response.status(Status.OK).entity(liste).build();
+		}
+		else
+		{
+			Wishlist w =wishlistBusiness.getWishlistByEventIdAndUserId(userId, eventId);
+			return Response.status(Status.OK).entity(w).build();
+
 		}
 
 	}
