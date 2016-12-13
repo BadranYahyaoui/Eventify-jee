@@ -47,6 +47,29 @@ public class Task implements Serializable {
 		this.setEvent(e);
 	}
 	
+	public Task(int id, String taskTitle, String taskDescription,
+			int taskStatus, Date createdAt,Organizer organizer) {
+		super();
+		this.id = id;
+		this.taskTitle = taskTitle;
+		this.taskDescription = taskDescription;
+		this.taskStatus = taskStatus;
+		this.createdAt = createdAt;
+		this.organizer = organizer;
+	}
+	public Task(int id, String taskTitle, String taskDescription,
+			int taskStatus, Date createdAt,Event e,Organizer organizer) {
+		super();
+		this.id = id;
+		this.taskTitle = taskTitle;
+		this.taskDescription = taskDescription;
+		this.taskStatus = taskStatus;
+		this.createdAt = createdAt;
+		this.event= e;
+		this.organizer = organizer;
+	}
+
+	
 	
 	public Task() {
 		super();

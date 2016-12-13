@@ -75,11 +75,16 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 		// return (List<Event>) query.getResultList();
 
 		List<Event> events = (List<Event>) entityManager
-				.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
-						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType," + "c,"
+				.createQuery(
+						"SELECT new Event(e.id,e.title,e.theme,e.startTime,"
+						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,"
+						+ "e.eventType," + "c,"
 						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,"
-						+ "e.eventState,e.backgroundImage,e.email,e.phone,o) " + "FROM Event e "
-						+ "JOIN e.organization o JOIN e.category c")
+						+ "e.eventState,e.backgroundImage,e.email,e.phone,o) " 
+						+ "FROM Event e "
+						+ "JOIN e.organization o "
+						+ "JOIN e.category c"
+						)
 				.getResultList();
 
 		for (Event event : events) {
@@ -348,6 +353,32 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 	public List<User> NotifyUsersForSoonEvent(){
 			
 		return null;
+	}
+
+	@Override
+	public Event getMyRate(int id) {
+
+		try {
+			Event event = (Event) entityManager
+					.createQuery("SELECT new Event(e.id,e.title,e.theme,"
+							+ "e.startTime,e.endTime,e.longitude,e.latitude,"
+							+ "e.placeNumber,e.eventType,e.nbViews,e.createdAt,"
+							+ "e.facebookLink,e.twitterLink,"
+							+ "e.eventState,e.backgroundImage,e.email,e.phone,AVG(r.note),o,c) FROM Event e "
+							+ "JOIN e.organization o "
+							+ "JOIN e.category c "
+							+ "JOIN e.rates r "
+							+ "WHERE e.id=:param "
+							+ "GROUP BY e.id" )
+					.setParameter("param", id)
+					.getSingleResult();
+
+			return event;
+
+			
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

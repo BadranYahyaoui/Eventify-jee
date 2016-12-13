@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizationBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.OrganizerBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessRemote;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
@@ -31,6 +33,11 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 	@EJB
 	OrganizationBusinessLocal organizationBusiness;
 
+	@EJB
+	OrganizerBusinessLocal organizerBusinessLocal;
+	
+	@EJB
+	EventBusinessLocal eventBusinessLocal;
 	public TaskBusiness() {
 		// TODO Auto-generated constructor stub
 	}
@@ -73,9 +80,25 @@ public class TaskBusiness implements TaskBusinessRemote, TaskBusinessLocal {
 	public List<Task> GetTasksByOrganizer(int idOrganizer) {
 		Query query = entityManager
 				.createQuery(
-						"SELECT new Task(t.id,t.taskTitle,t.taskDescription,t.taskStatus,t.createdAt) FROM Task t  JOIN  t.organizer o JOIN o.organizerPK opk  WHERE opk.idUser =:param")
+						"SELECT new Task(t.id,t.taskTitle,t.taskDescription,t.taskStatus,"
+						+ "t.createdAt,e,organizer) FROM Task t "
+						+ "JOIN  t.organizer organizer "
+						+ "JOIN t.event e "
+						+ "WHERE organizer.organizerPK.idUser =:param")
 				.setParameter("param", idOrganizer);
-		return (List<Task>) query.getResultList();
+		
+		List<Task> tasks = (List<Task>) query.getResultList();
+		
+		for (Task task : tasks) {
+			task.setOrganizer(organizerBusinessLocal.getAllOrganizersByUserIdAndOrganizationId
+					(task.getOrganizer().getOrganizerPK().getIdUser(),
+							task.getOrganizer().getOrganizerPK().getIdOrganization()));
+			
+			task.setEvent(eventBusinessLocal.findEventById(task.getEvent().getId()));
+		}
+		
+		
+		return tasks;
 	}
 
 	@Override

@@ -19,6 +19,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
@@ -146,6 +148,18 @@ public class EventResource {
 		return eventBusiness.NotifyUsersForSoonEvent();
 	}
 
+	
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{id}/rate")
+	public Response GetMyRate(@PathParam("id")int id)
+	{
+		return Response.status(Status.OK).entity(eventBusiness.getMyRate(id)).build();
+	}
+	
+	
 	
 	
 	

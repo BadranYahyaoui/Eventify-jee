@@ -29,5 +29,6 @@ public interface EventBusinessLocal {
 	public List<Event> getFavoriteEventByUser(int idUser);
 	public List<Question> getMyQuestions(int id);
 	public List<User> NotifyUsersForSoonEvent();
+	public Event getMyRate(int id);
 
 }
