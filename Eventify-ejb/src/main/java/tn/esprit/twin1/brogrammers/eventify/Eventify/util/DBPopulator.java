@@ -106,9 +106,9 @@ public class DBPopulator {
 	public void init() {
 
 		String img="http://img.wennermedia.com/article-leads-vertical-300/1250530894_brad_pitt_290x402.jpg";
-		User u1 = new User("Hakim", "Mliki", "kimo",img,"+21623924185", "hakim.mliki@esprit.tn", "123456", new Date(), 1);
-		User u2 = new User("Hakimm", "Mlikii", "kimoo",img,"+21621411392", "hakim.mliki02@esprit.tn", "123456", new Date(), 2);
-		User u3 = new User("Hakimmm", "Mlikiii", "kimooo",img,"+21621411393", "hakim.mliki03@esprit.tn", "123456", new Date(), 3);
+		User u1 = new User("Hakim", "Mliki", "kimo",img,"+21623924185", "hakim.mliki@esprit.tn","Tunisia", "123456", new Date(), 1);
+		User u2 = new User("Hakimm", "Mlikii", "kimoo",img,"+21621411392", "hakim.mliki02@esprit.tn","Tunisia", "123456", new Date(), 2);
+		User u3 = new User("Hakimmm", "Mlikiii", "kimooo",img,"+21621411393", "hakim.mliki03@esprit.tn","Tunisia", "123456", new Date(), 3);
 
 		userBusines.createUser(u1);
 		userBusines.createUser(u2);

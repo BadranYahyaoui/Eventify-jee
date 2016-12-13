@@ -84,6 +84,25 @@ public class User implements Serializable {
 		this.confirmationToken = confirmationToken;
 
 	}
+	
+	public User(int id, String firstName, String lastName, String username,String profileImage,String numTel, String email,String country, String password,
+			Date creationDate, int loyaltyPoint, AccountState accountState, String confirmationToken) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.profileImage =profileImage;
+		this.numTel=numTel;
+		this.email = email;
+		this.country=country;
+		this.password = password;
+		this.creationDate = creationDate;
+		this.loyaltyPoint = loyaltyPoint;
+		this.accountState = accountState;
+		this.confirmationToken = confirmationToken;
+
+	}
 
 	public User(String firstName, String lastName, String username,String profileImage,String numTel, String email, String password, Date creationDate,
 			int loyaltyPoint) {
@@ -94,6 +113,21 @@ public class User implements Serializable {
 		this.profileImage =profileImage;
 		this.numTel=numTel;
 		this.email = email;
+		this.password = password;
+		this.creationDate = creationDate;
+		this.loyaltyPoint = loyaltyPoint;
+	}
+	
+	public User(String firstName, String lastName, String username,String profileImage,String numTel, String email,String country, String password, Date creationDate,
+			int loyaltyPoint) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.profileImage =profileImage;
+		this.numTel=numTel;
+		this.email = email;
+		this.country=country;
 		this.password = password;
 		this.creationDate = creationDate;
 		this.loyaltyPoint = loyaltyPoint;

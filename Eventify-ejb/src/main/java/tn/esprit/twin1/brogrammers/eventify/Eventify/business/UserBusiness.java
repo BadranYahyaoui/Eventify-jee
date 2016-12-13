@@ -113,7 +113,7 @@ public class UserBusiness implements UserBusinessRemote, UserBusinessLocal {
 
 			String hashedPwd = MD5Hash.getMD5Hash(pwd);
 			Query query = entityManager.createQuery(
-					"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
+					"SELECT new User(u.id,u.firstName,u.lastName,u.username,u.profileImage,u.numTel,u.email,u.country,u.password,u.creationDate,u.loyaltyPoint,u.accountState,u.confirmationToken) "
 							+ "FROM User u WHERE ( (u.username=:uname OR u.email=:uname) AND u.password=:upwd) ");
 			User userLogged = (User) query.setParameter("uname", username).setParameter("upwd", hashedPwd)
 					.getSingleResult();
