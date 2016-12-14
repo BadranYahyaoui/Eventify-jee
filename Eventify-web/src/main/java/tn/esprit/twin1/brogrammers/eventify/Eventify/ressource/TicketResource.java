@@ -43,7 +43,7 @@ public class TicketResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findAllUsers() {
-		return Response.status(Status.FOUND).entity(ticketBusiness.getAllTickets()).build();
+		return Response.status(Status.OK).entity(ticketBusiness.getAllTickets()).build();
 		
 	
 	}
@@ -70,7 +70,8 @@ public class TicketResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateTicket(Ticket ticket) {
+	@Path("{id}")
+	public Response updateTicket(@PathParam("id") int idTicket,Ticket ticket) {
 		if(ticketBusiness.updateTicket(ticket))
 		return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_REQUEST).build();

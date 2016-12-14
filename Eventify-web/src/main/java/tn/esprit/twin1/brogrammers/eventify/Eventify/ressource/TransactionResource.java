@@ -100,7 +100,8 @@ public class TransactionResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateTransaction(Transaction transaction) {
+	@Path("{id}")
+	public Response updateTransaction(@PathParam("id") int idTransaction, Transaction transaction) {
 		if (transactionBusiness.updateTransaction(transaction))
 			return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_GATEWAY).build();

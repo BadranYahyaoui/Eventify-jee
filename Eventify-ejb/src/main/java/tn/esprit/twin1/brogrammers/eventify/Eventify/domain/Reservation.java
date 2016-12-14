@@ -29,6 +29,11 @@ public class Reservation implements Serializable {
 	private Transaction transaction;
 	private Ticket ticket;
 	private TimerState timerState = TimerState.INPROGRESS;
+	private String country;
+	private String address;
+	private String address2;
+	private String city;
+	private int postalCode;
 	private static final long serialVersionUID = 1L;
 
 	public Reservation(float amount, Date reservationDate, ReservationState reservationState,
@@ -177,6 +182,46 @@ public class Reservation implements Serializable {
 
 	public void setTimerState(TimerState timerState) {
 		this.timerState = timerState;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public int getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(int postalCode) {
+		this.postalCode = postalCode;
 	}
 
 	@Override

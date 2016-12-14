@@ -54,7 +54,7 @@ public class ReservationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllReservations() {
 
-		return Response.status(Status.FOUND).entity(reservationBusiness.getAllReservations()).build();
+		return Response.status(Status.OK).entity(reservationBusiness.getAllReservations()).build();
 
 	}
 

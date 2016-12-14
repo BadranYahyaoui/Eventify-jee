@@ -21,6 +21,7 @@ public class Ticket implements Serializable {
 	private String typeTicket;
 	private float priceTicket;
 	private String backgroundImage;
+	private String description;
 	private List<Reservation> reservations;
 	private static final long serialVersionUID = 1L;
 
@@ -36,6 +37,14 @@ public class Ticket implements Serializable {
 	
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Ticket(int nbTickets, String typeTicket, float priceTicket,
 			String backgroundImage, Event event) {
 		super();
