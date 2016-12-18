@@ -19,7 +19,7 @@ public class AuthJWT {
 		
 
 		final long iat = System.currentTimeMillis() / 1000L; // issued at claim 
-		final long exp = iat + 300L; // expires claim. In this case the token expires in 5 Min
+		final long exp = iat + 10800L; // expires claim. In this case the token expires in 5 Min
 
 		final JWTSigner signer = new JWTSigner(secret);
 		final HashMap<String, Object> claims = new HashMap<String, Object>();

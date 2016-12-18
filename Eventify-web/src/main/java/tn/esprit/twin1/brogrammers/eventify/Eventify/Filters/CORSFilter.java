@@ -1,9 +1,6 @@
 package tn.esprit.twin1.brogrammers.eventify.Eventify.Filters;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
