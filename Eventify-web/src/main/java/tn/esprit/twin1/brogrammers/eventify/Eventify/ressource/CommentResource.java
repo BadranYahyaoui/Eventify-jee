@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -82,10 +83,22 @@ public class CommentResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCommentsByEvent(@QueryParam(value="idevent")int idEvent)
+	@Path("{id}")
+	public Response getCommentsByEvent(@PathParam("id")int idEvent)
 	{
 		
 		List<Comment> comments=  CommentBusiness.getCommentsByEvent(idEvent);
+		return Response.status(Status.OK).entity(comments).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{idUser}/{idEvent}")
+	public Response GetCommentByUserIdAndEventId(@PathParam("idUser")int idUser,@PathParam("idEvent")int idEvent)
+	{
+		
+		 Comment comments=  CommentBusiness.GetCommentByUserIdAndEventId(idUser, idEvent);
+		 
 		return Response.status(Status.OK).entity(comments).build();
 	}
 	

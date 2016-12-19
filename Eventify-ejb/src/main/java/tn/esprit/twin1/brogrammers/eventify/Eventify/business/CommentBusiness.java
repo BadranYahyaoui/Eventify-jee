@@ -87,8 +87,8 @@ public class CommentBusiness implements CommentBusinessRemote, CommentBusinessLo
 	public Comment GetCommentByUserIdAndEventId(int idUser, int idEvent) {
 		try {
 			Query query = entityManager.
-					createQuery("SELECT new Comment(c.Contain,c.commentPK) FROM Rate r"
-							+ " WHERE commentPK.idUser=:userId AND commentPK.idEvent=:eventId")
+					createQuery("SELECT new Comment(c.contain,c.commentPK) FROM Comment c"
+							+ " WHERE (c.commentPK.idUser=:userId AND c.commentPK.idEvent=:eventId) ")
 			.setParameter("userId", idUser)
 			.setParameter("eventId", idEvent);
 			System.out.println("Comment finded by event and user ");
@@ -96,7 +96,7 @@ public class CommentBusiness implements CommentBusinessRemote, CommentBusinessLo
 			 
 
 		} catch (Exception e) {
-			System.err.println("Cant Find Comment  event and user");
+			System.err.println("Cant Find Comment  event and user : "+e);
 			return null; } 
 		
 	}
