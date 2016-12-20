@@ -160,6 +160,13 @@ public class EventResource {
 	}
 	
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{id}/tickets")
+	public Response getMyTickets(@PathParam("id")int id){
+		return Response.status(Status.OK).entity(eventBusiness.getMyTickets(id)).build();
+	}
+
 	
 	
 	

@@ -69,7 +69,7 @@ public class AnswerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAnswerByUserId(@QueryParam("userId")int userId,
 			@QueryParam("attributId")int attributId){
-		List answers = (List) answerBusiness.getAnswerByAttributIdAndUserId(userId, attributId);
+		List answers = (List) answerBusiness.getAnswerByAttributId(attributId);
 		System.out.println(answers.toString());
 		if(answers.size()!=0)
 			return Response.status(Status.OK).entity(answers).build();

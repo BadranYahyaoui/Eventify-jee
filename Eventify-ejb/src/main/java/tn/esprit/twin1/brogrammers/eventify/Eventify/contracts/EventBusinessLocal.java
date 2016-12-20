@@ -10,6 +10,7 @@ import javax.swing.event.DocumentEvent.EventType;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 @Local
@@ -30,5 +31,6 @@ public interface EventBusinessLocal {
 	public List<Question> getMyQuestions(int id);
 	public List<User> NotifyUsersForSoonEvent();
 	public Event getMyRate(int id);
+	public List<Ticket> getMyTickets(int id);
 
 }

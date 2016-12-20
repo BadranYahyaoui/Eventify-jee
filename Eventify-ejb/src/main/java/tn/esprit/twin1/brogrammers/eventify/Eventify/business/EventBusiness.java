@@ -31,6 +31,7 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organization;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Organizer;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Question;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 /**
@@ -380,5 +381,22 @@ public class EventBusiness implements EventBusinessRemote, EventBusinessLocal {
 			return null;
 		}
 	}
+
+	@Override
+	public List<Ticket> getMyTickets(int id) {
+		List<Ticket> tickets = (List<Ticket>) entityManager.createQuery
+				("SELECT new Ticket("
+						+ "t.id ,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage) "
+						+ "FROM Event e "
+						+ "JOIN e.tickets t WHERE e.id=:param")
+				.setParameter("param", id).getResultList();
+		
+
+		return tickets;
+	}
+	
+	
+	
+	
 
 }
