@@ -45,6 +45,10 @@ public class Ticket implements Serializable {
 		this.description = description;
 	}
 
+	
+	
+	
+	
 	public Ticket(int nbTickets, String typeTicket, float priceTicket,
 			String backgroundImage, Event event) {
 		super();
@@ -74,6 +78,18 @@ public class Ticket implements Serializable {
 		this.typeTicket = typeTicket;
 		this.priceTicket = priceTicket;
 		this.backgroundImage = backgroundImage;
+		this.event = event;
+	}
+	
+	public Ticket(int id, int nbTickets, String typeTicket, float priceTicket,
+			String backgroundImage,String description, Event event) {
+		super();
+		this.id = id;
+		this.nbTickets = nbTickets;
+		this.typeTicket = typeTicket;
+		this.priceTicket = priceTicket;
+		this.backgroundImage = backgroundImage;
+		this.description = description;
 		this.event = event;
 	}
 	

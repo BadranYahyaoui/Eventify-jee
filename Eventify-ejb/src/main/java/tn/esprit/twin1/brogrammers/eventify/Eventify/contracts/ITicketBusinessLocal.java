@@ -27,6 +27,7 @@ public interface ITicketBusinessLocal {
 	public boolean UpdateNbTicket(int idTicket,int nbareser);
 	public String TicketsPerCent(int eventId);
 	public Ticket TikcetWithEventRelation(int idTicket); 
+	public List<Ticket> findTicketByEventId(int idEvent);
 	/** MET **/
 
 }

@@ -65,7 +65,7 @@ public class TransactionResource {
 		//		reservation);
 		// transactionBusiness.create(tr);
 		Reservation reservation = reservationBusiness.findReservationById(idReservation);
-		return Response.status(Status.FOUND).entity(p.createPayment(servletRequest, servletResponse, reservation))
+		return Response.status(Status.OK).entity(p.createPayment(servletRequest, servletResponse, reservation))
 				.build();
 	}
 

@@ -48,6 +48,17 @@ public class TicketResource {
 	
 	}
 
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("getByEvent")
+	public Response findTicketByEventId(@QueryParam("id") int id) {
+		return Response.status(Status.OK).entity(ticketBusiness.findTicketByEventId(id)).build();
+	}
+
+	
+	
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")

@@ -24,11 +24,11 @@ public class Reservation implements Serializable {
 	private float amount;
 	private Date reservationDate;
 	private User user;
-	private ReservationState reservationState = ReservationState.NOTCONFIRMED;
+	private ReservationState reservationState = ReservationState.CONFIRMED;
 	private PaymentMethod paymentMethod;
 	private Transaction transaction;
 	private Ticket ticket;
-	private TimerState timerState = TimerState.INPROGRESS;
+	private TimerState timerState = TimerState.FINISHED;
 	private String country;
 	private String address;
 	private String address2;

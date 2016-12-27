@@ -69,7 +69,26 @@ public class ReservationResource {
 			return Response.status(Status.OK).entity(r).build();
 		}
 	}
-
+	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response addReservation(Reservation reservation) {
+		
+	
+		
+			reservationBusiness.create(reservation);
+			
+			return Response.status(Status.OK).entity(reservation).build();
+		
+	}
+	
+	
+	
+	
+	
+/*
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
@@ -109,7 +128,7 @@ public class ReservationResource {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
-
+*/
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("{id}")

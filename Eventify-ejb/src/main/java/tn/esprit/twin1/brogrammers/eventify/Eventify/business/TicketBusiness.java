@@ -88,6 +88,30 @@ public class TicketBusiness implements ITicketBusinessRemote, ITicketBusinessLoc
 		// t.setEvent(eventbusiness.findEventById(t.getEvent().getId()));
 		return t;
 	}
+	
+	
+	@Override
+	public List<Ticket> findTicketByEventId(int idEvent) {
+		
+		
+		List<Ticket> ticket = (List<Ticket>) entityManager
+				.createQuery("SELECT new Ticket(t.id,t.nbTickets,t.typeTicket,t.priceTicket,t.backgroundImage,t.description,event) "
+						+ "FROM Ticket t JOIN t.event event  where event.id =:idevent").setParameter("idevent", idEvent)
+				.getResultList();
+
+		for (Ticket tickets : ticket) {
+
+			Event event = eventbusiness.findEventById(tickets.getEvent().getId());
+			tickets.setEvent(event); 
+
+		}
+		return ticket;
+		
+		
+		
+		
+		
+	}
 
 	@Override
 	public List<Ticket> findTicketByType(String typeTicket) {
