@@ -26,9 +26,11 @@ public class Task implements Serializable {
 	//private List<Organizer> organizers;
 	private Organizer organizer;
 	private Event event;
+	private List<Discussion> discussions;
 	
 	
 
+	
 	public Task(int id, String taskTitle, String taskDescription, int taskStatus, Date createdAt) {
 		super();
 		this.id = id;
@@ -137,6 +139,19 @@ public class Task implements Serializable {
 	public void setOrganizer(Organizer organizer) {
 		this.organizer = organizer;
 	}
+	
+	@OneToMany(mappedBy="task", fetch = FetchType.LAZY,cascade=CascadeType.ALL)  
+	public List<Discussion> getDiscussions() {
+		return discussions;
+	}
+	public void setDiscussions(List<Discussion> discussions) {
+		this.discussions = discussions;
+	}
+	
+	
+
+	
+	
 	
 	
    
