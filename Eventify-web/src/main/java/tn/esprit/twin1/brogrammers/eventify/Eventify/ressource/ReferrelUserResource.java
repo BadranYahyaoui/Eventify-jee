@@ -22,14 +22,14 @@ import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 @Path("referrel")
 public class ReferrelUserResource {
-	
+
 	@EJB
 	RefferUserBusinessLocal refferUserBusiness;
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AddReferrel(ReferrelUser referrelUser){
-		
+	public Response AddReferrel(ReferrelUser referrelUser) {
+
 		try {
 			refferUserBusiness.ChooseReferred(referrelUser);
 			return Response.status(Status.CREATED).build();
@@ -38,86 +38,66 @@ public class ReferrelUserResource {
 		}
 	}
 
-	
-
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-public Response FindReferrds(@PathParam("id") int idReferral) 
-	{
+	public Response FindReferrds(@PathParam("id") int idReferral) {
 		try {
-			List<ReferrelUser> liste=refferUserBusiness.FindReferredsByIdReferral(idReferral);
-			
+			List<ReferrelUser> liste = refferUserBusiness.FindReferredsByIdReferral(idReferral);
+
 			return Response.status(Status.OK).entity(liste).build();
 		} catch (Exception e) {
 			return Response.status(Status.NOT_ACCEPTABLE).build();
 		}
-		
 
-    }
+	}
 
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-	
-	public Response FindReferral(@QueryParam(value="id")int idReferred)
-	{
-		User user= refferUserBusiness.FindReferralByIdReferred(idReferred);
-		if(user!=null)
-		  return Response.status(Status.OK).entity(user).build();
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+
+	public Response FindReferral(@QueryParam(value = "id") int idReferred) {
+		User user = refferUserBusiness.FindReferralByIdReferred(idReferred);
+		if (user != null)
+			return Response.status(Status.OK).entity(user).build();
 		else
-		  return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/allusers")
+	public Response FindAllReferralsUsers() {
 
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-@Path("/allusers")
-	public Response FindAllReferralsUsers()
-	{
-	
-	try {
- List<User> users = refferUserBusiness.FindAllReferrals();
-		 
-		 return Response.status(Status.OK).entity(users).build();
-	} catch (Exception e) {
-		return Response.status(Status.BAD_REQUEST).build();
-	}
-		
-		
-		 
+		try {
+			List<User> users = refferUserBusiness.FindAllReferrals();
+
+			return Response.status(Status.OK).entity(users).build();
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/all")
+	public Response FindAll() {
 
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-@Path("/all")
-	public Response FindAll()
-	{
-		
-		 List<ReferrelUser> referrels = refferUserBusiness.FindAll();
-		 return Response.status(Status.OK).entity(referrels).build();
-		 
-	}
-	
-   
-  
+		List<ReferrelUser> referrels = refferUserBusiness.FindAll();
+		return Response.status(Status.OK).entity(referrels).build();
 
-@PUT
-@Consumes(MediaType.APPLICATION_JSON)
-public Response updateRef(ReferrelUser ref)
-{
-	try {
-		refferUserBusiness.updateReffered(ref);
-		return Response.status(Status.OK).build();
-	} catch (Exception e) {
-		return Response.status(Status.NOT_MODIFIED).build();
 	}
 
-}
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateRef(ReferrelUser ref) {
+		try {
+			refferUserBusiness.updateReffered(ref);
+			return Response.status(Status.OK).build();
+		} catch (Exception e) {
+			return Response.status(Status.NOT_MODIFIED).build();
+		}
 
-
-
-
+	}
 
 }

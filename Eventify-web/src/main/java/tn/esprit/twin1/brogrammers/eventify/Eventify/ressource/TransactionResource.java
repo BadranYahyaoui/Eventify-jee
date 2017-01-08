@@ -56,7 +56,7 @@ public class TransactionResource {
 	@Path("paypal/pay/{idReservation}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response pay(@Context HttpServletRequest servletRequest, @Context HttpServletResponse servletResponse,
-			@PathParam("idReservation") int idReservation) throws ServletException, IOException {
+			@PathParam("idReservation") String idReservation) throws ServletException, IOException {
 		//System.out.println("firaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
 		//System.out.println(reservation);
 		//Payment pp = p.createPayment(servletRequest, servletResponse, reservation);
@@ -64,8 +64,8 @@ public class TransactionResource {
 		//Transaction tr = new Transaction("", reservation.getAmount() + reservation.getAmount() * (7 / 100),
 		//		reservation);
 		// transactionBusiness.create(tr);
-		Reservation reservation = reservationBusiness.findReservationById(idReservation);
-		return Response.status(Status.OK).entity(p.createPayment(servletRequest, servletResponse, reservation))
+		//Reservation reservation = reservationBusiness.findReservationById(idReservation);
+		return Response.status(Status.OK).entity(p.createPayment(servletRequest, servletResponse, idReservation))
 				.build();
 	}
 

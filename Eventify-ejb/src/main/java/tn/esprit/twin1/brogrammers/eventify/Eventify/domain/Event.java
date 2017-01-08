@@ -41,6 +41,7 @@ public class Event implements Serializable {
 	
 	private List<Report> reports;
 	
+	
 	private static final long serialVersionUID = 1L;
 	
 	/* 	Foreign KEY Start */
@@ -53,6 +54,7 @@ public class Event implements Serializable {
 	private List<Task> tasks;
 	private List<Ticket> tickets;
 	private List<Comment> comments;
+	private List<ReferrelUser> referrels;
 	
 	/* 	Foreign KEY END */
 
@@ -69,6 +71,30 @@ public class Event implements Serializable {
 
 
 	
+
+
+
+
+	@OneToMany(mappedBy="event")
+	public List<ReferrelUser> getReferrels() {
+		return referrels;
+	}
+
+
+
+
+
+
+
+
+
+	public void setReferrels(List<ReferrelUser> referrels) {
+		this.referrels = referrels;
+	}
+
+
+
+
 
 
 

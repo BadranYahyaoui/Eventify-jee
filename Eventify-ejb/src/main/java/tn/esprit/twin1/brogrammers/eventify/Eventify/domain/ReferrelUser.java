@@ -19,9 +19,18 @@ public class ReferrelUser implements Serializable {
 	private User userReferral;
 	private Date dateInvitation;
 	private StateInvitation stateInvitation;
+	private Event event;
 	
 	
 
+	@ManyToOne
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
 
 	public ReferrelUser(User userReferred, User userReferral, StateInvitation stateInvitation) {
 		super();

@@ -56,12 +56,12 @@ public class PaymentWithPayPalServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		Reservation reservation = new Reservation();
-		createPayment(req, resp,reservation);
+		String amountToPay="";
+		createPayment(req, resp,amountToPay);
 		req.getRequestDispatcher("response.jsp").forward(req, resp);
 	}
 
-	public Payment createPayment(HttpServletRequest req, HttpServletResponse resp, Reservation reservation) {
+	public Payment createPayment(HttpServletRequest req, HttpServletResponse resp, String amountToPay) {
 		Payment createdPayment = null;
 
 		// ### Api Context
@@ -93,17 +93,19 @@ public class PaymentWithPayPalServlet extends HttpServlet {
 			// Let's you specify details of a payment amount.
 			Details details = new Details();
 			details.setShipping("0");
-			details.setSubtotal(String.valueOf(reservation.getAmount()));
-			details.setTax(String.valueOf(reservation.getAmount()*(7/100)));
+			//details.setSubtotal(String.valueOf(reservation.getAmount()));
+			details.setSubtotal(String.valueOf(Float.parseFloat(amountToPay)));
+
+			details.setTax(String.valueOf("0.0"));
 
 			// ###Amount
 			// Let's you specify a payment amount.
 			Amount amount = new Amount();
 			amount.setCurrency("USD");
 			// Total must be equal to sum of shipping, tax and subtotal.
-			amount.setTotal(String.valueOf(reservation.getAmount()+reservation.getAmount()*(7/100)));
+			amount.setTotal(String.valueOf((Float.parseFloat(amountToPay))+(Float.parseFloat(amountToPay)*(7/100))));
 			amount.setDetails(details);
-System.out.println("l3omlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+String.valueOf(reservation.getAmount()+reservation.getAmount()*(7/100)));
+System.out.println("l3omlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+String.valueOf(Float.parseFloat(amountToPay)+Float.parseFloat(amountToPay)*(7/100)));
 			// ###Transaction
 			// A transaction defines the contract of a
 			// payment - what is the payment for and who
@@ -116,10 +118,14 @@ System.out.println("l3omlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+String.valueOf(reser
 
 			// ### Items
 			Item item = new Item();
-			item.setName("Paying Your Ticket").setQuantity("1").setCurrency("USD").setPrice(String.valueOf(reservation.getAmount()));
+		//	Item item1 = new Item();
+			item.setName("Paying Your Tickets").setQuantity("1").setCurrency("USD").setPrice(String.valueOf(Float.parseFloat(amountToPay)));
+		//	item1.setName("Tax").setQuantity("1").setCurrency("USD").setPrice(String.valueOf("1.3"));
+System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaha: "+Float.parseFloat(amountToPay)*(7/100));
 			ItemList itemList = new ItemList();
 			List<Item> items = new ArrayList<Item>();
 			items.add(item);
+			//items.add(item1);
 			itemList.setItems(items);
 			
 			transaction.setItemList(itemList);
@@ -149,12 +155,8 @@ System.out.println("l3omlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+String.valueOf(reser
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
 			String guid = UUID.randomUUID().toString().replaceAll("-", "");
-			redirectUrls.setCancelUrl(req.getScheme() + "://"
-					+ req.getServerName() + ":" + req.getServerPort()
-					+ req.getContextPath() + "/rest/transaction/paypalredirectcancled"+"?guid=" + guid);
-			redirectUrls.setReturnUrl(req.getScheme() + "://"
-					+ req.getServerName() + ":" + req.getServerPort()
-					+ req.getContextPath() + "/rest/transaction/paypalredirect"+"?reservationid=" + reservation.getId()+"?guid=" + guid);
+			redirectUrls.setCancelUrl("http://localhost:8000/#!/home");
+			redirectUrls.setReturnUrl("http://localhost:8000/#!/thanks");
 			payment.setRedirectUrls(redirectUrls);
 
 			System.out.println(req.getScheme() + "://"+ req.getServerName() + ":" + req.getServerPort()+ req.getContextPath() + "/paymentwithpaypal?guid=" + guid);

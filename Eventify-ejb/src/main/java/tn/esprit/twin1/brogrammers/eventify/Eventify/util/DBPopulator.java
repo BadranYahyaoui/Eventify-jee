@@ -267,7 +267,7 @@ public class DBPopulator {
 		
 		//Populate Ticket, Reservation and Transaction Classes
 		Ticket ticket1 = new Ticket(20, "VIP I", 40.23f , "" ,e1 );
-		Ticket ticket2 = new Ticket(20, "VIP I", 40.23f , "" ,e2 );
+		Ticket ticket2 = new Ticket(20, "VIP II", 23.23f , "" ,e1 );
 		ticketBusiness.create(ticket1);
 		ticketBusiness.create(ticket2);
 		

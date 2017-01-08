@@ -17,7 +17,27 @@ public class Banque implements Serializable {
 	private String expMonth;
 	private String expYear;
 	private int ccv;
+	private double amount;
 	
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public Banque(int id, String fullName, String cardNumber, String expMonth, String expYear, int ccv, double amount) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.cardNumber = cardNumber;
+		this.expMonth = expMonth;
+		this.expYear = expYear;
+		this.ccv = ccv;
+		this.amount = amount;
+	}
+
 	public Banque(String fullName, String cardNumber, String expMonth, String expYear, int ccv) {
 		super();
 		this.fullName = fullName;
