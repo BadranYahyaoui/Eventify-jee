@@ -54,7 +54,6 @@ public class UserResource {
 
 	}
 
-	@Secured
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
