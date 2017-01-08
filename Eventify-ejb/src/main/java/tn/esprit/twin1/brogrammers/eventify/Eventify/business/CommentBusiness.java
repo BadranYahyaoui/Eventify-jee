@@ -3,6 +3,7 @@ package tn.esprit.twin1.brogrammers.eventify.Eventify.business;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,8 +12,12 @@ import javax.persistence.Query;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CommentBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.CommentBusinessRemote;
-
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.EventBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.UserBusinessLocal;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Comment;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Ticket;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.User;
 
 
 /**
@@ -29,7 +34,8 @@ public class CommentBusiness implements CommentBusinessRemote, CommentBusinessLo
 	
 	@PersistenceContext(unitName = "Eventify-ejb")
 	EntityManager entityManager;
-	
+	@EJB
+	UserBusinessLocal userbusiness;
 	
     public CommentBusiness() {
         // TODO Auto-generated constructor stub
@@ -49,8 +55,15 @@ public class CommentBusiness implements CommentBusinessRemote, CommentBusinessLo
 		
 		if(GetCommentByUserIdAndEventId(idUser, idEvent)!=null)
 		{
-			entityManager.remove(entityManager.merge(GetCommentByUserIdAndEventId(idUser, idEvent)));;
-			return true;
+			
+			Query query = entityManager.
+					createQuery("DELETE FROM Comment c "
+							+ "WHERE c.commentPK.idEvent=:param AND c.commentPK.idUser=:param1 ")
+					.setParameter("param", idEvent).setParameter( "param1" , idUser);
+			System.out.println("comment finded by event");
+			 query.executeUpdate();
+			
+						return true;
 		}
 		else 
 		return false;
@@ -68,12 +81,22 @@ public class CommentBusiness implements CommentBusinessRemote, CommentBusinessLo
 	@Override
 	public List<Comment> getCommentsByEvent(int id) {
 		try {
-			Query query = entityManager.
-					createQuery("SELECT new Comment(c.contain,c.commentPK) FROM Comment c "
+			List<Comment> commment = (List<Comment>) entityManager.
+					createQuery("SELECT new Comment(user, c.contain,c.commentPK) FROM Comment c JOIN c.user user "
 							+ "WHERE c.commentPK.idEvent=:param")
-					.setParameter("param", id);
+					.setParameter("param", id).getResultList();
+			for (Comment commments : commment) {
+
+				User user = userbusiness.findUserById(commments.getUser().getId());
+				commments.setUser(user);
+
+			}
+			
 			System.out.println("comment finded by event");
-			 return query.getResultList();
+			 return commment;
+			 
+			 
+			 
 
 		} catch (Exception e) {
 			System.err.println("Cant Find comment of event");

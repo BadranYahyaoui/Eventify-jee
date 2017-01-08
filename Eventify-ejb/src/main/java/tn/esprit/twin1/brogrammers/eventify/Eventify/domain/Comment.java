@@ -22,7 +22,12 @@ public class Comment implements Serializable {
 	private CommentPK commentPK;
 	private static final long serialVersionUID = 1L;
 	
-
+	public Comment(User user, String contain, CommentPK commentPK) {
+		super();
+		this.user = user;
+		Contain = contain;
+		this.commentPK = commentPK;
+	}
 
 	public Comment(String contain, CommentPK commentPK) {
 		super();
@@ -52,8 +57,9 @@ public void setCommentPK(CommentPK commentPK) {
 		this.Contain = Contain;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser", referencedColumnName = "id", insertable = false, updatable = false)
+	
 	public User getUser() {
 		return user;
 	}
