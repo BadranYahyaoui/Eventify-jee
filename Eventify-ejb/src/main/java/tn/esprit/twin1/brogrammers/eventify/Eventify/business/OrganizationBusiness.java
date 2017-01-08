@@ -104,6 +104,9 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 	}
 	
 	public List<Event> getMyEvents(int id){
+		System.out.println("*************");
+		System.out.println(id);
+		System.out.println("*************");
 		List<Event> events = (List<Event>)entityManager.createQuery("SELECT new Event(e.id,e.title,e.theme,e.startTime,"
 						+ "e.endTime,e.longitude,e.latitude,e.placeNumber,e.eventType,c,"
 						+ "e.nbViews,e.createdAt,e.facebookLink,e.twitterLink,e.eventState,e.backgroundImage,e.email,e.phone) "
@@ -113,10 +116,20 @@ public class OrganizationBusiness implements OrganizationBusinessRemote, Organiz
 						+ "WHERE o.id=:param")
 				.setParameter("param", id).getResultList();
 		 
+		System.out.println("*****here 111********");
+
 		for (Event event : events) {
 			Category category = categoryBusiness.findById(event.getCategory().getId());
 			event.setCategory(category);
+			System.out.println("*****here 2222********");
+			
+			Organization organization = findOrganizationById(id);
+			event.setOrganization(organization);
+			
+			System.out.println("*****here 333********");
+
 		}
+		
 
 		    return events;
 	}
