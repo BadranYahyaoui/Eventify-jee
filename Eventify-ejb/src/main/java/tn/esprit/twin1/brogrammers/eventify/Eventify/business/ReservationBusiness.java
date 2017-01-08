@@ -68,6 +68,41 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 
 	}
 
+	@Override
+	public List<Reservation> findReservationByUserId(int userId) {
+
+		
+		
+		List<Reservation> reservation = (List<Reservation>) entityManager
+				.createQuery(
+						"SELECT new Reservation(r.id,r.amount,r.reservationDate,r.reservationState,r.paymentMethod , user,ticket,r.timerState) "
+								+ "FROM Reservation r" + " JOIN r.user user" + 
+								" JOIN r.ticket ticket WHERE user.id = :userId ",Reservation.class).setParameter("userId", userId)
+				.getResultList();
+
+		for (Reservation reservations : reservation) {
+			User user = userbusiness.findUserById(reservations.getUser().getId());
+			reservations.setUser(user);
+
+			Ticket ticket = ticketbusiness.findTicketById(reservations.getTicket().getId());
+			reservations.setTicket(ticket);
+
+			// Transaction transaction =
+			// transactionbusiness.findTransactionById(reservations.getTransaction().getId());
+			// reservations.setTransaction(transaction);
+
+		}
+		return reservation;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 	
 	@Override
 	public List<Reservation> getAllReservations() {
@@ -154,14 +189,7 @@ public class ReservationBusiness implements IReservationBusinessRemote, IReserva
 		return (List<Reservation>) query.getResultList();
 	}
 
-	@Override
-	public List<Reservation> findReservationByUserId(int userId) {
-		Query query = entityManager.createQuery(
-				"SELECT new Reservation" + "(r.id,r.amount,r.reservationDate,r.reservationState,r.paymentMethod)"
-						+ " FROM Reservation r " + "WHERE user.id = :userId")
-				.setParameter("userId", userId);
-		return (List<Reservation>) query.getResultList();
-	}
+
 
 	@Override
 	public int CheckConfirmedReservationSum(int idEvent) {
