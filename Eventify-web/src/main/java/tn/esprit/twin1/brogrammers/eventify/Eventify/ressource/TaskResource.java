@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin1.brogrammers.eventify.Eventify.business.TaskBusiness;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.contracts.TaskBusinessLocal;
+import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Event;
 import tn.esprit.twin1.brogrammers.eventify.Eventify.domain.Task;
 
 @Path("Tasks")
@@ -26,8 +27,10 @@ public class TaskResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateTask(Task task) {
-
+	@Path("{id}")
+	
+	public Response updateTask(Task task,@PathParam("id") int id) {
+		
 		taskBusniss.updateTask(task);
 		return Response.status(Status.OK).build();
 	}
